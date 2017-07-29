@@ -79,11 +79,9 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Team development for Laravel
+                    test page
                     <br>
-                    theoreo2017
-                    <br>
-                    <a href="/test">page test</a>
+                    <a href="/">go index</a>
                 </div>
             </div>
         </div>
