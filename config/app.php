@@ -77,7 +77,6 @@ return [
     |
     */
 
-    'locale' => 'en',
     'locale' => 'ru',
 
     /*
@@ -178,8 +177,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /** свои сервис провайдеры */
         Barryvdh\Debugbar\ServiceProvider::class,
-        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
     ],
 
     /*
