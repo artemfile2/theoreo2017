@@ -179,6 +179,7 @@ return [
 
         /** свои сервис провайдеры */
         Barryvdh\Debugbar\ServiceProvider::class,
+        ATehnix\LaravelVkRequester\VkRequesterServiceProvider::class,
     ],
 
     /*
