@@ -78,4 +78,11 @@ return [
 
     'auto_dispatch' => true,
 
+    'connect' =>  [
+        'client_id' => env('VKONTAKTE_KEY', '5523560'),
+        'secret_key' => env('VKONTAKTE_SECRET', 'ALxOJTdE08wDrqas36Pt'),
+        'service_key' => env('VKONTAKTE_SERVICE_KEY', '557ce824557ce824557ce824555528a04c5557c557ce8240c03ef0ac198342351fb5698'),
+        'redirect_uri' => env('VKONTAKTE_REDIRECT_URI', 'http://theoreo.local/vk'),
+        'code' => env('VKONTAKTE_CODE', '86622b37e4148918fd'),
+    ],
 ];
