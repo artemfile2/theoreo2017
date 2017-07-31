@@ -3,6 +3,9 @@
 namespace App\Classes;
 
 use ATehnix\LaravelVkRequester\Models\VkRequest;
+use ATehnix\VkClient\Auth;
+use ATehnix\VkClient\Client;
+use Illuminate\Support\Facades\Request;
 
 
 /**
@@ -15,9 +18,10 @@ class Parser
 {
     /** временно разместил здесь известные ключи */
     protected $clientId = '5523560';
-    protected $secretKey = 'FYM7ZsNhenaTUZ9aH8zO';
-    protected $serviceKey = '0034d9e80034d9e800b492e82f00609180000340034d9e858e1fe309b77f99ab78f52b2';
+    protected $secretKey = 'ALxOJTdE08wDrqas36Pt';
+    protected $serviceKey = '557ce824557ce824557ce824555528a04c5557c557ce8240c03ef0ac198342351fb5698';
     protected $redirectUri = 'http://theoreo.local/vk';
+    protected $code = '86622b37e4148918fd';
 
     /**
      * тестовый запрос
@@ -29,5 +33,21 @@ class Parser
             'parameters' => ['filters' => 'post'],
             'token'      => env('VKONTAKTE_SECRET'),
         ]);
+    }
+
+    public function makeSimpleRequest()
+    {
+        $api = new Client();
+        echo $api->request('newsfeed.get', ['filters' => 'post'], $this->code);
+    }
+
+    public function vkauth()
+    {
+        $auth = new Auth($this->clientId, $this->secretKey, $this->redirectUri);
+        echo "<a href='{$auth->getUrl()}'> Войти через VK.Com </a><hr>";
+
+        if (Request::exists('code')) {
+            echo 'Token: '.$auth->getToken(Request::get('code'));
+        }
     }
 }

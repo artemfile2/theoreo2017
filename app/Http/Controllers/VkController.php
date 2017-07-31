@@ -24,4 +24,19 @@ class VkController extends Controller
         $parser->makeRequest();
         echo '101';
     }
+
+    /**
+     * метод попроще
+     *
+     * @param Parser $parser
+     */
+    public function simpleNewsFeedGet(Parser $parser)
+    {
+        $parser->makeSimpleRequest();
+    }
+
+    public function auth(Parser $parser)
+    {
+        $parser->vkauth();
+    }
 }

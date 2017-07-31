@@ -21,3 +21,8 @@ Route::get('/test', function () {
 
 /** тестовый маршрут для парсера */
 Route::get('/vk', 'VkController@newsFeedGet');
+
+/** тестовый маршрут для простого парсера */
+Route::get('/vksimple', 'VkController@simpleNewsFeedGet');
+
+Route::get('/vkauth', 'VkController@auth');
