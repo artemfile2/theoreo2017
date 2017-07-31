@@ -28,7 +28,7 @@ class Parser
         $this->secretKey = config('vk-requester.connect.secret_key');
         $this->serviceKey = config('vk-requester.connect.service_key');
         $this->redirectUri = config('vk-requester.connect.redirect_uri');
-        $this->code = config('vk-requester.connect.code');
+        $this->code = '86622b37e4148918fd';
     }
     /**
      * тестовый запрос
