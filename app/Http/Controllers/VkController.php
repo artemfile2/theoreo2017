@@ -35,6 +35,11 @@ class VkController extends Controller
         $parser->makeSimpleRequest();
     }
 
+    /**
+     * пробуем надыбать ключик
+     *
+     * @param Parser $parser
+     */
     public function auth(Parser $parser)
     {
         $parser->vkauth();

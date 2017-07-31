@@ -35,12 +35,19 @@ class Parser
         ]);
     }
 
+    /**
+     * еще один тестовый запрос
+     */
     public function makeSimpleRequest()
     {
         $api = new Client();
         echo $api->request('newsfeed.get', ['filters' => 'post'], $this->code);
     }
 
+    /**
+     * попытка достать ключик
+     * пример из описания библиотеки
+     */
     public function vkauth()
     {
         $auth = new Auth($this->clientId, $this->secretKey, $this->redirectUri);
