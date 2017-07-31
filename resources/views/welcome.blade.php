@@ -84,6 +84,7 @@
                     theoreo2017
                     <br>
                     <a href="/test">page test</a>
+                    <a href="/vk">vkparser test</a>
                 </div>
             </div>
         </div>
