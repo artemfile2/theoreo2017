@@ -7,7 +7,7 @@ use ATehnix\VkClient\Auth;
 use ATehnix\VkClient\Client;
 use ATehnix\VkClient\Exceptions\AccessDeniedVkException;
 use ATehnix\VkClient\Exceptions\TooManyRequestsVkException;
-use Illuminate\Support\Facades\Request;
+use ATehnix\VkClient\Requests\{Request,ExecuteRequest};
 
 
 /**
@@ -46,30 +46,35 @@ class Parser
     {
         $api = new Client();
         $api->setDefaultToken($this->access_token);
-        $groups = $api->request('groups.get');
+        $api->setPassError(true);
+        $groups = $api->request('groups.get', [
+            'count' => 25,
+            'extended' => 1
+        ]);
 
-        $newsfeed = [];
+        $requests = [];
 
         $time1 = microtime(true);
 
         foreach ($groups['response']['items'] as $item){
-            try{
-                $newsfeed[] = $api->request('wall.get', [
-                    'owner_id' => '-' . $item,
-                    'count' => 2
-                ]);
-            } catch (AccessDeniedVkException $e) {
-                continue;
-            } catch (TooManyRequestsVkException $e) {
-                break;
-            }
-            usleep(350000);
-            set_time_limit(600);
+            $requests[] = new Request('wall.get', [
+                'owner_id' => '-' . $item['id'],
+                'count' => 20
+            ]);
         }
+
+        $execute = ExecuteRequest::make($requests);
+
+        $feeds = $api->send($execute);
 
         $time2 = microtime(true) - $time1;
 
-        dump($newsfeed, $time2);
+        foreach($feeds['response'] as $feed){
+            dump($feed['items']);
+        }
+
+        dump($feeds, $time2);
+        //debug($feeds);
     }
 
     /**
