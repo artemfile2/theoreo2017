@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Request;
  */
 class Parser
 {
+
     /** временно разместил здесь известные ключи */
     protected $clientId = '5523560';
     protected $secretKey = 'ALxOJTdE08wDrqas36Pt';
