@@ -16,13 +16,20 @@ use Illuminate\Support\Facades\Request;
  */
 class Parser
 {
-    /** временно разместил здесь известные ключи */
-    protected $clientId = '5523560';
-    protected $secretKey = 'ALxOJTdE08wDrqas36Pt';
-    protected $serviceKey = '557ce824557ce824557ce824555528a04c5557c557ce8240c03ef0ac198342351fb5698';
-    protected $redirectUri = 'http://theoreo.local/vk';
-    protected $code = '86622b37e4148918fd';
+    protected $clientId;
+    protected $secretKey;
+    protected $serviceKey;
+    protected $redirectUri;
+    protected $code;
 
+    public function __construct()
+    {
+        $this->clientId = config('vk-requester.connect.client_id');
+        $this->secretKey = config('vk-requester.connect.secret_key');
+        $this->serviceKey = config('vk-requester.connect.service_key');
+        $this->redirectUri = config('vk-requester.connect.redirect_uri');
+        $this->code = '86622b37e4148918fd';
+    }
     /**
      * тестовый запрос
      */
