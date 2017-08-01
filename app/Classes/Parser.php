@@ -5,6 +5,8 @@ namespace App\Classes;
 use ATehnix\LaravelVkRequester\Models\VkRequest;
 use ATehnix\VkClient\Auth;
 use ATehnix\VkClient\Client;
+use ATehnix\VkClient\Exceptions\AccessDeniedVkException;
+use ATehnix\VkClient\Exceptions\TooManyRequestsVkException;
 use Illuminate\Support\Facades\Request;
 
 
@@ -23,7 +25,7 @@ class Parser
     protected $serviceKey = '557ce824557ce824557ce824555528a04c5557c557ce8240c03ef0ac198342351fb5698';
     protected $redirectUri = 'http://theoreo.local/vk';
     protected $code = '86622b37e4148918fd';
-    protected $access_token = 'b6aa3d39db8a72dad399def8b8267c97759174f6cb279db152385fbb83644f2830862f888697a74f0428b';
+    protected $access_token = '5cbd5f86c5aa899416ef79d70150cb1e4f0fe5686afaedcac98c87f30211aa3a5b17749f20461eacb19dd';
 
     /**
      * тестовый запрос
@@ -44,9 +46,30 @@ class Parser
     {
         $api = new Client();
         $api->setDefaultToken($this->access_token);
-        $friends = $api->request('friends.get');
-        $wall = $api->request('wall.get');
-        dump($friends, $wall);
+        $groups = $api->request('groups.get');
+
+        $newsfeed = [];
+
+        $time1 = microtime(true);
+
+        foreach ($groups['response']['items'] as $item){
+            try{
+                $newsfeed[] = $api->request('wall.get', [
+                    'owner_id' => '-' . $item,
+                    'count' => 2
+                ]);
+            } catch (AccessDeniedVkException $e) {
+                continue;
+            } catch (TooManyRequestsVkException $e) {
+                break;
+            }
+            usleep(350000);
+            set_time_limit(600);
+        }
+
+        $time2 = microtime(true) - $time1;
+
+        dump($newsfeed, $time2);
     }
 
     /**
