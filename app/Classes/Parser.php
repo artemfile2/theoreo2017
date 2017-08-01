@@ -22,6 +22,7 @@ class Parser
     protected $serviceKey = '557ce824557ce824557ce824555528a04c5557c557ce8240c03ef0ac198342351fb5698';
     protected $redirectUri = 'http://theoreo.local/vk';
     protected $code = '86622b37e4148918fd';
+    protected $access_token = 'b6aa3d39db8a72dad399def8b8267c97759174f6cb279db152385fbb83644f2830862f888697a74f0428b';
 
     /**
      * тестовый запрос
@@ -41,7 +42,10 @@ class Parser
     public function makeSimpleRequest()
     {
         $api = new Client();
-        echo $api->request('newsfeed.get', ['filters' => 'post'], $this->code);
+        $api->setDefaultToken($this->access_token);
+        $friends = $api->request('friends.get');
+        $wall = $api->request('wall.get');
+        dump($friends, $wall);
     }
 
     /**
