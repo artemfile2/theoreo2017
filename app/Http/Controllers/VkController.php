@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Classes\Parser;
-
-
+use Illuminate\Http\Request;
 /**
  * Тестовый контроллер для работы с вк
  *
@@ -13,15 +12,29 @@ use App\Classes\Parser;
  */
 class VkController extends Controller
 {
+
+    protected $auth;
+
+    public function __construct()
+    {
+        $this->auth =  resolve('ATehnix\VkClient\Auth');
+    }
+
     /**
      * тестовый метод работы с парсером который толком нихрена не делает
      * кроме добавления записи в свою таблицу
      *
      * @param Parser $parser
      */
-    public function newsFeedGet(Parser $parser)
+
+    public function newsFeedGet(Request $request, Parser $parser)
     {
-        $parser->makeRequest();
+        $token = $request->cookie('vk_token');
+        if(!$token){
+            return redirect()
+                ->route('auth');
+        }
+        $parser->makeRequest($token);
         echo '101';
     }
 
@@ -30,9 +43,14 @@ class VkController extends Controller
      *
      * @param Parser $parser
      */
-    public function simpleNewsFeedGet(Parser $parser)
+    public function simpleNewsFeedGet(Request $request, Parser $parser)
     {
-        $parser->makeSimpleRequest();
+        $token = $request->cookie('vk_token');
+        if(!$token){
+            return redirect()
+                ->route('auth');
+        }
+        $parser->makeSimpleRequest($token);
     }
 
     /**
@@ -40,8 +58,18 @@ class VkController extends Controller
      *
      * @param Parser $parser
      */
-    public function auth(Parser $parser)
+    public function auth(Request $request,Parser $parser)
     {
-        $parser->vkauth();
+        if ($request->exists('access_token')) {
+            $token = $request->get('access_token');
+            if($token){
+                return redirect()
+                    ->route('home')
+                    ->cookie(cookie('vk_token',$token, 30));
+            }
+        }else{
+            $parser->vkauth();
+        }
+
     }
 }
