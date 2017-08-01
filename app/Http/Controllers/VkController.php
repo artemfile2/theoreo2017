@@ -12,14 +12,6 @@ use Illuminate\Http\Request;
  */
 class VkController extends Controller
 {
-
-    protected $auth;
-
-    public function __construct()
-    {
-        $this->auth =  resolve('ATehnix\VkClient\Auth');
-    }
-
     /**
      * тестовый метод работы с парсером который толком нихрена не делает
      * кроме добавления записи в свою таблицу
@@ -54,7 +46,7 @@ class VkController extends Controller
     }
 
     /**
-     * пробуем надыбать ключик
+     * добываем ключик и ставим его в куку
      *
      * @param Parser $parser
      */
@@ -68,8 +60,13 @@ class VkController extends Controller
                     ->cookie(cookie('vk_token',$token, 30));
             }
         }else{
-            $parser->vkauth();
+            $url = $parser->vkauth();
+
+            return view('vk_auth', ['url' => $url]);
+
         }
 
     }
+
+
 }
