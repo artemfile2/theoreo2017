@@ -70,7 +70,9 @@ class Parser
         $time2 = microtime(true) - $time1;
 
         foreach($feeds['response'] as $feed){
-            dump($feed['items']);
+            foreach($feed['items'] as $item){
+                dump($item['attachments']);
+            }
         }
 
         dump($feeds, $time2);
