@@ -8,6 +8,7 @@ use ATehnix\VkClient\Client;
 use ATehnix\VkClient\Exceptions\AccessDeniedVkException;
 use ATehnix\VkClient\Exceptions\TooManyRequestsVkException;
 use ATehnix\VkClient\Requests\{Request,ExecuteRequest};
+use Illuminate\Support\Facades\Redirect;
 
 
 /**
@@ -24,8 +25,61 @@ class Parser
     protected $secretKey = 'ALxOJTdE08wDrqas36Pt';
     protected $serviceKey = '557ce824557ce824557ce824555528a04c5557c557ce8240c03ef0ac198342351fb5698';
     protected $redirectUri = 'http://theoreo.local/vk';
-    protected $code = '86622b37e4148918fd';
     protected $access_token = '5cbd5f86c5aa899416ef79d70150cb1e4f0fe5686afaedcac98c87f30211aa3a5b17749f20461eacb19dd';
+
+    const AUTHORIZE_URL = 'https://oauth.vk.com/authorize?';
+    const ACCESS_TOKEN_URL = 'https://oauth.vk.com/access_token?';
+
+    public function getToken($code)
+    {
+        $data = [
+            'client_id' => $this->clientId,
+            'client_secret' => $this->secretKey,
+            'redirect_uri' => $this->redirectUri,
+            'code' => $code,
+        ];
+
+        $url = urldecode(self::ACCESS_TOKEN_URL . http_build_query($data));
+
+        $cd = curl_init($url);
+
+        curl_setopt($cd, CURLOPT_RETURNTRANSFER, true);
+
+        $result = json_decode(curl_exec($cd));
+        curl_close($cd);
+
+        dump($result);
+        echo $result->access_token;
+    }
+
+    public function getCode()
+    {
+        $data = [
+            'client_id' => $this->clientId,
+            'redirect_uri' => $this->redirectUri,
+            'display' => 'page',
+            'scope' => 'wall,friends',
+            'response_type' => 'code',
+            'v' => '5.67',
+        ];
+
+        $url = urldecode(self::AUTHORIZE_URL . http_build_query($data));
+
+//        $cd = curl_init($url);
+//
+//        curl_setopt($cd, CURLOPT_RETURNTRANSFER, true);
+//        curl_setopt($cd, CURLOPT_FRESH_CONNECT, true);
+//        curl_setopt($cd, CURLINFO_HEADER_OUT, true);
+//        curl_setopt($cd, CURLOPT_FOLLOWLOCATION, true);
+//
+//        dump(curl_exec($cd));
+//        dump(curl_getinfo($cd));
+//
+//        curl_close($cd);
+
+        //echo 'h';
+        header("Location: $url");
+    }
 
     /**
      * тестовый запрос
@@ -71,7 +125,7 @@ class Parser
 
         foreach($feeds['response'] as $feed){
             foreach($feed['items'] as $item){
-                dump($item['attachments']);
+                dump($item['attachments'] ?? '');
             }
         }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Classes\Parser;
+use Illuminate\Http\Request;
 
 
 /**
@@ -13,15 +14,22 @@ use App\Classes\Parser;
  */
 class VkController extends Controller
 {
+    protected $parser;
+
+    public function __construct(Parser $parser)
+    {
+        $this->parser = $parser;
+    }
+
     /**
      * тестовый метод работы с парсером который толком нихрена не делает
      * кроме добавления записи в свою таблицу
      *
      * @param Parser $parser
      */
-    public function newsFeedGet(Parser $parser)
+    public function newsFeedGet()
     {
-        $parser->makeRequest();
+        $this->parser->makeRequest();
         echo '101';
     }
 
@@ -30,9 +38,9 @@ class VkController extends Controller
      *
      * @param Parser $parser
      */
-    public function simpleNewsFeedGet(Parser $parser)
+    public function simpleNewsFeedGet()
     {
-        $parser->makeSimpleRequest();
+        $this->parser->makeSimpleRequest();
     }
 
     /**
@@ -40,8 +48,19 @@ class VkController extends Controller
      *
      * @param Parser $parser
      */
-    public function auth(Parser $parser)
+    public function auth()
     {
-        $parser->vkauth();
+        $this->parser->vkauth();
     }
+
+    public function getCode()
+    {
+        $this->parser->getCode();
+    }
+
+    public function getToken(Request $request)
+    {
+        $this->parser->getToken($request->code);
+    }
+
 }
