@@ -84,7 +84,8 @@
                     theoreo2017
                     <br>
                     <a href="/test">page test</a><br>
-                    <a href="/vktoken">vkparser get token</a><br>
+                    <a href="/vktoken">vkparser get code</a><br>
+                    <a href="/vk">vkparser get token</a><br>
                     <a href="/vksimple">vksimpleparser test</a><br>
                     <a href="/vkauth">vkauth test</a>
                 </div>
