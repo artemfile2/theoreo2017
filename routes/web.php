@@ -19,12 +19,8 @@ Route::get('/test', function () {
     return view('test');
 });
 
-/** тестовый маршрут для парсера */
-Route::get('/vk', 'VkController@getToken');
-
 /** тестовый маршрут для простого парсера */
 Route::get('/vksimple', 'VkController@simpleNewsFeedGet');
 
-Route::get('/vkauth', 'VkController@auth');
-
-Route::get('/vktoken', 'VkController@getCode');
+/** получение токена */
+Route::get('/vktoken', 'VkController@getToken');
