@@ -79,9 +79,10 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    test page
+                    Team development for Laravel
                     <br>
-                    <a href="/">go index</a>
+                    theoreo2017
+                    <br>
                 </div>
             </div>
         </div>

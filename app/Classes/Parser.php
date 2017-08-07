@@ -27,17 +27,12 @@ class Parser
         $this->serviceKey = config('vk-requester.connect.service_key');
         $this->redirectUri = config('vk-requester.connect.redirect_uri');
     }
-    /**
-     * запрос копится в базе
-     */
-    public function makeRequest($token)
+
+    public function makeClientRequest($token)
     {
-        VkRequest::create([
-            'method'     => 'newsfeed.get',
-            'parameters' => ['filters' => 'post'],
-            'token'      => $token,
-        ]);
-    }
+        $api = new Client();
+        dd($api->request('newsfeed.get', ['filters' => 'post'], $token, '5.62'));
+     }
 
     /*
       рабочий запрос
@@ -47,11 +42,6 @@ class Parser
         $url = 'https://api.vk.com/method/newsfeed.get?filters=post&access_token='.$token.'&v=5.62';
         $result = json_decode(file_get_contents($url));
         dd($result);
-
-        /* можно опробовать с реальным токеном. У меня руки не дошли....
-        $api = new Client();
-        dd($api->request('newsfeed.get', ['filters' => 'post'], $token, '5.62'));
-        */
     }
 
     /**

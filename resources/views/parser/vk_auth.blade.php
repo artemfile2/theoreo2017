@@ -67,22 +67,11 @@
     </head>
     <body>
         <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @if (Auth::check())
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ url('/login') }}">Login</a>
-                        <a href="{{ url('/register') }}">Register</a>
-                    @endif
-                </div>
-            @endif
-
             <div class="content">
                 <div class="title m-b-md">
                     <a href="{{ $url }}" target="_blank" style="font-size: 14px;">Скопировать токен в новой вкладке</a>
 
-                    <form method="get" action="{{ route('auth') }}">
+                    <form method="get" action="{{ route('vkauth') }}">
 
                         <input type="text" name="access_token">
 

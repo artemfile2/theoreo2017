@@ -13,8 +13,6 @@ use Illuminate\Http\Request;
 class VkController extends Controller
 {
     /**
-     * тестовый метод работы с парсером который толком нихрена не делает
-     * кроме добавления записи в свою таблицу
      *
      * @param Parser $parser
      */
@@ -24,10 +22,10 @@ class VkController extends Controller
         $token = $request->cookie('vk_token');
         if(!$token){
             return redirect()
-                ->route('auth');
+                ->route('vkauth');
         }
-        $parser->makeRequest($token);
-        echo '101';
+        $parser->makeClientRequest($token);
+
     }
 
     /**
@@ -40,7 +38,7 @@ class VkController extends Controller
         $token = $request->cookie('vk_token');
         if(!$token){
             return redirect()
-                ->route('auth');
+                ->route('vkauth');
         }
         $parser->makeSimpleRequest($token);
     }
@@ -56,13 +54,13 @@ class VkController extends Controller
             $token = $request->get('access_token');
             if($token){
                 return redirect()
-                    ->route('home')
-                    ->cookie(cookie('vk_token',$token, 30));
+                    ->route('parser')
+                    ->cookie(cookie('vk_token',$token, 43200));
             }
         }else{
             $url = $parser->vkauth();
 
-            return view('vk_auth', ['url' => $url]);
+            return view('parser.vk_auth', ['url' => $url]);
 
         }
 
