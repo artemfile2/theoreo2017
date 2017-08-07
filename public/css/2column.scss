@@ -1,0 +1,46 @@
+@media screen and (min-width: 1200px) {
+  .wrapper {
+    max-width: 1450px;
+  }
+
+  .actions-list {
+    article.content-block {
+      float: left;
+      width: 50%;
+      border-bottom: none;
+
+      &.clearfix:after {
+        clear: none;
+        display: block;
+      }
+
+      &:first-child {
+        border: none;
+      }
+    }
+
+    .line2columns {
+      border-bottom: 2px solid #f0f0f0;
+    }
+  }
+}
+
+@media screen and (min-width: 1600px) {
+  .content-block {
+    padding: 50px 0 30px 0;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .sidebar {
+    padding-right: 10px;
+  }
+}
+
+
+@media screen and (min-width: 1600px) {
+  .content-block__heading h1, .content-block__heading h2 {
+    font-size: 24px;
+    margin-bottom: 25px;
+  }
+}

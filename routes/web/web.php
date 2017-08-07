@@ -5,25 +5,26 @@
 | Web Routes
 |--------------------------------------------------------------------------
 */
+Route::group(['namespace' => 'Client'],function () {
+    Route::get('/', 'PageController@index')->name('client.index');
 
-Route::get('/', 'PageController@index')->name('client.index');
+    Route::get('/action/{action}', 'PageController@action')->name('showAction');
 
-Route::get('/action/{action}', 'PageController@action')->name('showAction');
+    Route::get('/category/{category}', 'PageController@showCategory')->name('showCategory');
 
-Route::get('/category/{category}', 'PageController@showCategory')->name('showCategory');
+    Route::get('/archives', 'PageController@showArchives')->name('client.showArchives');
 
-Route::get('/brand/{brand_id}', 'BrandController@sortByBrand')->name('client.brand.sortByBrand');
+    Route::get('/same/{action}', 'PageController@showSameActions')->name('client.showSameActions');
 
-Route::get('/archives', 'PageController@showArchives')->name('client.showArchives');
+    Route::group(['prefix' => 'sort-by'],function () {
 
-Route::get('/same/{action}', 'PageController@showSameActions')->name('client.showSameActions');
+        Route::get('/{category}/category:{sort}', 'PageController@showCategory')->name('client.sortCategoryActions');
 
-Route::group(['prefix' => 'filter'],function () {
+        Route::get('/status:{sort}', 'PageController@filterByStatus')->name('client.filterByStatus');
 
-    Route::get('/sort:{sort}', 'PageController@sortByRating')->name('client.sortByRating');
+        Route::get('/tag:{sort}', 'PageController@filterByTag')->where('tag', '[0-9]+')->name('client.filterByTag');
 
-    Route::get('/category/{category}/sort:{sort}', 'PageController@sortByRating')->name('client.sortByRating');
+        Route::get('/brand:{sort}', 'PageController@filterByBrand')->where('tag', '[0-9]+')->name('client.filterByTag');
 
-    Route::get('/tag/sort:{sort}', 'PageController@filterByTag')->where('tag', '[0-9]+')->name('client.filterByTag');
-
+    });
 });
