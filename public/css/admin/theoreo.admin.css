@@ -1,0 +1,26 @@
+/*tables*/
+
+.table > tbody > tr > td,
+.table > tbody > tr > th,
+.table > tfoot > tr > td,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > thead > tr > th {
+    vertical-align: middle;
+}
+
+.control {
+    text-align: center;
+}
+
+.table-img {
+    width: 100%;
+}
+
+.margin-top {
+    margin-top: 10px;
+}
+
+.icheckbox_square-blue {
+    margin-right: 10px;
+}
