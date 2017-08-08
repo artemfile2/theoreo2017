@@ -35,3 +35,18 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'],function () {
         ->name('admin.queries');
 
 });
+
+Route::group(['namespace' => 'Admin', 'prefix' => 'user'],function () {
+
+    Route::get('/', 'AuthController@auth')
+        ->name('auth');
+
+    Route::get('/login', 'AuthController@login')
+        ->name('login');
+
+    Route::get('/register', 'AuthController@register')
+        ->name('register');
+
+    Route::get('/request', 'AuthController@request')
+        ->name('password.request');
+});
