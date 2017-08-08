@@ -21,17 +21,21 @@ class Parser
 {
 
     /** временно разместил здесь известные ключи */
-    protected $access_token = '082893d7d4ba53619a8a2932267f0cd0dc0ccffcc8d8239a5d75c43f5ec5e8306110a9109b31ea0533060';
+    protected $access_token = '74d410432bfa7a21d22203baf13b8fa4ef77199e80fe17689d68df3a36b98f7acd2607bb5213ac39a816b';
 
     const AUTHORIZE_URL = 'https://oauth.vk.com/authorize?';
 
+    /**
+     * Получение бесконечного токена
+     * который захардкоден выше
+     */
     public function getToken()
     {
         $data = [
             'client_id' => config('vk-requester.client_id'),
             'redirect_uri' => config('vk-requester.redirect_uri'),
             'display' => 'page',
-            'scope' => 'wall,friends',
+            'scope' => 'wall,friends,offline',
             'response_type' => 'token',
             'v' => '5.67',
         ];

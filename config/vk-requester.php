@@ -78,10 +78,9 @@ return [
 
     'auto_dispatch' => true,
 
-    'connect' =>  [
-        'client_id' => env('VKONTAKTE_KEY', '4932058'),
-        'secret_key' => env('VKONTAKTE_SECRET', 'HMeh0JSQj0NTZADthqhu'),
-        'service_key' => env('VKONTAKTE_SERVICE_KEY', '557ce824557ce824557ce824555528a04c5557c557ce8240c03ef0ac198342351fb5698'),
-        'redirect_uri' => env('VKONTAKTE_REDIRECT_URI', 'https://oauth.vk.com/blank.html'),
-    ],
+
+    'client_id' => env('VKONTAKTE_KEY', '4932058'),
+    'secret_key' => env('VKONTAKTE_SECRET', 'HMeh0JSQj0NTZADthqhu'),
+    'service_key' => env('VKONTAKTE_SERVICE_KEY', '557ce824557ce824557ce824555528a04c5557c557ce8240c03ef0ac198342351fb5698'),
+    'redirect_uri' => env('VKONTAKTE_REDIRECT_URI', 'https://oauth.vk.com/blank.html'),
 ];
