@@ -72,5 +72,6 @@ class Parser
         ]);
 
         dump($groups);
+        dump($groups['response']['items']);
     }
 }
