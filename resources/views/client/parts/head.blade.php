@@ -21,12 +21,12 @@
 
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/main.css?{{ sha1(microtime(true))  }}">
 
 <link rel="stylesheet" href="js/plugins/magnific/magnific-popup.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="css/2column.css">
 
 <script src="js/jquery-1.11.3.min.js"></script>
+<script src="js/script.js"></script>
 <script src="js/plugins/magnific/jquery.magnific-popup.js"></script>
 <script src="js/share_soc.js" type="text/javascript"></script>

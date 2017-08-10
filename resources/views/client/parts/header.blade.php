@@ -16,7 +16,7 @@
             <div class="col-md-offset-1 col-sm-4 col-lg-4 hidden-xs">
                 <div class="choice-city anim">
                     <div class="choice-city__link"> <!--data-toggle="modal" data-target="#modal-city-list"-->
-                        <i class="choice-city__ico pull-left ico ico-point"></i>
+                        <i class="fa fa-map-marker" aria-hidden="true"></i>
                         <span class="choice-city__item">Москва</span>
                         <span class="phone-number">8 800 333-33-33</span>
                     </div>
@@ -28,12 +28,22 @@
                 </ul>
             </div>
             <!-- / Город full -->
+            <div class="col-lg-6 col-md-10 col-sm-10 hidden-xs pull-right search-form-big anim js-search-form">
+                <form action="" class="search-form" role="search">
+                    <div class="input-group">
+                        <input type="text" name="query" value="" class="search-form__input form-control anim" placeholder="Например: ">
+                        <span class="input-group-btn">
+							    <button role="button" class="btn btn-link search-form__submit anim" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+							  </span>
+                    </div>
+                </form>
+            </div>
 
             <!-- Фильтры full -->
             <div class="col-md-offset-1 col-sm-4 col-lg-4 hidden-xs col-filter">
                 <div class="show-filter anim">
                     <div class="show-filter__link"> <!--data-toggle="modal" data-target="#modal-city-list"-->
-                        <img src="{{ asset('img/icons/ico_filter_white.png') }}" class="ico-filter">
+                        <i class="fa fa-filter" aria-hidden="true"></i>
                         <span class="show-filter__item">Показать фильтры</span>
                     </div>
                 </div>
@@ -41,6 +51,7 @@
             <!-- / Фильтры full -->
 
             <div class="category-list col-xs-4 hidden-xs hidden-sm">
+                <i class="fa fa-th show_all_categories_mini" aria-hidden="true"></i>
                 <div class="menu-category">
                     <a role="link" href="/" class="btn menu-category__link js-box-show" data-box-show="category">
                         Все категории <span class="ico ico-arrow-down-light"></span>
@@ -92,39 +103,27 @@
         <div class="container-fluid">
             <div class="row-fluid">
                 <div class="box-list">
+                    <i class="fa fa-th show_all_categories" aria-hidden="true"></i>
                     <div class="category-box col-md-24 anim js-box-list" data-box-list="category">
-                        <nav class="menu anim" role="navigation">
-                            <ul class="list-inline list-unstyled menu__list">
+                        <i class="fa fa-chevron-left scroll_left" aria-hidden="true"></i>
+                        <nav class="menu top-cat-menu anim" role="navigation">
+
+                            <ul class="list-inline top-cat-menu-ul list-unstyled menu__list">
                                @if(isset($categories))
                                     @foreach($categories as $category)
                                         <li class="menu__item">
-                                            <input id="cat{{$category->id}}" class="menu__input category-checkbox"
-                                                   type="checkbox">
-                                            <label for="cat{{$category->id}}">
-                                                <a href="{{ route('showCategory', ['id' => $category->id]) }}" style="color: white"> {{ $category->name }}</a>
-                                            </label>
+                                                <a href="{{ route('showCategory', ['id' => $category->id]) }}"> {{ $category->name }}</a>
                                         </li>
                                     @endforeach
                                 @endif
                             </ul>
                         </nav>
+                        <i class="fa fa-chevron-right scroll_right" aria-hidden="true"></i>
                     </div>
                 </div>
 
-                <div class="col-lg-10 col-md-10 col-sm-10 hidden-xs pull-right search-form-big anim js-search-form">
-                    <form action="" class="search-form" role="search">
-                        <div class="input-group">
-                            <input type="text" name="query" value="" class="search-form__input form-control anim" placeholder="Например: ">
-                            <span class="input-group-btn">
-							    <button role="button" class="btn btn-link search-form__submit anim" type="button"><i class="ico ico-search"></i></button>
-							  </span>
-                        </div>
-                    </form>
-                </div>
+
             </div>
         </div>
-
-            @include('client.parts.sorting')
-
     </div>
 </header>

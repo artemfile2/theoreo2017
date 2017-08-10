@@ -12,7 +12,7 @@
 
 <div class="sort hidden-xs" style="float: right">
     @if(isset($sort))
-        <span class="sort__text">
+        <i class="fa fa-sort" aria-hidden="true"></i> &nbsp; <span class="sort__text">
                 Сортировать по:
                 <a href="{{ route('client.filterByStatus', ['sort' => 'active']) }}" class="sort__by">свежести</a> или
                 <a href="{{ route('client.filterByStatus', ['sort' => 'rating']) }}" class="sort__link link-is-active">рейтингу</a>

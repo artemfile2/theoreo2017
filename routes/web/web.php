@@ -24,7 +24,7 @@ Route::group(['namespace' => 'Client'],function () {
 
         Route::get('/tag:{sort}', 'PageController@filterByTag')->where('tag', '[0-9]+')->name('client.filterByTag');
 
-        Route::get('/brand:{sort}', 'PageController@filterByBrand')->where('tag', '[0-9]+')->name('client.filterByTag');
+        Route::get('/brand:{sort}', 'PageController@filterByBrand')->where('brand', '[0-9]+')->name('client.filterByBrand');
 
     });
 });

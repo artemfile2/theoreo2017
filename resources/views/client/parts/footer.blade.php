@@ -2,61 +2,65 @@
     <div class="wrapper">
         <div class="container-fluid">
             <div class="row footer-table">
-               <div class="col-xs-24 col-sm-6 footer-address">
-                   <div class="address-box col-md-24">
+               <div class="col-xs-24 col-sm-5 footer-address">
+                   <div class="address-box">
                         <ul class="list-block list-unstyled">
-                            <li>
+                            <li class="menu_footer_item a_home">
                                 <a href="{{ route('client.index') }}">http://theoreo.ru</a>
                             </li>
-                            <li>
+                            <li class="menu_footer_item a_mail">
                                 <a href="mailto:mail@theoreo.ru">mail@theoreo.ru</a>
                             </li>
-                            <li>
+                            <li class="phone">
                                 8 800 333-33-33
                             </li>
-                            <li>
+                            <li class="address">
                                 г. Москва ул Некая, д 1
                             </li>
 
                         </ul>
                     </div>
                </div>
-               <div class="col-xs-24 col-sm-6 footer-menu">
-                    <div class="menu-box col-md-24">
+               <div class="col-xs-24 col-sm-4 footer-menu">
+                    <div class="menu-box">
                         <nav class="footer-menu" role="navigation">
                             <ul class="list-block list-unstyled menu__list">
-                                <li class="menu__item">
+                                <li class="menu_footer_item a_home">
                                     <a href="{{ route('client.index') }}">На главную</a>
                                 </li>
-                                <li class="menu__item">
+                                <li class="menu_footer_item a_archive">
                                     <a href="{{ route('client.showArchives') }}">Архив акций</a>
                                 </li>
-                                <li class="menu__item">
-                                    <form action="" class="search-form" role="search">
-                                        <div class="input-group">
-                                            <input type="text" name="query" value="" class="search-form__input_mini form-control" placeholder="Искать">							  </span>
-                                        </div>
-                                    </form>
-                                </li>
+                                @if(Auth::check())
+                                    <li class="menu_footer_item a_logout">
+                                        <a href="#">Выйти</a>
+                                    </li>
+                                @else
+                                     <li class="menu_footer_item a_register">
+                                        <a href="#">Регистрация</a>
+                                    </li>
+                                    <li class="menu_footer_item a_login">
+                                        <a href="#">Авторизация</a>
+                                    </li>
+                                @endif
                             </ul>
                         </nav>
                     </div>
                 </div>
-                <div class="col-xs-24 col-sm-10">
-						<span class="footer__category">
-							Категории:
+                <div class="col-xs-24 col-sm-18">
+						<span class="footer__category tags">
+							Тэги:
 						</span>
-                    <div class="category-box col-md-24">
-                        <nav class="menu" role="navigation">
-                            <ul class="list-inline list-unstyled menu__list">
+                    <div class="footer-tag-box">
+                        <nav class="menu-footer" role="navigation">
+                            <ul class="list-inline list-unstyled menu_footer_list">
                                 @if(isset($categories))
                                     @foreach($categories as $category)
                                         <li class="menu__item">
-                                            <input id="cat{{$category->id}}" class="menu__input category-checkbox"
-                                                   type="checkbox">
-                                            <label for="cat{{$category->id}}">
-                                                <a href="{{ route('showCategory', ['id' => $category->id]) }}" style="color: white"> {{ $category->name }}</a>
-                                            </label>
+                                            <a href="{{ route('client.filterByTag', ['id' => $category->id]) }}"> {{ $category->name }}</a>
+                                            @if(!$loop->last)
+                                                ,
+                                            @endif
                                         </li>
                                     @endforeach
                                 @endif
