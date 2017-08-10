@@ -24,8 +24,6 @@ class VkController extends Controller
     /**
      * тестовый метод работы с парсером который толком нихрена не делает
      * кроме добавления записи в свою таблицу
-     *
-     * @param Parser $parser
      */
     public function newsFeedGet()
     {
@@ -35,32 +33,17 @@ class VkController extends Controller
 
     /**
      * метод попроще
-     *
-     * @param Parser $parser
      */
     public function simpleNewsFeedGet()
     {
-        $this->parser->makeSimpleRequest();
+        $this->parser->getNewsFeed();
     }
 
     /**
-     * пробуем надыбать ключик
-     *
-     * @param Parser $parser
+     * ручное полечение токена
      */
-    public function auth()
+    public function getToken()
     {
-        $this->parser->vkauth();
+        $this->parser->getToken();
     }
-
-    public function getCode()
-    {
-        $this->parser->getCode();
-    }
-
-    public function getToken(Request $request)
-    {
-        $this->parser->getToken($request->code);
-    }
-
 }

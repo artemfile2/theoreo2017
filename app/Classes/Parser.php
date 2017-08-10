@@ -3,12 +3,7 @@
 namespace App\Classes;
 
 use ATehnix\LaravelVkRequester\Models\VkRequest;
-use ATehnix\VkClient\Auth;
 use ATehnix\VkClient\Client;
-use ATehnix\VkClient\Exceptions\AccessDeniedVkException;
-use ATehnix\VkClient\Exceptions\TooManyRequestsVkException;
-use ATehnix\VkClient\Requests\{Request,ExecuteRequest};
-use Illuminate\Support\Facades\Redirect;
 
 
 /**
@@ -19,6 +14,8 @@ use Illuminate\Support\Facades\Redirect;
  */
 class Parser
 {
+    /** @var int величина в секундах на сколько будет сдвиг start_time */
+    protected $shiftTime = (60 * 60 * 24);
 
     /** временно разместил здесь известные ключи */
     protected $access_token = '74d410432bfa7a21d22203baf13b8fa4ef77199e80fe17689d68df3a36b98f7acd2607bb5213ac39a816b';
@@ -46,32 +43,42 @@ class Parser
     }
 
     /**
-     * тестовый запрос
+     * тестовый запрос, в идеала надо заставить его работать
      */
     public function makeRequest()
     {
         VkRequest::create([
             'method'     => 'newsfeed.get',
-            'parameters' => ['filters' => 'post'],
-            'token'      => env('VKONTAKTE_SECRET'),
+            'parameters' => $this->getNewsFeedParams(),
+            'token'      => $this->access_token,
         ]);
     }
 
     /**
-     * еще один тестовый запрос
+     * простой запрос новостной ленты
      */
-    public function makeSimpleRequest()
+    public function getNewsFeed()
     {
         $api = new Client();
         $api->setDefaultToken($this->access_token);
         $api->setPassError(true);
-        $groups = $api->request('newsfeed.get', [
-            'filters' => 'post',
-            'start_time' => time() - (60 * 60 * 24),
-            'count' => 100
-        ]);
+        $groups = $api->request('newsfeed.get', $this->getNewsFeedParams());
 
         dump($groups);
         dump($groups['response']['items']);
+        return $groups;
+    }
+
+    /**
+     * Получаем массив с параметрами для запроса новостной стены
+     * @return array
+     */
+    private function getNewsFeedParams()
+    {
+        return [
+            'filters' => 'post',
+            'start_time' => time() - $this->shiftTime,
+            'count' => 100
+        ];
     }
 }
