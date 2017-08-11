@@ -1,10 +1,7 @@
 @extends('admin.main')
 
 @section('content')
-    {{--<a href="{{ route('admin.users.create') }}" type="button" class="btn btn-success margin-bottom"><i class="fa fa-plus"></i> Добавить пользователя</a>--}}
-    <a href="#" type="button" class="btn btn-success margin-bottom">
-        <i class="fa fa-plus"></i> Добавить пользователя
-    </a>
+    <a href="{{ route('admin.users.create') }}" type="button" class="btn btn-success margin-bottom"><i class="fa fa-plus"></i> Добавить пользователя</a>
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
             <li class="active">
@@ -50,38 +47,31 @@
                                 </thead>
 
                                 <tbody>
- {{--                               @foreach($users as $user)
+                                @foreach($users as $user)
                                     <tr role="row" class="odd">
                                         <td class="sorting_1">{{ $user->id }}</td>
                                         <td>
-                                            @if($user->upload)
-                                                <img class="table-img" src="{{ asset('/image/fit/100/100/' . $user->upload->path . '.' . $user->upload->ext) }}" alt="{{ $user->name }}">
+                                            @if($user->upload_id)
+                                                <img class="table-img" src="{{ asset('/image/fit/100/100/' /*. $user->upload->path . '.' . $user->upload->ext*/) }}" alt="{{ $user->name }}">
                                             @else
                                                 <img class="table-img" src="{{ asset('/image/fit/100/100/default.jpg') }}" alt="{{ $user->name }}">
                                             @endif
                                         </td>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>
-                                        <td>{{ $user->role->name }}</td>
+                                        <td>{{--{{ $user->role->name }}--}}</td>
                                         <td>{{ $user->created_at }}</td>
                                         <td>{{ $user->updated_at }}</td>
                                         <td class="control">
-                                            <a href="{{ route('admin.users.edit', ['id' => $user->id]) }}" class="btn" title="Редактировать">
+                                            <a href="{{--{{ route('admin.users.edit', ['id' => $user->id]) }}--}}" class="btn" title="Редактировать">
                                                 <i class="fa fa-edit"></i>
                                             </a>
-                                            <a href="{{ route('api.users.trash', ['id' => $user->id]) }}" class="btn deleteUser" title="Переместить в корзину">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
-
-                                            <a href="#" class="btn" title="Редактировать">
-                                                <i class="fa fa-edit"></i>
-                                            </a>
-                                            <a href="#" class="btn deleteUser" title="Переместить в корзину">
+                                            <a href="{{--{{ route('api.users.trash', ['id' => $user->id]) }}--}}" class="btn deleteUser" title="Переместить в корзину">
                                                 <i class="fa fa-trash"></i>
                                             </a>
                                         </td>
                                     </tr>
-                                @endforeach--}}
+                                @endforeach
                                 </tbody>
                                 <tfoot>
                                 <tr>

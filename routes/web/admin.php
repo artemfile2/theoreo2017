@@ -16,6 +16,9 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'],function () {
     Route::get('/users', 'AdminController@users')
         ->name('admin.users');
 
+    Route::get('/users/create', 'AdminController@userCreate')
+        ->name('admin.users.create');
+
     Route::get('/brands', 'AdminController@brands')
         ->name('admin.brands');
 

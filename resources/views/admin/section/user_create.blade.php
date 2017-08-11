@@ -54,9 +54,9 @@
                         <div class="form-group" id="groups">
                             <label for="groups">Группа пользователя *</label>
                             <select id="roles" class="form-control select2" name="role_id">
-                                @foreach($roles as $role)
+                                {{--@foreach($roles as $role)
                                     <option value="{{ $role->id }}" {{ old('role_id') == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
-                                @endforeach
+                                @endforeach--}}
                             </select>
                         </div>
                         @if ($errors->has('role_id'))
@@ -65,7 +65,7 @@
                     </div>
                     <div class="box-footer">
                         <input type="submit" class="btn btn-success margin-r-5" value="Сохранить">
-                        <a href="{{ route('admin.users.list_all') }}" class="btn btn-primary" >Назад</a>
+                        <a href="{{ route('admin.users') }}" class="btn btn-primary" >Назад</a>
                     </div>
                 </form>
             </div>

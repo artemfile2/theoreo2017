@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -17,8 +18,19 @@ class AdminController extends Controller
 
     public function users()
     {
+        $users = User::all()
+                    ->sortByDesc('created_at');
+
         return view('admin.section.users', [
             'title' => 'Пользователи',
+            'users' => $users,
+        ]);
+    }
+
+    public function userCreate()
+    {
+        return view('admin.section.user_create', [
+            'title' => 'Создание пользователя',
         ]);
     }
 
@@ -36,12 +48,12 @@ class AdminController extends Controller
         ]);
     }
 
-    public function comments()
+/*    public function comments()
     {
         return view('admin.section.comments', [
             'title' => 'Комментарии',
         ]);
-    }
+    }*/
 
     public function content()
     {
