@@ -30,14 +30,14 @@
         <ul class="sidebar-menu">
             <li class="header">ПАНЕЛЬ АДМИНИСТРАТОРА</li>
             <!-- Optionally, you can add icons to the links -->
-            <li>
+            <li class="{{ (URL::current() == route('admin')) ? "active" : '' }}">
                 <a href="{{ route('admin') }}">
                     <i class="fa fa-gears"></i>
                     <span>Панель управления</span>
                 </a>
             </li>
             {{--@can('control', \App\Models\User::class)--}}
-                <li>
+                <li class="{{ (URL::current() == route('admin.users')) ? "active" : '' }}">
                     <a href="{{ route('admin.users') }}">
                         <i class="fa fa-users"></i>
                         <span>Пользователи</span>
@@ -45,7 +45,7 @@
                 </li>
             {{--@endcan
             @can('control', \App\Models\Brand::class)--}}
-                <li class="active">
+                <li class="{{ (URL::current() == route('admin.brands')) ? "active" : '' }}">
                     <a href="{{ route('admin.brands') }}">
                         <i class="fa fa-building"></i>
                         <span>Компании</span>
@@ -53,40 +53,40 @@
                 </li>
             {{--@endcan
             @can('control', \App\Models\Action::class)--}}
-                <li>
+                <li class="{{ (URL::current() == route('admin.actions')) ? "active" : '' }}">
                     <a href="{{ route('admin.actions') }}">
                         <i class="fa fa-fire"></i>
                         <span>Акции</span>
                     </a>
                 </li>
             {{--@endcan--}}
-            <li>
+            {{--<li>
                 <a href="{{ route('admin.comments') }}">
                     <i class="fa fa-percent"></i>
                     <span>Комментарии</span>
-                </a>
-            </li>
-            <li>
+                </a>.users
+            </li>--}}
+            <li class="{{ (URL::current() == route('admin.content')) ? "active" : '' }}">
                 <a href="{{ route('admin.content') }}">
                     <i class="fa fa-th"></i>
                     <span>Контент</span>
                 </a>
             </li>
             {{--@can('control', \App\Models\Tag::class)--}}
-                <li>
+                <li class="">
                     <a href="#">
                         <i class="fa fa-tags"></i>
                         <span>Теги</span>
                     </a>
                 </li>
             {{--@endcan--}}
-            <li>
+            <li class="{{ (URL::current() == route('admin.logs')) ? "active" : '' }}">
                 <a href="{{ route('admin.logs') }}">
                     <i class="fa fa-tasks"></i>
                     <span>Логи парсера</span>
                 </a>
             </li>
-            <li>
+            <li class="{{ (URL::current() == route('admin.queries')) ? "active" : '' }}">
                 <a href="{{ route('admin.queries') }}">
                     <i class="fa fa-search"></i>
                     <span>Поисковые запросы</span>

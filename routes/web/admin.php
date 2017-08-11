@@ -22,8 +22,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'],function () {
     Route::get('/actions', 'AdminController@actions')
         ->name('admin.actions');
 
-    Route::get('/comments', 'AdminController@comments')
-        ->name('admin.comments');
+   /* Route::get('/comments', 'AdminController@comments')
+        ->name('admin.comments');*/
 
     Route::get('/content', 'AdminController@content')
         ->name('admin.content');
