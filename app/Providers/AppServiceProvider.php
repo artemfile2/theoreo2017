@@ -6,6 +6,7 @@ use ATehnix\VkClient\Auth;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use App\Models\Category;
+use App\Models\Tag;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -18,6 +19,10 @@ class AppServiceProvider extends ServiceProvider
         $categories = Category::orderBy('name', 'ASC')
             ->get();
         View::share('categories', $categories);
+        $tags = Tag::orderBy('name', 'ASC')
+            ->get();
+        View::share('tags', $tags);
+        include app_path('helpers.php');
     }
 
     /**

@@ -10,21 +10,28 @@ Route::group(['namespace' => 'Client'],function () {
 
     Route::get('/action/{action}', 'PageController@action')->name('showAction');
 
-    Route::get('/category/{category}', 'PageController@showCategory')->name('showCategory');
+    Route::get('/category/{id}', 'PageController@showCategory')->name('showCategory');
 
     Route::get('/archives', 'PageController@showArchives')->name('client.showArchives');
 
     Route::get('/same/{action}', 'PageController@showSameActions')->name('client.showSameActions');
 
-    Route::group(['prefix' => 'sort-by'],function () {
+    Route::get('/brand/{id}', 'PageController@filterByBrand')->name('client.filterByBrand');
 
-        Route::get('/{category}/category:{sort}', 'PageController@showCategory')->name('client.sortCategoryActions');
+    Route::get('/tag/', 'PageController@filterByTag')->name('client.filterByTag');
 
-        Route::get('/status:{sort}', 'PageController@filterByStatus')->name('client.filterByStatus');
+    Route::get('/sort_by/{sort}', 'PageController@filterBySort')->name('client.filterByStatus');
 
-        Route::get('/tag:{sort}', 'PageController@filterByTag')->where('tag', '[0-9]+')->name('client.filterByTag');
+    Route::get('/category/{id}/sort_by/{sort}', 'PageController@showCategory')->name('client.sortCategoryActions');
 
-        Route::get('/brand:{sort}', 'PageController@filterByBrand')->where('brand', '[0-9]+')->name('client.filterByBrand');
+    Route::get('/brand/{id}/sort_by/{sort}', 'PageController@filterByBrand')->name('client.filterByBrandSorted');
 
-    });
+    Route::get('/tag/sort_by/{sort}', 'PageController@filterByTag')->name('client.filterByTagSorted');
+
+
+    /* Поиск */
+
+    Route::post('/search', 'PageController@search')->name('client.actionSearch');
+
+
 });
