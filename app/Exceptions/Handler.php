@@ -57,7 +57,7 @@ class Handler extends ExceptionHandler
                 'errorCode' => 404,
                 'title' => trans('custom.oops'),
                 'errorDetails' => $exception->getMessage(),
-                'errorMessage' => 'Страница не найдена',
+                'errorMessage' => 'РЎС‚СЂР°РЅРёС†Р° РЅРµ РЅР°Р№РґРµРЅР°',
 
             ], 404);
         }
@@ -67,7 +67,7 @@ class Handler extends ExceptionHandler
                 'errorCode' => 403,
                 'title' => trans('custom.oops'),
                 'errorDetails' => $exception->getMessage(),
-                'errorMessage' => 'Доступ запрещен'
+                'errorMessage' => 'Р”РѕСЃС‚СѓРї Р·Р°РїСЂРµС‰РµРЅ'
             ], 403);
         }
 
@@ -77,14 +77,14 @@ class Handler extends ExceptionHandler
                 'errorCode' => 403,
                 'title' => trans('custom.oops'),
                 'errorDetails' => $exception->getMessage(),
-                'errorMessage' => 'Доступ запрещен'
+                'errorMessage' => 'Р”РѕСЃС‚СѓРї Р·Р°РїСЂРµС‰РµРЅ'
             ], 403);
             } else {
                 return response()->view('client.errors.500', [
                     'errorCode' => 500,
                     'title' => trans('custom.oops'),
                     'errorDetails' => $exception->getMessage(),
-                    'errorMessage' => 'Внутренняя ошибка сервера'
+                    'errorMessage' => 'Р’РЅСѓС‚СЂРµРЅРЅСЏСЏ РѕС€РёР±РєР° СЃРµСЂРІРµСЂР°'
                 ], 500);
             }
         }
@@ -94,7 +94,7 @@ class Handler extends ExceptionHandler
                 'errorCode' => 403,
                 'title' => trans('custom.oops'),
                 'errorDetails' => $exception->getMessage(),
-                'errorMessage' => 'Доступ запрещен'
+                'errorMessage' => 'Р”РѕСЃС‚СѓРї Р·Р°РїСЂРµС‰РµРЅ'
             ], 403);
         }
 

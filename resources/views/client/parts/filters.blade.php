@@ -1,8 +1,7 @@
-<div class="left-block-fixed">
+<div class="filters-block hidden">
     <div class="filters-header">
-        <img src="img/icons/ico_filter.png" class="ico-filter">
+        <i class="fa fa-filter ico-filter" aria-hidden="true"></i>
         <span style="">Фильтруйте!</span>
-        <a href="javascript:;"><img src="img/icons/ico_close.png" class="ico-closer"></a>
     </div>
     <div class="filters-content">
         <form name="filterform" action="" method="POST">
@@ -28,7 +27,6 @@
                                 <span class="filters-name">Фильтр</span>
                             </li>
                     </ul>
-                    <hr>
                 </div>
 
                 <div class="filters-buttons clearfix">

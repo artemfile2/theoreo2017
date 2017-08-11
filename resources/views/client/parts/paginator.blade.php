@@ -1,4 +1,4 @@
-<div style="text-align: center" class="paginator">
+<div class="paginator">
     @if($actions)
         <nav>
             {{ $actions->links() }}

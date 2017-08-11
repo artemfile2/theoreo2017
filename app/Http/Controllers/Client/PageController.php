@@ -60,8 +60,9 @@ class PageController extends Controller
     public function showArchives()
     {
         $actions = false;
-
-        return view('client.pages.main', ['actions' => $actions]);
+        $title = new \stdClass();
+        $title->name = 'В архиве';
+        return view('client.pages.main', ['actions' => $actions, 'title' => $title]);
     }
 
     public function search(Request $request)
