@@ -3,6 +3,6 @@
         <div class="page-prev-container">
             <i class="fa fa-chevron-circle-left page-prev-ico" aria-hidden="true"></i>
         </div>
-        <span class="page-prev-text">Назад</span>
+        Назад
     </a>
 </div>

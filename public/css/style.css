@@ -698,3 +698,28 @@ footer {
 .address-box-ul li{
      text-align: left;
  }
+.page-prev-container {
+    display: inline-block;
+    vertical-align: middle;
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+.page-prev-container{
+    font-size: 26px;
+}
+.page-prev-link {
+    font-size: 20px;
+    color: #bf3111;
+    text-decoration: none;
+    display: inline-block;
+    line-height: 1;
+ }
+.page-prev-link:hover,
+.page-prev-link:focus {
+    color: #e43211;
+    text-decoration: none
+}
+.more-info-ico-point{
+    color: #000;
+}

@@ -5,10 +5,7 @@
                 <h3>В данной категории пока нет акций</h3>
             @endif
         @else
-            <?php $i = 0; ?>
             @foreach ($actions as $action)
-                <?php $i++; ?>
-
                 <article role="article" class="content-block clearfix">
                     <div class="sidebar">
                         <a href="{{$action->link}}" title="{{$action->title}}">
@@ -39,12 +36,12 @@
                                  уточняйте у организатора
                             @endif
                         </p>
-
                         <!-- Теги -->
-                        @if(count($action->tags))
+                        @if(count($action->tag))
+
                             <span class="footer_category tags">&nbsp;</span>
                             <ul class="content-block-list list-unstyled list-inline">
-                            @foreach ($action->tags as $tag)
+                            @foreach ($action->tag as $tag)
                                 <li class="content-block-item">
                                     <a href="{{route('client.filterByTag')}}?tag={{ $tag->name }}" class="btn btn-default content-block-btn">{{$tag->name}}</a>
                                 </li>
@@ -62,7 +59,7 @@
                         <!-- Заглушка до реализации функционала соцсетей -->
                     </div>
                 </article>
-                @if ($i % 3 == 0)
+                @if ($loop->iteration % 3 == 0)
                     <div class="clearfix line3columns"></div>
                 @endif
             @endforeach

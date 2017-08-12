@@ -8,7 +8,7 @@ use DB;
 class Action extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['name', 'brand_id', 'upload_id', 'status_id', 'city_id', 'description', 'adresses', 'phones', 'shop_link', 'active_from', 'active_to', 'category_id', 'rating'];
+    protected $fillable = ['name', 'brand_id', 'upload_id', 'status_id', 'city_id', 'description', 'addresses', 'phones', 'shop_link', 'active_from', 'active_to', 'category_id', 'rating'];
     protected $table = 'actions';
     protected $hidden = [
         'created_at', 'updated_at', 'deleted_at',
@@ -59,7 +59,7 @@ class Action extends Model
     public function scopeSortBy($query, $sort)
     {
         if ($sort == 'active') {
-            $query = $query->orderBy('active_from', 'DESC');
+            $query = $query->orderBy('active_to', 'DESC');
         } elseif ($sort == 'rating'){
             $query = $query->orderBy('rating', 'ASC');
         }
@@ -85,12 +85,18 @@ class Action extends Model
 
     public function scopeNotInTime($query)
     {
-        return $query->where(function ($query) {
-            $query->orWhere(function ($query) {
-                $query->where(DB::raw('NOW()'), '>=', DB::raw('active_from'))->where(DB::raw('NOW()'), '>', DB::raw('active_to'));
-            });
-        });
+        return $query->where(DB::raw('NOW()'), '>=', DB::raw('active_from'))->where(DB::raw('NOW()'), '>', DB::raw('active_to'));
+
+
     }
+
+    public function scopePastAndActive($query)
+    {
+        return $query->where(DB::raw('NOW()'), '>=', DB::raw('active_from'));
+
+    }
+
+
 
     public function scopeSearch($query, $query_str)
     {

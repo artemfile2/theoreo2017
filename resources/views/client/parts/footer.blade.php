@@ -33,9 +33,6 @@
                                 <a href="#">Выйти</a>
                             </li>
                         @else
-                            <li class="menu_footer_item a_register">
-                                <a href="#">Регистрация</a>
-                            </li>
                             <li class="menu_footer_item a_login">
                                 <a href="#">Авторизация</a>
                             </li>

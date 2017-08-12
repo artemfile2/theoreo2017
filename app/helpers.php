@@ -28,3 +28,21 @@ if (!function_exists('uploads_path')) {
         return storage_path('app.uploads');
     }
 }
+if (!function_exists('string_split')) {
+    function string_split($string = '')
+    {
+        return preg_split("/\\r\\n|\\r|\\n/",$string);
+    }
+}
+
+if (!function_exists('count_addresses')) {
+    function count_addresses($addresses = 0)
+    {
+        if($addresses){
+            $addr_count = count(string_split($addresses));
+            $addresses = $addr_count> 0 ? $addr_count : 0;
+        }
+
+        return $addresses;
+    }
+}

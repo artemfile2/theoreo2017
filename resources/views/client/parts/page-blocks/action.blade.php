@@ -39,14 +39,15 @@
     <div class="row">
         <div class="map-row-box">
             <h3 class="more-info-heading">
-                Адреса проведения акции <span class="more-info-heading-num">({{ (count(explode('\n', $action->addresses))) or 1 }})</span>
+               Адреса проведения акции <span class="more-info-heading-num">({{ count_addresses($action->addresses) }})</span>
             </h3>
+            <p>{{ $action->addresses }}</p>
+
             <div class="more-info-address">
                 <div class="row">
                     <div class="map-box">
                         <h4 class="more-info__name">
-                            <i class="fa fa-map-marker more-info-ico-point" aria-hidden="true"></i>
-                            @include('client.parts.page-blocks.map', ['addresses' => $action->addresses])
+                            @include('client.parts.page-blocks.map', ['addresses' => string_split($action->addresses)])
                         </h4>
                     </div>
                 </div>

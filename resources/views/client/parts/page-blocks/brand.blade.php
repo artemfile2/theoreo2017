@@ -1,8 +1,8 @@
 <div class="sidebar">
     @if($action->brand->upload)
-        <img src="{{ asset('/image/widen/600/' . $action->brand->upload->path . '.' . $action->brand->upload->ext) }}" alt="{{ $action->brand->name }}" class="content-block-img img-responsive">
+        <img src="{{ asset('/image/widen/300/' . $action->brand->upload->path . '.' . $action->brand->upload->ext) }}" alt="{{ $action->brand->name }}" class="content-block-img img-responsive">
     @else
-        <img src="{{ asset('/image/widen/600/default.jpg') }}" alt="{{ $action->brand->name }}" class="content-block-img img-responsive">
+        <img src="{{ asset('/image/widen/300/default.jpg') }}" alt="{{ $action->brand->name }}" class="content-block-img img-responsive">
     @endif
     <p class="content-block-context"><a href="">{{ $action->brand->name }}</a></p>
 
