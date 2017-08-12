@@ -4,31 +4,23 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-class Category extends Model
+class Role extends Model
 {
     use SoftDeletes;
 
     protected $fillable = ['code', 'name'];
-    protected $table = 'categories';
-
+    protected $table = 'roles';
     protected $hidden = [
         'created_at', 'updated_at', 'deleted_at',
     ];
     protected $dates = ['deleted_at'];
 
-    public function action()
+    public function user()
     {
-        return $this->hasMany('App\Models\Action');
+        return $this->hasMany('App\Models\User');
     }
-
-    public function brand()
+    public function privilege()
     {
-        return $this->hasMany('App\Models\Brand');
+        return $this->belongsTo('App\Models\Privilege');
     }
-
-    public function filter()
-    {
-        return $this->hasMany('App\Models\Filter');
-    }
-
 }

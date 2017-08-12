@@ -22,11 +22,11 @@
                                 </a>
                             </div>
                         </a>
-                        <p class="content-block-context"><a href="{{ route('site.brand.sortByBrand', ['brand_id' => $action->brand_id]) }}">{{$action->brand->name}}</a></p>
+                        <p class="content-block-context"><a href="{{ route('client.filterByBrand', ['id' => $action->brand_id]) }}">{{$action->brand->name}}</a></p>
                     </div>
                     <div class="content-box">
                         <a role="link" href="{{$action->link}}" class="content-block-heading">
-                            <a href="{{ route('actionShow', ['id' => $action->id]) }}"><h2>{{$action->title}}</h2></a>
+                            <a href="{{ route('showAction', ['id' => $action->id]) }}"><h2>{{$action->title}}</h2></a>
                         </a>
                         <p class="content-block-introtext">
                             {!!($action->description)!!}
@@ -34,7 +34,7 @@
                         <p class="content-block-date">
                             Срок проведения:
                             @if ($action->active_from && $action->active_to)
-                                {{getRusDate($action->active_from)}} - {{getRusDate($action->active_to)}}
+                                {{$action->active_from}} - {{$action->active_to}}
                             @else
                                  уточняйте у организатора
                             @endif
@@ -46,7 +46,7 @@
                             <ul class="content-block-list list-unstyled list-inline">
                             @foreach ($action->tags as $tag)
                                 <li class="content-block-item">
-                                    <a href="{{route('client.filterByTag', ['tag' => $tag->id])}}" class="btn btn-default content-block-btn">{{$tag->name}}</a>
+                                    <a href="{{route('client.filterByTag')}}?tag={{ $tag->name }}" class="btn btn-default content-block-btn">{{$tag->name}}</a>
                                 </li>
                             @endforeach
                             </ul>

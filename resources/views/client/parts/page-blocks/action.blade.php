@@ -12,7 +12,7 @@
 <p class="content-block-date">
     Срок проведения:
     @if ($action->active_from && $action->active_to)
-        {{getRusDate($action->active_from)}} - {{getRusDate($action->active_to)}}
+        {{$action->active_from}} - {{$action->active_to}}
     @else
          уточняйте у организатора
     @endif     

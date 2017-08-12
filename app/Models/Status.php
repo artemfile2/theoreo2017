@@ -4,13 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-class Category extends Model
+class Status extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['code', 'name'];
-    protected $table = 'categories';
-
+    protected $fillable = ['name', 'code'];
+    protected $table = 'statuses';
     protected $hidden = [
         'created_at', 'updated_at', 'deleted_at',
     ];
@@ -20,15 +19,4 @@ class Category extends Model
     {
         return $this->hasMany('App\Models\Action');
     }
-
-    public function brand()
-    {
-        return $this->hasMany('App\Models\Brand');
-    }
-
-    public function filter()
-    {
-        return $this->hasMany('App\Models\Filter');
-    }
-
-}
+}				

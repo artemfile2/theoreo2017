@@ -1,4 +1,4 @@
-@if(count($sameActions))
+@if(isset($sameActions) && count($sameActions))
     <section class="more-info">
         <h4 class="more-info-heading">
             <a href="{{ route('client.showSameActions', ['action' => $action->id]) }}">Похожие акции

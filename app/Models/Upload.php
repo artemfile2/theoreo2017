@@ -4,17 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-class Category extends Model
+class Upload extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['code', 'name'];
-    protected $table = 'categories';
-
+    protected $fillable = ['path', 'size', 'oldname', 'ext', 'mime'];
+    protected $table = 'uploads';
     protected $hidden = [
         'created_at', 'updated_at', 'deleted_at',
     ];
     protected $dates = ['deleted_at'];
+
+    public function user()
+    {
+        return $this->hasMany('App\Models\User');
+    }
 
     public function action()
     {
@@ -25,10 +29,4 @@ class Category extends Model
     {
         return $this->hasMany('App\Models\Brand');
     }
-
-    public function filter()
-    {
-        return $this->hasMany('App\Models\Filter');
-    }
-
 }
