@@ -24,10 +24,10 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'],function () {
                 ->name('admin.user.createPost');
 
             Route::get('/edit/{id}', 'AdminController@userEdit')
-                ->name('admin.users.edit');
+                ->name('admin.user.edit');
 
-            Route::post('/edit', 'AdminController@userEditpost')
-                ->name('admin.users.editPost');
+            Route::post('/edit', 'AdminController@userEditPost')
+                ->name('admin.user.editPost');
 
             Route::get('/restore/{id}', 'AdminController@userRestore')
                 ->name('admin.user.restore');
@@ -39,8 +39,15 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'],function () {
                 ->name('admin.user.delete');
         });
 
-    Route::get('/brands', 'AdminController@brands')
-        ->name('admin.brands');
+
+        Route::group(['prefix' => 'brands'], function (){
+            Route::get('/', 'BrandsController@brands')
+                ->name('admin.brands.get_all');
+
+
+        });
+
+
 
     Route::get('/actions', 'AdminController@actions')
         ->name('admin.actions');

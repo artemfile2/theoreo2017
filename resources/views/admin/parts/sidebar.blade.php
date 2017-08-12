@@ -45,8 +45,8 @@
                 </li>
             {{--@endcan
             @can('control', \App\Models\Brand::class)--}}
-                <li class="{{ (URL::current() == route('admin.brands')) ? "active" : '' }}">
-                    <a href="{{ route('admin.brands') }}">
+                <li class="{{ (URL::current() == route('admin.brands.get_all')) ? "active" : '' }}">
+                    <a href="{{ route('admin.brands.get_all') }}">
                         <i class="fa fa-building"></i>
                         <span>Компании</span>
                     </a>

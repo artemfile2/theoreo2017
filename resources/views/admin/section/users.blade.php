@@ -63,7 +63,7 @@
                                         <td>{{ $user->created_at }}</td>
                                         <td>{{ $user->updated_at }}</td>
                                         <td class="control">
-                                            <a href="{{ route('admin.users.edit', ['id' => $user->id]) }}" class="btn" title="Редактировать">
+                                            <a href="{{ route('admin.user.edit', ['id' => $user->id]) }}" class="btn" title="Редактировать">
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                             <a href="{{ route('admin.user.trash', ['id' => $user->id]) }}" class="btn deleteUser" title="Переместить в корзину">

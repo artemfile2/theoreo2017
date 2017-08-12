@@ -25,7 +25,7 @@
            {{-- @endcan
             @can('control', \App\Models\Brand::class)--}}
                 <div class="col-lg-4 col-md-6 col-sm-12">
-                    <a href="{{ route('admin.brands') }}">
+                    <a href="{{ route('admin.brands.get_all') }}">
                         <div class="info-box">
                         <span class="info-box-icon bg-green">
                             <i class="fa fa-building"></i>
@@ -34,9 +34,8 @@
                             <span class="info-box-text">
                                 Компании
                             </span>
-                                <span class="info-box-number">
-                                {{--{{ $brands->count() }}--}}
-                                    {{ '333' }}
+                            <span class="info-box-number">
+                                {{ $brands->count() }}
                             </span>
                             </div>
                         </div>

@@ -3,39 +3,41 @@
 namespace App\Http\Controllers\Admin;
 
 use App\User;
+use App\Brand;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class AdminController extends Controller
 {
-    /*
-     * отдельная функция возврата всех пользователей
-     * */
-    private function usersGetAll()
-    {
-        $users = User::all()
-            ->sortByDesc('created_at');
-
-        return $users;
-    }
 
     /*
      * панель управления, главная страница в админке*/
     public function index()
     {
+        $users = User::all()
+            ->sortByDesc('created_at');
+
+        $brands = Brand::all()
+            ->sortByDesc('created_at');
+
         return view('admin.section.control_panel', [
             'title' => 'Панель управления',
-            'users' => $this->usersGetAll(),
+            'users' => $users,
+            'brands' => $brands,
         ]);
     }
 
     public function users()
     {
-        $usersDeleted = User::onlyTrashed()->get();
+        $users = User::all()
+            ->sortByDesc('created_at');
+
+        $usersDeleted = User::onlyTrashed()
+            ->get();
 
         return view('admin.section.users', [
             'title' => 'Пользователи',
-            'users' => $this->usersGetAll(),
+            'users' => $users,
             'usersDeleted' => $usersDeleted,
             /*'usersDeleted' => $this->usersGetAll()->withTrashed(),*/
         ]);

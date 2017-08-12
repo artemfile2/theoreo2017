@@ -42,7 +42,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                {{--@foreach($brands as $brand)
+                                @foreach($brands as $brand)
                                     <tr role="row" class="odd">
                                         <td class="sorting_1">{{ $brand->id }}</td>
                                         <td>
@@ -53,22 +53,22 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <a href="{{ route('admin.brands.edit', ['id' => $brand->id]) }}">{{ $brand->name }}</a>
+                                            <a href="{{--{{ route('admin.brands.edit', ['id' => $brand->id]) }}--}}">{{ $brand->name }}</a>
                                         </td>
                                         <td>{{ $brand->phones }}</td>
                                         <td>{{ $brand->site }}</td>
                                         <td>{{ $brand->created_at }}</td>
                                         <td>{{ $brand->updated_at }}</td>
                                         <td class="control">
-                                            <a href="{{ route('admin.brands.edit', ['id' => $brand->id]) }}" class="btn" title="Редактировать">
+                                            {{--<a href="{{ route('admin.brands.edit', ['id' => $brand->id]) }}" class="btn" title="Редактировать">
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                             <a href="{{ route('api.brands.trash', ['id' => $brand->id]) }}" class="btn deleteBrand" title="Переместить в корзину">
                                                 <i class="fa fa-trash"></i>
-                                            </a>
+                                            </a>--}}
                                         </td>
                                     </tr>
-                                @endforeach--}}
+                                @endforeach
                                 </tbody>
                                 <tfoot>
                                 <tr>
@@ -121,7 +121,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                               {{-- @foreach($brandsDeleted as $brandDeleted)
+                               @foreach($brandsDeleted as $brandDeleted)
                                     <tr role="row" class="odd">
                                         <td class="sorting_1">{{ $brandDeleted->id }}</td>
                                         <td>
@@ -137,15 +137,15 @@
                                         <td>{{ $brandDeleted->created_at }}</td>
                                         <td>{{ $brandDeleted->updated_at }}</td>
                                         <td class="control">
-                                            <a href="{{ route('api.brands.restore', ['id' => $brandDeleted->id]) }}" class="btn" title="Восстановить">
+                                            {{--<a href="{{ route('api.brands.restore', ['id' => $brandDeleted->id]) }}" class="btn" title="Восстановить">
                                                 <i class="fa fa-history"></i>
                                             </a>
                                             <a href="{{ route('api.brands.delete', ['id' => $brandDeleted->id]) }}" class="btn forceDeleteBrand" title="Удалить">
                                                 <i class="fa fa-close"></i>
-                                            </a>
+                                            </a>--}}
                                         </td>
                                     </tr>
-                                @endforeach--}}
+                                @endforeach
                                 </tbody>
                                 <tfoot>
                                 <tr>
