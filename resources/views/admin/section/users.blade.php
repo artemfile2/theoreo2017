@@ -1,7 +1,7 @@
 @extends('admin.main')
 
 @section('content')
-    <a href="{{ route('admin.users.create') }}" type="button" class="btn btn-success margin-bottom"><i class="fa fa-plus"></i> Добавить пользователя</a>
+    <a href="{{ route('admin.user.create') }}" type="button" class="btn btn-success margin-bottom"><i class="fa fa-plus"></i> Добавить пользователя</a>
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
             <li class="active">
@@ -59,14 +59,14 @@
                                         </td>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>
-                                        <td>{{--{{ $user->role->name }}--}}</td>
+                                        <td>{{ $user->role_id}}</td>
                                         <td>{{ $user->created_at }}</td>
                                         <td>{{ $user->updated_at }}</td>
                                         <td class="control">
-                                            <a href="{{--{{ route('admin.users.edit', ['id' => $user->id]) }}--}}" class="btn" title="Редактировать">
+                                            <a href="{{ route('admin.users.edit', ['id' => $user->id]) }}" class="btn" title="Редактировать">
                                                 <i class="fa fa-edit"></i>
                                             </a>
-                                            <a href="{{--{{ route('api.users.trash', ['id' => $user->id]) }}--}}" class="btn deleteUser" title="Переместить в корзину">
+                                            <a href="{{ route('admin.user.trash', ['id' => $user->id]) }}" class="btn deleteUser" title="Переместить в корзину">
                                                 <i class="fa fa-trash"></i>
                                             </a>
                                         </td>
@@ -124,38 +124,31 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                {{--@foreach($usersDeleted as $userDeleted)
+                                @foreach($usersDeleted as $userDeleted)
                                     <tr role="row" class="odd">
                                         <td class="sorting_1">{{ $userDeleted->id }}</td>
                                         <td>
-                                            --}}{{--@if($userDeleted->upload)
+                                            @if($userDeleted->upload)
                                                 <img class="table-img" src="{{ asset('/image/fit/100/100/' . $userDeleted->upload->path . '.' . $userDeleted->upload->ext) }}" alt="{{ $userDeleted->name }}">
                                             @else
                                                 <img class="table-img" src="{{ asset('/image/fit/100/100/default.jpg') }}" alt="{{ $userDeleted->name }}">
-                                            @endif--}}{{--
+                                            @endif
                                         </td>
                                         <td>{{ $userDeleted->name }}</td>
                                         <td>{{ $userDeleted->email }}</td>
-                                        <td>{{ $userDeleted->role->name }}</td>
+                                        <td>{{ $userDeleted->role }}</td>
                                         <td>{{ $userDeleted->created_at }}</td>
                                         <td>{{ $userDeleted->updated_at }}</td>
                                         <td class="control">
---}}{{--                                            <a href="{{ route('api.users.restore', ['id' => $userDeleted->id]) }}" class="btn" title="Восстановить">
+                                            <a href="{{ route('admin.user.restore', ['id' => $userDeleted->id]) }}" class="btn" title="Восстановить">
                                                 <i class="fa fa-history"></i>
                                             </a>
-                                            <a href="{{ route('api.users.delete', ['id' => $userDeleted->id]) }}" class="btn forceDeleteUser" title="Удалить">
-                                                <i class="fa fa-close"></i>
-                                            </a>--}}{{--
-
-                                            <a href="#" class="btn" title="Восстановить">
-                                                <i class="fa fa-history"></i>
-                                            </a>
-                                            <a href="#" class="btn forceDeleteUser" title="Удалить">
+                                            <a href="{{ route('admin.user.delete', ['id' => $userDeleted->id]) }}" class="btn forceDeleteUser" title="Удалить">
                                                 <i class="fa fa-close"></i>
                                             </a>
                                         </td>
                                     </tr>
-                                @endforeach--}}
+                                @endforeach
                                 </tbody>
                                 <tfoot>
                                 <tr>

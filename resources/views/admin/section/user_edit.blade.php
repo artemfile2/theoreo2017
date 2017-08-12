@@ -18,10 +18,10 @@
                         @if ($errors->has('name'))
                             <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('name') }}</div>
                         @endif
-                        {{--<div class="form-group">--}}
-                        {{--<label for="surname">Фамилия *</label>--}}
-                        {{--<input class="form-control" id="surname" placeholder="Введите фамилию" type="text" name="surname" disabled>--}}
-                        {{--</div>--}}
+                        <div class="form-group">
+                        <label for="surname">Фамилия *</label>
+                        <input class="form-control" id="surname" placeholder="Введите фамилию" type="text" name="surname" value="{{ $user->surname }}">
+                        </div>
                         <div class="form-group">
                             <label for="avatar">Аватар</label>
                             @if($user->upload)
@@ -68,7 +68,7 @@
                         <div class="form-group" id="groups">
                             <label for="groups">Группа пользователя *</label>
                             <select id="roles" class="form-control select2" name="role_id">
-                                @if(old('role_id'))
+                                {{--@if(old('role_id'))
                                     @foreach($roles as $role)
                                         <option value="{{ $role->id }}" {{ old('role_id') == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
                                     @endforeach
@@ -76,7 +76,7 @@
                                     @foreach($roles as $role)
                                         <option value="{{ $role->id }}" {{ $user->role_id == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
                                     @endforeach
-                                @endif
+                                @endif--}}
                             </select>
                         </div>
                         @if ($errors->has('role_id'))
@@ -85,7 +85,7 @@
                     </div>
                     <div class="box-footer">
                         <input type="submit" class="btn btn-success margin-r-5" value="Сохранить">
-                        <a href="{{ route('admin.users.list_all') }}" class="btn btn-primary" >Назад</a>
+                        <a href="{{ route('admin.user.get_all') }}" class="btn btn-primary" >Назад</a>
                     </div>
                 </form>
             </div>

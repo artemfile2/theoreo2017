@@ -6,7 +6,7 @@
         <div class="row">
             {{--@can('control', \App\Models\User::class)--}}
                 <div class="col-lg-4 col-md-6 col-sm-12">
-                    <a href="{{ route('admin.users') }}">
+                    <a href="{{ route('admin.user.get_all') }}">
                         <div class="info-box">
                         <span class="info-box-icon bg-light-blue">
                             <i class="fa fa-users"></i>
@@ -16,8 +16,7 @@
                                 Пользователи
                             </span>
                                 <span class="info-box-number">
-                                {{--{{ $users->count() }}--}}
-                                    {{ '222' }}
+                                {{ $users->count() }}
                             </span>
                             </div>
                         </div>

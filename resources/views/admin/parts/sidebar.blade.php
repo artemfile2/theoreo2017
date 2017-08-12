@@ -37,8 +37,8 @@
                 </a>
             </li>
             {{--@can('control', \App\Models\User::class)--}}
-                <li class="{{ (URL::current() == route('admin.users')) ? "active" : '' }}">
-                    <a href="{{ route('admin.users') }}">
+                <li class="{{ (URL::current() == route('admin.user.get_all')) ? "active" : '' }}">
+                    <a href="{{ route('admin.user.get_all') }}">
                         <i class="fa fa-users"></i>
                         <span>Пользователи</span>
                     </a>
