@@ -6,35 +6,54 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Tag;
 use App\Models\Brand;
+use App\Models\Action;
 
 class PageController extends Controller
 {
 
     public function index(Request $request)
     {
-        $actions = false;
+        $actions = Action::intime()
+            ->orderBy('active_from', 'DESC')
+            ->paginate(config('app.itemsPerPage'));
 
         return view('client.pages.main', ['actions' => $actions, 'sort' => 'active']);
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function action($id)
     {
-        $action = false;
+        $action = Action::findOrFail($id);
+        $same_action = false;
 
-        return view('client.pages.main', ['action' => $action]);
+        //TODO 'Сделать вывод похожих акций';
+
+        //TODO 'Настроить работу Google Maps Geocoding API в шаблоне map.blade.php';
+
+        return view('client.pages.detail', ['action' => $action, 'sameActions ' => $same_action]);
     }
 
     public function showCategory($id, $sort = false)
     {
         $title = Category::findOrFail($id);
-        $actions = false;
+        $actions = Action::intime()
+            ->inCategory($id)
+            ->orderBy('active_from', 'DESC')
+            ->sortBy($sort)
+            ->paginate(config('app.itemsPerPage'));
 
         return view('client.pages.main', compact(['actions', 'title', 'sort']));
     }
 
     public function filterBySort($sort)
     {
-        $actions = false;
+        $actions = Action::intime()
+            ->sortBy($sort)
+            ->paginate(config('app.itemsPerPage'));
+        //TODO 'сделать возврат сортировки на страницу отправки (не факт, что здесь)';
 
         return view('client.pages.main', ['actions' => $actions, 'sort' => $sort]);
     }
@@ -44,7 +63,11 @@ class PageController extends Controller
         $tag =  trim($request->input('tag'));
 
         $title = Tag::where('name', 'like',  $tag)->firstOrFail();
-        $actions = false;
+        $actions = Action::intime()
+            ->withTag($tag)
+            ->orderBy('active_from', 'DESC')
+            ->sortBy($sort)
+            ->paginate(config('app.itemsPerPage'));
 
         return view('client.pages.main', compact(['actions', 'title', 'sort']));
     }
@@ -52,16 +75,23 @@ class PageController extends Controller
     public function filterByBrand($id, $sort = false)
     {
         $title = Brand::findOrFail($id);
-        $actions = false;
+        $actions = Action::pastAndActive()
+            ->withBrand($id)
+            ->orderBy('active_from', 'DESC')
+            ->sortBy($sort)
+            ->paginate(config('app.itemsPerPage'));
 
         return view('client.pages.main', compact(['actions', 'title', 'sort']));
     }
 
     public function showArchives()
     {
-        $actions = false;
-
-        return view('client.pages.main', ['actions' => $actions]);
+        $actions = Action::notInTime()
+            ->orderBy('active_from', 'DESC')
+            ->paginate(config('app.itemsPerPage'));
+        $title = new \stdClass();
+        $title->name = 'В архиве';
+        return view('client.pages.main', ['actions' => $actions, 'title' => $title]);
     }
 
     public function search(Request $request)
@@ -69,16 +99,14 @@ class PageController extends Controller
         $this->validate($request, [
             'query' => 'required|max:200'
         ]);
-        $actions = false;
-       /*
-       Допишем после миграций
-       $actions = Actions::where('title', 'like', '%'.$request->input('query').'%')
-            ->orWhere('content', 'like', '%'.$request->input('query').'%')
-            ->orWhere('tagline', 'like', '%'.$request->input('query').'%')
-            ->orderBy('id', 'DESC')
-            ->get();
-        */
-        return view('client.pages.main', ['actions' => $actions, 'query' => $request->input('query')]);
+       $query_str = $request->input('query');
+
+       $actions = Action::pastAndActive()
+           ->search($query_str)
+           ->orderBy('active_from', 'DESC')
+           ->paginate(config('app.itemsPerPage'));
+
+       return view('client.pages.main', ['actions' => $actions, 'query' => $query_str]);
     }
 
 }

@@ -1,7 +1,7 @@
 $(document).ready( function() {
 var first = 0;
     $('.scroll_right').click(function() {
-        if(first < $(".top-cat-menu-ul").children('.menu__item').length - 1){
+        if(first < $(".top-cat-menu-ul").children('.menu-item').length - 1){
             first ++;
             $('.top-cat-menu-ul').children("li:nth-child(" + first + ")").hide();
         }
