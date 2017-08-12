@@ -3,8 +3,14 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\View;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -17,6 +23,8 @@ class Handler extends ExceptionHandler
         \Illuminate\Auth\AuthenticationException::class,
         \Illuminate\Auth\Access\AuthorizationException::class,
         \Symfony\Component\HttpKernel\Exception\HttpException::class,
+		\Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException::class,
+        \Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class,
         \Illuminate\Database\Eloquent\ModelNotFoundException::class,
         \Illuminate\Session\TokenMismatchException::class,
         \Illuminate\Validation\ValidationException::class,
@@ -44,6 +52,53 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+		if ($exception instanceof NotFoundHttpException || $exception instanceof ModelNotFoundException) {
+            return response()->view('client.errors.404', [
+                'errorCode' => 404,
+                'title' => trans('custom.oops'),
+                'errorDetails' => $exception->getMessage(),
+                'errorMessage' => 'Страница не найдена',
+
+            ], 404);
+        }
+
+        if ($exception instanceof MethodNotAllowedHttpException) {
+            return response()->view('client.errors.403', [
+                'errorCode' => 403,
+                'title' => trans('custom.oops'),
+                'errorDetails' => $exception->getMessage(),
+                'errorMessage' => 'Доступ запрещен'
+            ], 403);
+        }
+
+        if ($exception instanceof HttpException) {
+            if ($exception->getStatusCode() == 403) {
+            return response()->view('client.errors.403', [
+                'errorCode' => 403,
+                'title' => trans('custom.oops'),
+                'errorDetails' => $exception->getMessage(),
+                'errorMessage' => 'Доступ запрещен'
+            ], 403);
+            } else {
+                return response()->view('client.errors.500', [
+                    'errorCode' => 500,
+                    'title' => trans('custom.oops'),
+                    'errorDetails' => $exception->getMessage(),
+                    'errorMessage' => 'Внутренняя ошибка сервера'
+                ], 500);
+            }
+        }
+
+        if ($exception instanceof AuthorizationException) {
+            return response()->view('client.errors.403', [
+                'errorCode' => 403,
+                'title' => trans('custom.oops'),
+                'errorDetails' => $exception->getMessage(),
+                'errorMessage' => 'Доступ запрещен'
+            ], 403);
+        }
+
+		
         return parent::render($request, $exception);
     }
 
