@@ -109,10 +109,8 @@ class Action extends Model
             ->orWhereHas('brand', function($q) use ($query_str){
                 $q->where('name', 'like', $query_str);
             })
-            ->orWhere('name', 'like', '%'.$query_str.'%')
+            ->orWhere('title', 'like', '%'.$query_str.'%')
             ->orWhere('description', 'like', '%'.$query_str.'%')
-            ->orWhere('adresses', 'like', '%'.$query_str.'%')
-            ->orWhere('adresses', 'like', '%'.$query_str.'%')
-            ;
+            ->orWhere('addresses', 'like', '%'.$query_str.'%');
     }
 }
