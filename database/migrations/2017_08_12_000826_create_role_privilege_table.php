@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsersTable extends Migration
+class CreateRolePrivilegeTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,24 +15,24 @@ class CreateUsersTable extends Migration
     {
         Schema::disableForeignKeyConstraints();
 
-        Schema::create('users', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('login')->unique();
-            $table->string('password');
-            $table->string('name');
-            $table->string('surname');
+        Schema::create('role_privilege', function (Blueprint $table) {
             $table->integer('role_id')->unsigned();
-            $table->integer('upload_id')->nullable();
-            $table->string('gender');
-            $table->rememberToken();
+            $table->integer('privilege_id')->unsigned();
             $table->timestamps();
             $table->softDeletes();
+            $table->unique(['role_id', 'privilege_id'], 'UN_role_privilege');
         });
 
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('role_privilege', function (Blueprint $table) {
             $table->foreign('role_id')
                 ->references('id')
-                ->on('roles');
+                ->on('roles')
+                ->onDelete('cascade');
+
+            $table->foreign('privilege_id')
+                ->references('id')
+                ->on('privilege')
+                ->onDelete('cascade');
         });
 
         Schema::enableForeignKeyConstraints();
@@ -45,8 +45,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::disableForeignKeyConstraints();
-        Schema::dropIfExists('users');
-        Schema::enableForeignKeyConstraints();
+        Schema::dropIfExists('role_privilege');
     }
 }

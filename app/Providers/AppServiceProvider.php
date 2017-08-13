@@ -2,11 +2,13 @@
 
 namespace App\Providers;
 
-use ATehnix\VkClient\Auth;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Schema;
+use ATehnix\VkClient\Auth;
 use App\Models\Category;
 use App\Models\Tag;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -22,6 +24,9 @@ class AppServiceProvider extends ServiceProvider
         $tags = Tag::orderBy('name', 'ASC')
             ->get();
         View::share('tags', $tags);
+
+        Schema::defaultStringLength(191);
+
         include app_path('helpers.php');
     }
 
