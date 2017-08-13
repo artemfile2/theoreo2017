@@ -6,7 +6,6 @@ use ATehnix\LaravelVkRequester\Models\VkRequest;
 use ATehnix\VkClient\Client;
 
 
-
 /**
  * Тестовый класс с будущими методами нашего парсера
  *
@@ -15,41 +14,68 @@ use ATehnix\VkClient\Client;
  */
 class Parser
 {
-    protected $clientId;
-    protected $secretKey;
-    protected $serviceKey;
-    protected $redirectUri;
+    /** @var int величина в секундах на сколько будет сдвиг start_time */
+    protected $shiftTime = (60 * 60 * 24);
 
-    public function __construct()
-    {
-        $this->clientId = config('vk-requester.connect.client_id');
-        $this->secretKey = config('vk-requester.connect.secret_key');
-        $this->serviceKey = config('vk-requester.connect.service_key');
-        $this->redirectUri = config('vk-requester.connect.redirect_uri');
-    }
+    /** вшитый access token полученный вручную */
+    protected $access_token = '74d410432bfa7a21d22203baf13b8fa4ef77199e80fe17689d68df3a36b98f7acd2607bb5213ac39a816b';
 
-    public function makeClientRequest($token)
-    {
-        $api = new Client();
-        dd($api->request('newsfeed.get', ['filters' => 'post'], $token, '5.62'));
-     }
+    const AUTHORIZE_URL = 'https://oauth.vk.com/authorize?';
 
-    /*
-      рабочий запрос
-    */
-    public function makeSimpleRequest($token)
+    /**
+     * тестовый запрос, в идеала надо заставить его работать
+     */
+    public function makeRequest()
     {
-        $url = 'https://api.vk.com/method/newsfeed.get?filters=post&access_token='.$token.'&v=5.62';
-        $result = json_decode(file_get_contents($url));
-        dd($result);
+        VkRequest::create([
+            'method'     => 'newsfeed.get',
+            'parameters' => $this->getNewsFeedParams(),
+            'token'      => $this->access_token,
+        ]);
     }
 
     /**
-     * ссылка для токена
+     * простой запрос новостной ленты
      */
-    public function vkauth()
+    public function getNewsFeed()
     {
-        return 'https://oauth.vk.com/authorize?client_id='.$this->clientId.'&display=page&redirect_uri='.$this->redirectUri.'&scope=friends,wall,offline&response_type=token&v=5.67';
+        $api = new Client();
+        $api->setDefaultToken($this->access_token);
+        $api->setPassError(true);
+        $feed = $api->request('newsfeed.get', $this->getNewsFeedParams());
+
+        return $feed['response']['items'];
     }
 
+    /**
+     * Получаем массив с параметрами для запроса новостной стены
+     * @return array
+     */
+    private function getNewsFeedParams()
+    {
+        return [
+            'filters' => 'post',
+            'start_time' => time() - $this->shiftTime,
+            'count' => 100
+        ];
+    }
+
+    /**
+     * Получение бесконечного токена
+     */
+    public function getToken()
+    {
+        $data = [
+            'client_id' => config('vk-requester.client_id'),
+            'redirect_uri' => config('vk-requester.redirect_uri'),
+            'display' => 'page',
+            'scope' => 'wall,friends,offline',
+            'response_type' => 'token',
+            'v' => '5.67',
+        ];
+
+        $url = urldecode(self::AUTHORIZE_URL . http_build_query($data));
+
+        header("Location: $url");
+    }
 }

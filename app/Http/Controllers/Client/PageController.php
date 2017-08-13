@@ -96,6 +96,7 @@ class PageController extends Controller
 
     public function search(Request $request)
     {
+        //TODO 'сделать логирование поисковых запросов';
         $this->validate($request, [
             'query' => 'required|max:200'
         ]);

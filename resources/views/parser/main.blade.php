@@ -72,9 +72,8 @@
                     <br>
                     theoreo2017
                     <br>
-                    <a href="{{ route('vk') }}">vkparser test</a>
-                    <a href="{{ route('vksimple') }}">vksimpleparser test</a>
-                    <a href="{{ route('vkauth') }}">vkauth test</a>
+                    <a href="/parser/vksimple">vksimpleparser test</a>
+                    <br>
                 </div>
             </div>
         </div>
