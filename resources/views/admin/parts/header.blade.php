@@ -1,8 +1,9 @@
 <header class="main-header">
 
     <!-- Logo -->
-    <a href="" class="logo"><b>Admin</b>.THEOREO</a>
-
+    {{--<a href="" class="logo"><b>Admin</b>.THEOREO</a>--}}
+    <a href="" class="logo"><img src="/img/logo.png" alt=""></a>
+    
     <!-- Header Navbar -->
     <nav class="navbar navbar-static-top" role="navigation">
         <!-- Sidebar toggle button-->
