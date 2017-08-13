@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsersTable extends Migration
+class CreateFiltersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,24 +15,19 @@ class CreateUsersTable extends Migration
     {
         Schema::disableForeignKeyConstraints();
 
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('filters', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('login')->unique();
-            $table->string('password');
+            $table->integer('group_id')->unsigned();
+            $table->string('code');
             $table->string('name');
-            $table->string('surname');
-            $table->integer('role_id')->unsigned();
-            $table->integer('upload_id')->nullable();
-            $table->string('gender');
-            $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
         });
 
-        Schema::table('users', function (Blueprint $table) {
-            $table->foreign('role_id')
+        Schema::table('filters', function (Blueprint $table) {
+            $table->foreign('group_id')
                 ->references('id')
-                ->on('roles');
+                ->on('groups');
         });
 
         Schema::enableForeignKeyConstraints();
@@ -46,7 +41,7 @@ class CreateUsersTable extends Migration
     public function down()
     {
         Schema::disableForeignKeyConstraints();
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('filters');
         Schema::enableForeignKeyConstraints();
     }
 }
