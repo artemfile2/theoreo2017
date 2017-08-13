@@ -14,7 +14,7 @@ class CreateVkDatasTable extends Migration
     public function up()
     {
         Schema::create('vk_feeds', function (Blueprint $table) {
-            $table->increments('id');//post_id
+            $table->integer('id')->primary();//post_id
             $table->integer('group_id');//source_id
             $table->string('group_name')->nullable();//
             $table->string('title')->nullable();//
@@ -28,6 +28,7 @@ class CreateVkDatasTable extends Migration
             $table->string('photo_2560')->nullable();//attachments->type:photo
             $table->string('photo_origin')->nullable();//
             $table->timestamp('post_date');//date
+            $table->text('response_item');//item
             $table->timestamps();
             $table->softDeletes();
         });

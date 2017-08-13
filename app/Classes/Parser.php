@@ -17,30 +17,10 @@ class Parser
     /** @var int величина в секундах на сколько будет сдвиг start_time */
     protected $shiftTime = (60 * 60 * 24);
 
-    /** временно разместил здесь известные ключи */
+    /** вшитый access token полученный вручную */
     protected $access_token = '74d410432bfa7a21d22203baf13b8fa4ef77199e80fe17689d68df3a36b98f7acd2607bb5213ac39a816b';
 
     const AUTHORIZE_URL = 'https://oauth.vk.com/authorize?';
-
-    /**
-     * Получение бесконечного токена
-     * который захардкоден выше
-     */
-    public function getToken()
-    {
-        $data = [
-            'client_id' => config('vk-requester.client_id'),
-            'redirect_uri' => config('vk-requester.redirect_uri'),
-            'display' => 'page',
-            'scope' => 'wall,friends,offline',
-            'response_type' => 'token',
-            'v' => '5.67',
-        ];
-
-        $url = urldecode(self::AUTHORIZE_URL . http_build_query($data));
-
-        header("Location: $url");
-    }
 
     /**
      * тестовый запрос, в идеала надо заставить его работать
@@ -62,11 +42,11 @@ class Parser
         $api = new Client();
         $api->setDefaultToken($this->access_token);
         $api->setPassError(true);
-        $groups = $api->request('newsfeed.get', $this->getNewsFeedParams());
+        $feed = $api->request('newsfeed.get', $this->getNewsFeedParams());
 
-        dump($groups);
-        dump($groups['response']['items']);
-        return $groups;
+        //dump($feed);
+        //dump($feed['response']['items']);
+        return $feed['response']['items'];
     }
 
     /**
@@ -80,5 +60,24 @@ class Parser
             'start_time' => time() - $this->shiftTime,
             'count' => 100
         ];
+    }
+
+    /**
+     * Получение бесконечного токена
+     */
+    public function getToken()
+    {
+        $data = [
+            'client_id' => config('vk-requester.client_id'),
+            'redirect_uri' => config('vk-requester.redirect_uri'),
+            'display' => 'page',
+            'scope' => 'wall,friends,offline',
+            'response_type' => 'token',
+            'v' => '5.67',
+        ];
+
+        $url = urldecode(self::AUTHORIZE_URL . http_build_query($data));
+
+        header("Location: $url");
     }
 }
