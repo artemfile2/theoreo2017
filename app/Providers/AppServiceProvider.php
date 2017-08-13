@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Schema;
+use ATehnix\VkClient\Auth;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +15,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Schema::defaultStringLength(191);
+
+        include app_path('helpers.php');
     }
 
     /**
@@ -26,5 +30,13 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->environment() !== 'production') {
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
         }
+
+        $this->app->singleton(Auth::class, function ($app) {
+            return new Auth(
+                config('vk-requester.connect.client_id'),
+                config('vk-requester.connect.secret_key'),
+                config('vk-requester.connect.redirect_uri')
+            );
+        });
     }
 }
