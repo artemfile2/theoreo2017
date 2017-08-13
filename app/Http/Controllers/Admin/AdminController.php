@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Action;
 use App\Models\User;
 use App\Models\Brand;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class AdminController extends Controller
@@ -20,87 +20,15 @@ class AdminController extends Controller
         $brands = Brand::all()
             ->sortByDesc('created_at');
 
+        $actions = Action::all()
+            ->sortByDesc('created_at');
+
         return view('admin.section.control_panel', [
             'title' => 'Панель управления',
             'users' => $users,
             'brands' => $brands,
+            'actions' => $actions,
         ]);
-    }
-
-    public function users()
-    {
-        $users = User::all()
-            ->sortByDesc('created_at');
-
-        $usersDeleted = User::onlyTrashed()
-            ->get();
-
-        return view('admin.section.users', [
-            'title' => 'Пользователи',
-            'users' => $users,
-            'usersDeleted' => $usersDeleted,
-            /*'usersDeleted' => $this->usersGetAll()->withTrashed(),*/
-        ]);
-    }
-
-    public function userCreate()
-    {
-        return view('admin.section.user_create', [
-            'title' => 'Создание пользователя',
-        ]);
-    }
-
-    public function userCreatePost(Request $request)
-    {
-        $requestAll = $request->all();
-        User::create($requestAll);
-
-        return $this->users();
-    }
-
-    /*
-     * восстановление удаленного пользователя,
-     * при неявном удалении из таблицы*/
-    public function userRestore($id)
-    {
-        User::withTrashed()
-            ->where('id', $id)
-            ->restore();
-
-        return $this->users();
-    }
-
-    /*
-     * неявное удаление пользователя из таблицы
-     * */
-    public function userTrash($id)
-    {
-        User::findOrFail($id)
-            ->delete();
-
-        return $this->users();
-    }
-
-    public function userEdit($id)
-    {
-        $user = User::findOrFail($id);
-
-        return view('admin.section.user_edit', [
-            'title' => 'Редактирование пользователя',
-            'user' => $user,
-        ]);
-    }
-
-    /*
-     * полное удаление пользователя из таблицы
-     * */
-    public function userDelete($id)
-    {
-        User::withTrashed()
-            ->where('id', $id)
-            ->forceDelete();
-
-        return $this->users();
     }
 
     public function brands()

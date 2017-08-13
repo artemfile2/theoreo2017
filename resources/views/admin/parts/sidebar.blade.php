@@ -53,8 +53,8 @@
                 </li>
             {{--@endcan
             @can('control', \App\Models\Action::class)--}}
-                <li class="{{ (URL::current() == route('admin.actions')) ? "active" : '' }}">
-                    <a href="{{ route('admin.actions') }}">
+                <li class="{{ (URL::current() == route('admin.actions.get_all')) ? "active" : '' }}">
+                    <a href="{{ route('admin.actions.get_all') }}">
                         <i class="fa fa-fire"></i>
                         <span>Акции</span>
                     </a>

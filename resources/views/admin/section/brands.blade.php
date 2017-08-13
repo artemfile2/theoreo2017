@@ -1,7 +1,7 @@
 @extends('admin.main')
 
 @section('content')
-    <a href="#" type="button" class="btn btn-success margin-bottom"><i class="fa fa-plus"></i> Добавить бренд</a>
+    <a href="{{ route('admin.brands.create') }}" type="button" class="btn btn-success margin-bottom"><i class="fa fa-plus"></i> Добавить бренд</a>
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
             <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="false">Активные</a></li>
@@ -53,19 +53,19 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <a href="{{--{{ route('admin.brands.edit', ['id' => $brand->id]) }}--}}">{{ $brand->name }}</a>
+                                            <a href="{{ route('admin.brands.edit', ['id' => $brand->id]) }}">{{ $brand->name }}</a>
                                         </td>
                                         <td>{{ $brand->phones }}</td>
-                                        <td>{{ $brand->site }}</td>
+                                        <td>{{ $brand->site_link }}</td>
                                         <td>{{ $brand->created_at }}</td>
                                         <td>{{ $brand->updated_at }}</td>
                                         <td class="control">
-                                            {{--<a href="{{ route('admin.brands.edit', ['id' => $brand->id]) }}" class="btn" title="Редактировать">
+                                            <a href="{{ route('admin.brands.edit', ['id' => $brand->id]) }}" class="btn" title="Редактировать">
                                                 <i class="fa fa-edit"></i>
                                             </a>
-                                            <a href="{{ route('api.brands.trash', ['id' => $brand->id]) }}" class="btn deleteBrand" title="Переместить в корзину">
+                                            <a href="{{ route('admin.brands.trash', ['id' => $brand->id]) }}" class="btn deleteBrand" title="Переместить в корзину">
                                                 <i class="fa fa-trash"></i>
-                                            </a>--}}
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -73,7 +73,7 @@
                                 <tfoot>
                                 <tr>
                                     <th rowspan="1" colspan="1">ID</th>
-                                    {{--<th rowspan="1" colspan="1">Лого</th>--}}
+                                    <th rowspan="1" colspan="1">Лого</th>
                                     <th rowspan="1" colspan="1">Имя бренда</th>
                                     <th rowspan="1" colspan="1">Телефон</th>
                                     <th rowspan="1" colspan="1">Сайт</th>
@@ -133,16 +133,16 @@
                                         </td>
                                         <td>{{ $brandDeleted->name }}</td>
                                         <td>{{ $brandDeleted->phones }}</td>
-                                        <td>{{ $brandDeleted->site }}</td>
+                                        <td>{{ $brandDeleted->site_link }}</td>
                                         <td>{{ $brandDeleted->created_at }}</td>
                                         <td>{{ $brandDeleted->updated_at }}</td>
                                         <td class="control">
-                                            {{--<a href="{{ route('api.brands.restore', ['id' => $brandDeleted->id]) }}" class="btn" title="Восстановить">
+                                            <a href="{{ route('admin.brands.restore', ['id' => $brandDeleted->id]) }}" class="btn" title="Восстановить">
                                                 <i class="fa fa-history"></i>
                                             </a>
-                                            <a href="{{ route('api.brands.delete', ['id' => $brandDeleted->id]) }}" class="btn forceDeleteBrand" title="Удалить">
+                                            <a href="{{ route('admin.brands.delete', ['id' => $brandDeleted->id]) }}" class="btn forceDeleteBrand" title="Удалить">
                                                 <i class="fa fa-close"></i>
-                                            </a>--}}
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach

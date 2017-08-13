@@ -14,7 +14,7 @@
                     {{ csrf_field() }}
                     <div class="box-body">
                         <div class="form-group">
-                            <label>Бренд *</label>
+                            <label>Компания/Бренд *</label>
                             <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" name="brand_id">
                                 @foreach($brands as $brand)
                                     <option value="{{ $brand->id }}" {{ old('brand_id') ? 'selected' : '' }}>{{ $brand->name }}</option>
@@ -113,21 +113,21 @@
                         <div class="form-group">
                             <label>Теги</label>
                             <select id="tags" class="form-control select2 select2-hidden-accessible" multiple="multiple" style="width: 100%;" tabindex="-1" aria-hidden="true" name="tags[]">
-                                @foreach($selectedTags as $tag_name)
+                                {{--@foreach($selectedTags as $tag_name)
                                     <option value="{{$tag_name}}" selected >{{$tag_name }}</option>
-                                @endforeach
+                                @endforeach--}}
                                
-                                @foreach($tags as $tag)
+                                {{--@foreach($tags as $tag)
                                     @if (!in_array($tag->name, $selectedTags))
                                         <option value="{{$tag->name}}">{{$tag->name }}</option>  
                                     @endif       
-                                @endforeach
+                                @endforeach--}}
                             </select>
                             @if ($errors->has('tags'))
                                 <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('tags') }}</div>
                             @endif
                         </div>
-                        <input type="hidden" name="status_id" value="{{ $status->id }}">
+                        <input type="hidden" name="status_id" value="{{--{{ $status->id }}--}}">
                         @if ($errors->has('status_id'))
                             <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('status_id') }}</div>
                         @endif
@@ -149,7 +149,7 @@
                     </div>
                     <div class="box-footer">
                         <input type="submit" class="btn btn-success margin-r-5" value="Сохранить">
-                        <a href="{{ route('admin.actions.list_all') }}" class="btn btn-primary" >Назад</a>
+                        <a href="{{ route('admin.actions.get_all') }}" class="btn btn-primary" >Назад</a>
                     </div>
                 </form>
             </div>

@@ -136,7 +136,7 @@
                                         </td>
                                         <td>{{ $userDeleted->name }}</td>
                                         <td>{{ $userDeleted->email }}</td>
-                                        <td>{{ $userDeleted->role }}</td>
+                                        <td>{{ $userDeleted->role_id }}</td>
                                         <td>{{ $userDeleted->created_at }}</td>
                                         <td>{{ $userDeleted->updated_at }}</td>
                                         <td class="control">

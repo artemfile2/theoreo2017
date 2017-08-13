@@ -1,7 +1,7 @@
 @extends('admin.main')
 
 @section('content')
-    <a type="button" class="btn btn-success margin-bottom" href="{{ route('admin.actions') }}"><i class="fa fa-plus"></i>Добавить акцию</a>
+    <a type="button" class="btn btn-success margin-bottom" href="{{ route('admin.actions.create') }}"><i class="fa fa-plus"></i>Добавить акцию</a>
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
             <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="false">Активные</a></li>
@@ -42,7 +42,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {{--@foreach($actions as $action)
+                                @foreach($actions as $action)
                                 <tr role="row" class="odd">
                                     <td class="sorting_1">
                                         {{ $action->id }}
@@ -56,7 +56,7 @@
                                     </td>
                                     <td>
                                         <a href="{{ route('admin.actions.edit', ['id' => $action->id]) }}">
-                                            {{ $action->title }}
+                                            {{ $action->name }}
                                         </a>
                                     </td>
                                     <td>
@@ -75,12 +75,12 @@
                                         <a href="{{ route('admin.actions.edit', ['id' => $action->id]) }}" class="btn" title="Редактировать">
                                             <i class="fa fa-edit"></i>
                                         </a>
-                                        <a href="{{ route('api.actions.trash', ['id' => $action->id]) }}" class="btn deleteAction" title="Переместить в корзину">
+                                        <a href="{{ route('admin.actions.trash', ['id' => $action->id]) }}" class="btn deleteAction" title="Переместить в корзину">
                                             <i class="fa fa-trash"></i>
                                         </a>
                                     </td>
                                 </tr>
-                                @endforeach--}}
+                                @endforeach
                                 </tbody>
                                 <tfoot>
                                 <tr>
@@ -133,7 +133,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {{--@foreach($actionsDeleted as $actionDeleted)
+                                @foreach($actionsDeleted as $actionDeleted)
                                     <tr role="row" class="odd">
                                         <td class="sorting_1">
                                             {{ $actionDeleted->id }}
@@ -146,7 +146,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            {{ $actionDeleted->title }}
+                                            {{ $actionDeleted->name }}
                                         </td>
                                         <td>
                                             {{ $actionDeleted->brand->name }}
@@ -161,15 +161,15 @@
                                             {{ $actionDeleted->updated_at }}
                                         </td>
                                         <td class="control">
-                                            <a href="{{ route('api.actions.restore', ['id' => $actionDeleted->id]) }}" class="btn" title="Восстановить">
+                                            <a href="{{ route('admin.actions.restore', ['id' => $actionDeleted->id]) }}" class="btn" title="Восстановить">
                                                 <i class="fa fa-history"></i>
                                             </a>
-                                            <a href="{{ route('api.actions.delete', ['id' => $actionDeleted->id]) }}" class="btn forceDeleteAction" title="Удалить">
+                                            <a href="{{ route('admin.actions.delete', ['id' => $actionDeleted->id]) }}" class="btn forceDeleteAction" title="Удалить">
                                                 <i class="fa fa-close"></i>
                                             </a>
                                         </td>
                                     </tr>
-                                @endforeach--}}
+                                @endforeach
                                 </tbody>
                                 <tfoot>
                                 <tr>

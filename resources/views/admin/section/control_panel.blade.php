@@ -44,7 +44,7 @@
            {{-- @endcan
             @can('control', \App\Models\Action::class)--}}
                 <div class="col-lg-4 col-md-6 col-sm-12">
-                    <a href="{{ route('admin.actions') }}">
+                    <a href="{{ route('admin.actions.get_all') }}">
                         <div class="info-box">
                         <span class="info-box-icon bg-red">
                             <i class="fa fa-fire"></i>
@@ -54,8 +54,7 @@
                                 Акции
                             </span>
                                 <span class="info-box-number">
-                                {{--{{ $actions->count() }}--}}
-                                    {{ '444' }}
+                                {{ $actions->count() }}
                             </span>
                             </div>
                         </div>

@@ -25,11 +25,11 @@
                                 <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('logo') }}</div>
                             @endif
                         </div>
-                        {{--<div class="form-group">--}}
-                            {{--<label for="addresses">Адреса точек продаж</label>--}}
-                            {{--<textarea class="form-control" id="address" rows="5" placeholder="г. Барнаул, ул. Конотопская, д. 5, стр. 3" name="addresses"></textarea>--}}
-                            {{--<p class="help-block">Адреса указываются списком по одному на строчку</p>--}}
-                        {{--</div>--}}
+                        <div class="form-group">
+                            <label for="addresses">Адреса точек продаж</label>
+                            <textarea class="form-control" id="address" rows="5" placeholder="г. Барнаул, ул. Конотопская, д. 5, стр. 3" name="adresses"></textarea>
+                            <p class="help-block">Адреса указываются списком по одному на строчку</p>
+                        </div>
                         <div class="form-group">
                             <label for="phones">Телефоны</label>
                             <textarea class="form-control" id="phones" rows="5" placeholder="+ 7 (999) 999 99 99" name="phones">{{ old('phones') }}</textarea>
@@ -40,15 +40,18 @@
                         </div>
                         <div class="form-group">
                             <label for="site-link">Ссылка на сайт</label>
-                            <input class="form-control" id="site-link" placeholder="http://site_name.com" type="text" name="site" value="{{ old('site') }}">
-                            @if ($errors->has('site'))
-                                <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('site') }}</div>
+                            <input class="form-control" id="site-link" placeholder="http://site_name.com" type="text" name="site_link" value="{{ old('site_link') }}">
+                            @if ($errors->has('site_link'))
+                                <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('site_link') }}</div>
                             @endif
                         </div>
-                        {{--<div class="form-group">--}}
-                            {{--<label for="vk-link">Ссылка на страницу группы в VK</label>--}}
-                            {{--<input class="form-control" id="vk-link" placeholder="https://vk.com/group_name" type="text" name="vk-link">--}}
-                        {{--</div>--}}
+                        <div class="form-group">
+                            <label for="vk-link">Ссылка на страницу группы в VK</label>
+                            <input class="form-control" id="vk-link" placeholder="https://vk.com/group_name" type="text" name="vk_link" value="{{ old('vk_link') }}">
+                            @if ($errors->has('vk_link'))
+                                <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('vk_link') }}</div>
+                            @endif
+                        </div>
                         {{--<div class="form-group" id="settings">--}}
                             {{--<label for="settings">Настройки бренда</label>--}}
                             {{--<div class="checkbox">--}}
@@ -129,7 +132,7 @@
                     {{--<input type="hidden" name="upload_id" value="1">--}}
                     <div class="box-footer">
                         <input type="submit" class="btn btn-success margin-r-5" value="Сохранить">
-                        <a href="{{ route('admin.brands.list_all') }}" class="btn btn-primary">Назад</a>
+                        <a href="{{ route('admin.brands.get_all') }}" class="btn btn-primary">Назад</a>
                     </div>
                 </form>
             </div>
