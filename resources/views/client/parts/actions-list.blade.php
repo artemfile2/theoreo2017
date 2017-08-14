@@ -6,15 +6,15 @@
             @endif
         @else
             @foreach ($actions as $action)
-                <article role="article" class="content-block clearfix">
+                <article role="article" class="content-block-item clearfix">
                     <div class="sidebar">
                         <a href="{{$action->link}}" title="{{$action->title}}">
                             <div class="content-block-img">
                                 <a href="{{ route('showAction', ['id' => $action->id]) }}">
                                     @if($action->upload)
-                                        <img src="{{ asset('/image/widen/600/' . $action->upload->path . '.' . $action->upload->ext) }}" alt="{{$action->title}}" class="img-responsive">
+                                        <img src="{{ asset('/image/widen/400/' . $action->upload->path . '.' . $action->upload->ext) }}" alt="{{$action->title}}" class="img-responsive">
                                     @else
-                                        <img src="{{ asset('/image/widen/600/default.jpg') }}" alt="{{$action->title}}" class="img-responsive">
+                                        <img src="{{ asset('/image/widen/400/default.jpg') }}" alt="{{$action->title}}" class="img-responsive">
                                     @endif
                                 </a>
                             </div>
@@ -22,6 +22,7 @@
                         <p class="content-block-context"><a href="{{ route('client.filterByBrand', ['id' => $action->brand_id]) }}">{{$action->brand->name}}</a></p>
                     </div>
                     <div class="content-box">
+                        <div class="content-box-info">
                         <a role="link" href="{{$action->link}}" class="content-block-heading">
                             <a href="{{ route('showAction', ['id' => $action->id]) }}"><h2>{{$action->title}}</h2></a>
                         </a>
@@ -36,27 +37,30 @@
                                  уточняйте у организатора
                             @endif
                         </p>
-                        <!-- Теги -->
-                        @if(count($action->tag))
-
-                            <span class="footer_category tags">&nbsp;</span>
-                            <ul class="content-block-list list-unstyled list-inline">
-                            @foreach ($action->tag as $tag)
-                                <li class="content-block-item">
-                                    <a href="{{route('client.filterByTag')}}?tag={{ $tag->name }}" class="btn btn-default content-block-btn">{{$tag->name}}</a>
-                                </li>
-                            @endforeach
-                            </ul>
+                        </div>
+                        <div class="content-box-footer">
+                            <!-- Заглушка до реализации функционала соцсетей -->
+                            <div class="content-block-footer clearfix">
+                                <div class="social clearfix">
+                                    @include('client.parts.page-blocks.social')
+                                </div>
+                            </div>
+                            <!-- Заглушка до реализации функционала соцсетей -->
+                            <!-- Теги -->
+                            @if(count($action->tag))
+                                <div class="content-block-tags clearfix">
+                                    <span class="footer_category pull-left tags">&nbsp;</span>
+                                    <ul class="content-block-list list-unstyled list-inline clearfix">
+                                        @foreach ($action->tag as $tag)
+                                            <li class="content-block-item-li">
+                                                <a href="{{route('client.filterByTag')}}?tag={{ $tag->name }}" class="btn btn-default content-block-btn">{{$tag->name}}</a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
                         @endif
                         <!-- Теги -->
-
-                        <!-- Заглушка до реализации функционала соцсетей -->
-                        <div class="content-block-footer clearfix">
-                            <div class="pull-left social">
-                                @include('client.parts.page-blocks.social')
-                            </div>
                         </div>
-                        <!-- Заглушка до реализации функционала соцсетей -->
                     </div>
                 </article>
                 @if ($loop->iteration % 3 == 0)
