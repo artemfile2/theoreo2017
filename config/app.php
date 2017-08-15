@@ -14,6 +14,8 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    'itemsPerPage' => 10,
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
@@ -178,8 +180,10 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         /** свои сервис провайдеры */
+        App\Providers\ComposerServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         ATehnix\LaravelVkRequester\VkRequesterServiceProvider::class,
+
     ],
 
     /*

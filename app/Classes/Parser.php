@@ -3,9 +3,7 @@
 namespace App\Classes;
 
 use ATehnix\LaravelVkRequester\Models\VkRequest;
-use ATehnix\VkClient\Auth;
 use ATehnix\VkClient\Client;
-use Illuminate\Support\Facades\Request;
 
 
 /**
@@ -16,52 +14,68 @@ use Illuminate\Support\Facades\Request;
  */
 class Parser
 {
-    protected $clientId;
-    protected $secretKey;
-    protected $serviceKey;
-    protected $redirectUri;
-    protected $code;
+    /** @var int величина в секундах на сколько будет сдвиг start_time */
+    protected $shiftTime = (60 * 60 * 24);
 
-    public function __construct()
-    {
-        $this->clientId = config('vk-requester.connect.client_id');
-        $this->secretKey = config('vk-requester.connect.secret_key');
-        $this->serviceKey = config('vk-requester.connect.service_key');
-        $this->redirectUri = config('vk-requester.connect.redirect_uri');
-        $this->code = '86622b37e4148918fd';
-    }
+    /** вшитый access token полученный вручную */
+    protected $access_token = '74d410432bfa7a21d22203baf13b8fa4ef77199e80fe17689d68df3a36b98f7acd2607bb5213ac39a816b';
+
+    const AUTHORIZE_URL = 'https://oauth.vk.com/authorize?';
+
     /**
-     * тестовый запрос
+     * тестовый запрос, в идеала надо заставить его работать
      */
     public function makeRequest()
     {
         VkRequest::create([
             'method'     => 'newsfeed.get',
-            'parameters' => ['filters' => 'post'],
-            'token'      => env('VKONTAKTE_SECRET'),
+            'parameters' => $this->getNewsFeedParams(),
+            'token'      => $this->access_token,
         ]);
     }
 
     /**
-     * еще один тестовый запрос
+     * простой запрос новостной ленты
      */
-    public function makeSimpleRequest()
+    public function getNewsFeed()
     {
         $api = new Client();
-        echo $api->request('newsfeed.get', ['filters' => 'post'], $this->code);
+        $api->setDefaultToken($this->access_token);
+        $api->setPassError(true);
+        $feed = $api->request('newsfeed.get', $this->getNewsFeedParams());
+
+        return $feed['response']['items'];
     }
 
     /**
-     * попытка достать ключик
-     * пример из описания библиотеки
+     * Получаем массив с параметрами для запроса новостной стены
+     * @return array
      */
-    public function vkauth()
+    private function getNewsFeedParams()
     {
-        $auth = new Auth($this->clientId, $this->secretKey, $this->redirectUri);
-        echo "<a href='{$auth->getUrl()}'> Войти через VK.Com </a><hr>";
+        return [
+            'filters' => 'post',
+            'start_time' => time() - $this->shiftTime,
+            'count' => 100
+        ];
+    }
 
-        if (Request::exists('code')) {
-            echo 'Token: '.$auth->getToken(Request::get('code'));
-        }
+    /**
+     * Получение бесконечного токена
+     */
+    public function getToken()
+    {
+        $data = [
+            'client_id' => config('vk-requester.client_id'),
+            'redirect_uri' => config('vk-requester.redirect_uri'),
+            'display' => 'page',
+            'scope' => 'wall,friends,offline',
+            'response_type' => 'token',
+            'v' => '5.67',
+        ];
+
+        $url = urldecode(self::AUTHORIZE_URL . http_build_query($data));
+
+        header("Location: $url");
     }
 }
