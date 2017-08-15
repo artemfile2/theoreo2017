@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -26,8 +27,11 @@ class UsersController extends Controller
 
     public function userCreate()
     {
+        $roles = Role::all();
+
         return view('admin.section.user_create', [
             'title' => 'Создание пользователя',
+            'roles' => $roles,
         ]);
     }
 
@@ -68,10 +72,12 @@ class UsersController extends Controller
     public function userEdit($id)
     {
         $user = User::findOrFail($id);
+        $roles = Role::all();
 
         return view('admin.section.user_edit', [
             'title' => 'Редактирование пользователя',
             'user' => $user,
+            'roles' => $roles,
         ]);
     }
 

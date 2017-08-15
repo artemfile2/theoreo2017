@@ -19,7 +19,7 @@
                                         ID
                                     </th>
                                     <th class="sorting" tabindex="0" aria-controls="brands" rowspan="1" colspan="1" style="width: 10%" aria-label="">
-                                    Изображение
+                                        Изображение
                                     </th>
                                     <th class="sorting" tabindex="0" aria-controls="actions" rowspan="1" colspan="1" style="width: 40%" aria-label="">
                                         Название акции
@@ -56,7 +56,7 @@
                                     </td>
                                     <td>
                                         <a href="{{ route('admin.actions.edit', ['id' => $action->id]) }}">
-                                            {{ $action->name }}
+                                            {{ $action->title }}
                                         </a>
                                     </td>
                                     <td>
@@ -146,7 +146,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            {{ $actionDeleted->name }}
+                                            {{ $actionDeleted->title }}
                                         </td>
                                         <td>
                                             {{ $actionDeleted->brand->name }}

@@ -26,10 +26,13 @@
                                             Аватар
                                         </th>
                                         <th class="sorting" tabindex="0" aria-controls="users" rowspan="1" colspan="1" style="width: 23%" aria-label="">
-                                            Логин
+                                            Имя
                                         </th>
                                         <th class="sorting" tabindex="0" aria-controls="users" rowspan="1" colspan="1" style="width: 23%" aria-label="">
-                                            Email
+                                            Фамилия
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="users" rowspan="1" colspan="1" style="width: 23%" aria-label="">
+                                            Логин/Email
                                         </th>
                                         <th class="sorting" tabindex="0" aria-controls="users" rowspan="1" colspan="1" style="width: 18%" aria-label="">
                                             Роль
@@ -58,7 +61,8 @@
                                             @endif
                                         </td>
                                         <td>{{ $user->name }}</td>
-                                        <td>{{ $user->email }}</td>
+                                        <td>{{ $user->surname }}</td>
+                                        <td>{{ $user->login }}</td>
                                         <td>{{ $user->role_id}}</td>
                                         <td>{{ $user->created_at }}</td>
                                         <td>{{ $user->updated_at }}</td>
@@ -77,8 +81,9 @@
                                 <tr>
                                     <th rowspan="1" colspan="1">ID</th>
                                     <th rowspan="1" colspan="1">Аватар</th>
+                                    <th rowspan="1" colspan="1">Имя пользователя</th>
+                                    <th rowspan="1" colspan="1">Фамилия пользователя</th>
                                     <th rowspan="1" colspan="1">Логин пользователя</th>
-                                    <th rowspan="1" colspan="1">Email пользователя</th>
                                     <th rowspan="1" colspan="1">Роль пользователя</th>
                                     <th rowspan="1" colspan="1">Дата создания</th>
                                     <th rowspan="1" colspan="1">Дата изменения</th>
@@ -104,10 +109,10 @@
                                             Аватар
                                         </th>
                                         <th class="sorting" tabindex="0" aria-controls="usersDeleted" rowspan="1" colspan="1" style="width: 23%" aria-label="">
-                                            Логин пользователя
+                                            Имя пользователя
                                         </th>
                                         <th class="sorting" tabindex="0" aria-controls="usersDeleted" rowspan="1" colspan="1" style="width: 23%" aria-label="">
-                                            Email пользователя
+                                            Логин/Email пользователя
                                         </th>
                                         <th class="sorting" tabindex="0" aria-controls="usersDeleted" rowspan="1" colspan="1" style="width: 18%" aria-label="">
                                             Роль пользователя
@@ -135,7 +140,7 @@
                                             @endif
                                         </td>
                                         <td>{{ $userDeleted->name }}</td>
-                                        <td>{{ $userDeleted->email }}</td>
+                                        <td>{{ $userDeleted->login }}</td>
                                         <td>{{ $userDeleted->role_id }}</td>
                                         <td>{{ $userDeleted->created_at }}</td>
                                         <td>{{ $userDeleted->updated_at }}</td>
@@ -154,8 +159,8 @@
                                 <tr>
                                     <th rowspan="1" colspan="1">ID</th>
                                     <th rowspan="1" colspan="1">Аватар</th>
+                                    <th rowspan="1" colspan="1">Имя пользователя</th>
                                     <th rowspan="1" colspan="1">Логин пользователя</th>
-                                    <th rowspan="1" colspan="1">Email пользователя</th>
                                     <th rowspan="1" colspan="1">Роль пользователя</th>
                                     <th rowspan="1" colspan="1">Дата создания</th>
                                     <th rowspan="1" colspan="1">Дата изменения</th>
