@@ -8,7 +8,7 @@ class Brand extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['name', 'user_id', 'upload_id', 'adresses', 'phones', 'site_link', 'vk_link', 'is_federal', 'is_internet_shop'];
+    protected $fillable = ['name', 'user_id', 'upload_id', 'addresses', 'phones', 'site_link', 'vk_link', 'is_federal', 'is_internet_shop'];
     protected $table = 'brands';
     protected $hidden = [
         'created_at', 'updated_at', 'deleted_at',

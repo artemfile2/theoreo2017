@@ -25,8 +25,8 @@
                             @endif
                         </div>
                         <div class="form-group">
-                            <label for="name">Название акции *</label>
-                            <input class="form-control" id="name" placeholder="Введите название акции" type="text" name="title" value="{{ old('title') }}">
+                            <label for="title">Название акции *</label>
+                            <input class="form-control" id="title" placeholder="Введите название акции" type="text" name="title" value="{{ old('title') }}">
                             @if ($errors->has('title'))
                                 <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('title') }}</div>
                             @endif
@@ -35,8 +35,8 @@
                             <label for="image">Изображение</label>
                             <img class="img-responsive margin-bottom" src="{{ asset('/image/widen/400/default.jpg') }}" alt="">
                             <input id="image" type="file" name="image">
-                            @if ($errors->has('image'))
-                                <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('image') }}</div>
+                            @if ($fileError)
+                                <div class="alert alert-danger alert-dismissibler margin-top">{{ $fileError }}</div>
                             @endif
                             <a class="btn btn-primary" href="#tab_3" data-toggle="tab">Редактировать</a>
                         </div>
@@ -85,27 +85,36 @@
                                 <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('active_to') }}</div>
                             @endif
                         </div>
+
                         <div class="form-group">
                             <label>Вид акции *</label>
-                            <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" name="action_type_id">
-                                @foreach($types as $type)
-                                    <option value="{{ $type->id }}" {{ old('action_type_id') == $type->id? 'selected' : '' }}>{{ $type->name }}</option>
+                                <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" name="type_id">
+                                    @foreach($types as $type)
+                                        <option value="{{ $type->id }}" {{ old('type_id') == $type->id ?  'selected' : '' }}>{{ $type->name }}</option>
+                                    @endforeach
+                                </select>
+                                @if ($errors->has('type_id'))
+                                    <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('type_id') }}</div>
+                                @endif
+                        </div>
+                        <div class="form-group">
+                            <label>Статус акции *</label>
+                            <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" name="status_id">
+                                @foreach($statuses as $status)
+                                    <option value="{{ $status->id }}" {{ old('status_id') ? 'selected' : '' }}>{{ $status->name }}</option>
                                 @endforeach
                             </select>
-                            @if ($errors->has('action_type_id'))
-                                <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('action_type_id') }}</div>
+                            @if ($errors->has('status_id'))
+                                <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('status_id') }}</div>
                             @endif
                         </div>
                         <div class="form-group">
                             <label>Категории *</label>
-                            <div class="row">
+                            <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" name="category_id">
                                 @foreach($categories as $category)
-                                    <div class="form-group col-sm-6 col-lg-4">
-                                        <input type="checkbox" value="{{ $category->id }}" {{ is_array(old('category_id')) && in_array($category->id, old('category_id')) ? 'checked' : '' }} name="category_id[]">
-                                        {{ $category->name }}
-                                    </div>
+                                    <option value="{{ $category->id }}" {{ old('category_id') ? 'selected' : '' }}>{{ $category->name }}</option>
                                 @endforeach
-                            </div>
+                            </select>
                             @if ($errors->has('category_id'))
                                 <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('category_id') }}</div>
                             @endif
@@ -127,10 +136,6 @@
                                 <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('tags') }}</div>
                             @endif
                         </div>
-                        <input type="hidden" name="status_id" value="{{--{{ $status->id }}--}}">
-                        @if ($errors->has('status_id'))
-                            <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('status_id') }}</div>
-                        @endif
                         {{--<div class="form-group">--}}
                             {{--<label for="rating">Рейтинг *</label>--}}
                             {{--<input class="form-control" id="rating" placeholder="" type="number" name="rating">--}}

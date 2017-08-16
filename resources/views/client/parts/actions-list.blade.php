@@ -12,9 +12,9 @@
                             <div class="content-block-img">
                                 <a href="{{ route('showAction', ['id' => $action->id]) }}">
                                     @if($action->upload)
-                                        <img src="{{ asset('/image/widen/400/' . $action->upload->path . '.' . $action->upload->ext) }}" alt="{{$action->title}}" class="img-responsive">
+                                        <img src="{{ asset('/image/fit/400/300/' . $action->upload->path . '.' . $action->upload->ext) }}" alt="{{$action->title}}" class="img-responsive">
                                     @else
-                                        <img src="{{ asset('/image/widen/400/default.jpg') }}" alt="{{$action->title}}" class="img-responsive">
+                                        <img src="{{ asset('/image/fit/400/300/default.jpg') }}" alt="{{$action->title}}" class="img-responsive">
                                     @endif
                                 </a>
                             </div>

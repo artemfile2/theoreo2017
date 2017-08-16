@@ -9,6 +9,8 @@ use App\Models\Tag;
 use App\Models\City;
 use App\Models\Type;
 use App\Models\Status;
+use App\Models\Upload;
+use App\Classes\Uploader;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -58,14 +60,18 @@ class ActionsController extends Controller
             ->route('admin.actions.get_all');
     }
 
-    public function actionCreate()
+    public function actionCreate(Request $request, $fileError = null)
     {
+        if($request->session()->has('fileError')) {
+            $fileError = $request->session()->pull('fileError', 'default');
+        }
+
         $brands = Brand::all();
-        $categories =Category::all();
+        $categories = Category::all();
         $tags = Tag::all();
         $cities = City::all();
         $types = Type::all();
-        $status = Status::all();
+        $statuses = Status::all();
 
         return view('admin.section.action_create', [
             'title' => 'Создание акции',
@@ -74,20 +80,42 @@ class ActionsController extends Controller
             'tags' => $tags,
             'cities' => $cities,
             'types' => $types,
-            'status' => $status,
+            'statuses' => $statuses,
+            'fileError' => $fileError,
         ]);
     }
 
-    public function actionCreatePost(Request $request)
+    public function actionCreatePost(Request $request, Uploader $uploader, Upload $uploadModel)
     {
         $requestAll = $request->all();
+
+        if ($request->image) {
+            if ($uploader->validate($request, 'image', config ('imagerules') )) {
+                $uploadedPath = $uploader->upload(config('site.imageUploadSection'));
+
+                if ($uploadedPath !== false) {
+                    $uploadsModel = $uploader->register($uploadModel);
+                    $uploadedProps = $uploader->getProps();
+                }
+            }
+            else {
+                $message = implode($uploader->getErrors(), '. ');
+                $request->session()->flash('fileError', $message);
+
+                return redirect()
+                    ->route('admin.actions.create')
+                    ->withInput();
+            }
+        }
+
+        $requestAll['upload_id'] = isset($uploadsModel) ? $uploadsModel->id : null;
         Action::create($requestAll);
 
         return redirect()
             ->route('admin.actions.get_all');
     }
 
-    public function actionEdit($id)
+    public function actionEdit($id, Request $request, $fileError = null)
     {
         $action = Action::findOrFail($id);
         $brands = Brand::all();
@@ -96,6 +124,10 @@ class ActionsController extends Controller
         $cities = City::all();
         $types = Type::all();
         $statuses = Status::all();
+
+        if($request->session()->has('fileError')) {
+            $fileError = $request->session()->pull('fileError', 'default');
+        }
 
         return view('admin.section.action_edit', [
             'title' => 'Редактирование акции',
@@ -106,14 +138,40 @@ class ActionsController extends Controller
             'cities' => $cities,
             'types' => $types,
             'statuses' => $statuses,
+            'fileError' => $fileError,
         ]);
     }
 
-    public function actionEditPost(Request $request, $id)
+    public function actionEditPost(Request $request, $id, Uploader $uploader, Upload $uploadModel)
     {
         $requestAll = $request->all();
-        Action::findOrFail($id)
-            ->update($requestAll);
+        $action = Action::findOrFail($id);
+        if($request->image) {
+            if ($uploader->validate($request, 'image', config ('imagerules') )) {
+                $uploadedPath = $uploader->upload(config('site.imageUploadSection'));
+
+                if ($uploadedPath !== false) {
+                    $uploadsModel = $uploader->register($uploadModel);
+                    $uploadedProps = $uploader->getProps();
+
+                    $action->update([
+                        'upload_id' => $uploadsModel->id,
+                    ]);
+                }
+            }
+            else {
+                $message = implode($uploader->getErrors(), '. ');
+                $request->session()->flash('fileError', $message);
+
+                return redirect()
+                    ->route('admin.actions.edit', [
+                        'id' => $id,
+                    ])
+                    ->withInput();
+            }
+        }
+
+        $action->update($requestAll);
 
         return redirect()
             ->route('admin.actions.get_all');

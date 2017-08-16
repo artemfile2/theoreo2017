@@ -52,7 +52,7 @@
                                         <td class="sorting_1">{{ $user->id }}</td>
                                         <td>
                                             @if($user->upload_id)
-                                                <img class="table-img" src="{{ asset('/image/fit/100/100/' /*. $user->upload->path . '.' . $user->upload->ext*/) }}" alt="{{ $user->name }}">
+                                                <img class="table-img" src="{{ asset('/image/fit/100/100/' . $user->upload->path . '.' . $user->upload->ext) }}"  alt="{{ $user->name }}">
                                             @else
                                                 <img class="table-img" src="{{ asset('/image/fit/100/100/default.jpg') }}" alt="{{ $user->name }}">
                                             @endif

@@ -21,14 +21,14 @@
                         <div class="form-group">
                             <label for="logo">Логотип бренда</label>
                             @if($brand->upload)
-                                <img class="img-responsive margin-bottom" src="{{ asset('/image/widen/400/' /*. $brand->upload->path . '.' . $brand->upload->ext*/) }}" alt="">
+                                <img class="img-responsive margin-bottom" src="{{ asset('/image/widen/400/' . $brand->upload->path . '.' . $brand->upload->ext) }}" alt="">
                             @else
                                 <img class="img-responsive margin-bottom" src="{{ asset('/image/widen/400/default.jpg') }}"  alt="">
                             @endif
 
                             <input id="logo" type="file" name="logo">
-                            @if ($errors->has('logo'))
-                                <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('logo') }}</div>
+                            @if ($fileError)
+                                <div class="alert alert-danger alert-dismissibler margin-top">{{ $fileError }}</div>
                             @endif
                         </div>
                         <div class="form-group">

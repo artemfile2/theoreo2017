@@ -31,15 +31,15 @@
                             @endif
                             <input id="avatar" type="file" name="avatar">
                         </div>
-                        @if ($errors->has('avatar'))
-                            <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('avatar') }}</div>
+                        @if ($fileError)
+                            <div class="alert alert-danger alert-dismissibler margin-top">{{ $fileError }}</div>
                         @endif
                         <div class="form-group">
-                            <label for="email">Логин (E-mail) *</label>
-                            <input class="form-control" id="email" placeholder="Введите логин или email" type="text" name="email" value="{{ $user->email}}">
+                            <label for="login">Логин (E-mail) *</label>
+                            <input class="form-control" id="login" placeholder="Введите логин или email" type="text" name="login" value="{{ $user->login}}">
                         </div>
-                        @if ($errors->has('email'))
-                            <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('email') }}</div>
+                        @if ($errors->has('login'))
+                            <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('login') }}</div>
                         @endif
                         <div class="box box-solid box-primary collapsed-box">
                             <div class="box-header with-border">
@@ -51,32 +51,34 @@
                             <div class="box-body">
                                 <div class="form-group">
                                     <label for="password">Пароль *</label>
-                                    <input class="form-control" id="password" placeholder="Введите пароль" type="password" name="password" >
+                                    <input class="form-control" id="password" placeholder="Введите пароль" type="password" name="password" value="{{ $user->password }}">
                                 </div>
                                 @if ($errors->has('password'))
                                     <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('password') }}</div>
                                 @endif
                                 <div class="form-group">
                                     <label for="password2">Повтор пароля *</label>
-                                    <input class="form-control" id="password2" placeholder="Введите пароль еще раз" type="password" name="password2" value="">
+                                    <input class="form-control" id="password2" placeholder="Введите пароль еще раз" type="password" name="password2" value="{{ $user->password }}">
                                 </div>
                                 @if ($errors->has('password2'))
                                     <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('password2') }}</div>
                                 @endif
                             </div><!-- /.box-body -->
                         </div><!-- /.box -->
+                        <div class="form-group" id="gender">
+                            <label for="gender">Пол *</label>
+                            <select id="gender" class="form-control select2" name="gender">
+                                @foreach($genders as $gender)
+                                    <option value="{{ $gender }}" {{ old('gender') == $gender ? 'selected' : '' }}>{{ $gender }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         <div class="form-group" id="groups">
                             <label for="groups">Группа пользователя *</label>
                             <select id="roles" class="form-control select2" name="role_id">
-                                {{--@if(old('role_id'))
-                                    @foreach($roles as $role)
-                                        <option value="{{ $role->id }}" {{ old('role_id') == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
-                                    @endforeach
-                                @else
-                                    @foreach($roles as $role)
-                                        <option value="{{ $role->id }}" {{ $user->role_id == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
-                                    @endforeach
-                                @endif--}}
+                                @foreach($roles as $role)
+                                    <option value="{{ $role->id }}" {{ old('role_id') == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
+                                @endforeach
                             </select>
                         </div>
                         @if ($errors->has('role_id'))

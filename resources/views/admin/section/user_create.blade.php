@@ -20,22 +20,22 @@
                         @endif
                         <div class="form-group">
                             <label for="surname">Фамилия *</label>
-                            <input class="form-control" id="surname" placeholder="Введите фамилию" type="text" name="surname">
+                            <input class="form-control" id="surname" placeholder="Введите фамилию" type="text" name="surname" value="{{ old('surname') }}">
                         </div>
                         <div class="form-group">
                             <label for="avatar">Аватар</label>
                             <img class="img-responsive margin-bottom" src="{{ asset('/image/fit/300/300/default.jpg') }}" alt="">
                             <input id="avatar" type="file" name="avatar" value="{{ old('avatar') }}">
                         </div>
-                        @if ($errors->has('avatar'))
-                            <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('avatar') }}</div>
+                        @if ($fileError)
+                            <div class="alert alert-danger alert-dismissibler margin-top">{{ $fileError }}</div>
                         @endif
                         <div class="form-group">
-                            <label for="email">Логин (E-mail) *</label>
-                            <input class="form-control" id="email" placeholder="Введите логин или email" type="text" name="email" value="{{ old('email') }}">
+                            <label for="login">Логин (E-mail) *</label>
+                            <input class="form-control" id="login" placeholder="Введите логин или email" type="text" name="login" value="{{ old('login') }}">
                         </div>
-                        @if ($errors->has('email'))
-                            <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('email') }}</div>
+                        @if ($errors->has('login'))
+                            <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('login') }}</div>
                         @endif
                         <div class="form-group">
                             <label for="password">Пароль *</label>
@@ -51,12 +51,20 @@
                         @if ($errors->has('password2'))
                             <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('password2') }}</div>
                         @endif
+                        <div class="form-group" id="gender">
+                            <label for="gender">Пол *</label>
+                            <select id="gender" class="form-control select2" name="gender">
+                                @foreach($genders as $gender)
+                                    <option value="{{ $gender }}" {{ old('gender') == $gender ? 'selected' : '' }}>{{ $gender }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         <div class="form-group" id="groups">
                             <label for="groups">Группа пользователя *</label>
                             <select id="roles" class="form-control select2" name="role_id">
-                                {{--@foreach($roles as $role)
+                                @foreach($roles as $role)
                                     <option value="{{ $role->id }}" {{ old('role_id') == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
-                                @endforeach--}}
+                                @endforeach
                             </select>
                         </div>
                         @if ($errors->has('role_id'))

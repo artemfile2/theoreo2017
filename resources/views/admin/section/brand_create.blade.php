@@ -21,13 +21,13 @@
                             <label for="logo">Логотип бренда</label>
                             <img class="img-responsive margin-bottom" src="{{ asset('/image/widen/400/default.jpg') }}" alt="">
                             <input id="logo" type="file" name="logo">
-                            @if ($errors->has('logo'))
-                                <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('logo') }}</div>
+                            @if ($fileError)
+                                <div class="alert alert-danger alert-dismissibler margin-top">{{ $fileError }}</div>
                             @endif
                         </div>
                         <div class="form-group">
                             <label for="addresses">Адреса точек продаж</label>
-                            <textarea class="form-control" id="address" rows="5" placeholder="г. Барнаул, ул. Конотопская, д. 5, стр. 3" name="adresses"></textarea>
+                            <textarea class="form-control" id="address" rows="5" placeholder="г. Барнаул, ул. Конотопская, д. 5, стр. 3" name="addresses"></textarea>
                             <p class="help-block">Адреса указываются списком по одному на строчку</p>
                         </div>
                         <div class="form-group">

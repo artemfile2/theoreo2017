@@ -8,7 +8,7 @@ use DB;
 class Action extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['name', 'brand_id', 'upload_id', 'status_id', 'city_id', 'description', 'addresses', 'phones', 'shop_link', 'active_from', 'active_to', 'category_id', 'rating'];
+    protected $fillable = ['title', 'brand_id', 'upload_id', 'status_id', 'type_id', 'city_id', 'description', 'addresses', 'phones', 'shop_link', 'active_from', 'active_to', 'category_id', 'rating'];
     protected $table = 'actions';
     protected $hidden = [
         'created_at', 'updated_at', 'deleted_at',
