@@ -20,14 +20,6 @@ Route::group(['namespace' => 'Client'],function () {
 
     Route::get('/tag/', 'PageController@filterByTag')->name('client.filterByTag');
 
-    Route::get('/sort_by/{sort}', 'PageController@filterBySort')->name('client.filterByStatus');
-
-    Route::get('/category/{id}/sort_by/{sort}', 'PageController@showCategory')->name('client.sortCategoryActions');
-
-    Route::get('/brand/{id}/sort_by/{sort}', 'PageController@filterByBrand')->name('client.filterByBrandSorted');
-
-    Route::get('/tag/sort_by/{sort}', 'PageController@filterByTag')->name('client.filterByTagSorted');
-
 
     /* Поиск */
 
