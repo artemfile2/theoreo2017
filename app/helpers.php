@@ -46,3 +46,15 @@ if (!function_exists('count_addresses')) {
         return $addresses;
     }
 }
+
+if (!function_exists('sort_link')) {
+    function sort_link($link, $sorting, $tag = false)
+    {
+        if($tag){
+            return $link.'?sort_by='.$sorting.'&tag='.$tag;
+        }else{
+            return $link.'?sort_by='.$sorting;
+        }
+    }
+ }
+

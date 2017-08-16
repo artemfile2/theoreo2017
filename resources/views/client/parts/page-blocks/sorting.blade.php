@@ -17,10 +17,14 @@
 <div class="sort">
     @if(isset($sort))
         <i class="fa fa-sort" aria-hidden="true"></i>
+
+        <?php $tagline = isset($tag)? $tag : false; ?>
         <span class="sort-text">
                 Сортировать по:
-                <a href="{{ route('client.filterByStatus', ['sort' => 'active']) }}" class="{{ $sort == 'active' ? 'sort-by' : 'sort-link ink-is-active' }}">свежести</a> или
-                <a href="{{ route('client.filterByStatus', ['sort' => 'rating']) }}" class="{{ $sort == 'active' ? 'sort-link link-is-active' : 'sort-by' }}">рейтингу</a>
+
+                <a href="{{ URL::to(sort_link(Request::getPathInfo(), 'active', $tagline)) }}" class="{{ $sort == 'active' ? 'sort-by' : 'sort-link ink-is-active' }}">свежести</a> или
+                <a href="{{ URL::to(sort_link(Request::getPathInfo(), 'rating', $tagline)) }}" class="{{ $sort == 'active' ? 'sort-link link-is-active' : 'sort-by' }}">рейтингу</a>
+
         </span>
     @endif
 </div>

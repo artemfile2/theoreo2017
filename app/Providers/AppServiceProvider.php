@@ -31,12 +31,12 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
         }
 
-        $this->app->singleton(Auth::class, function ($app) {
-            return new Auth(
-                config('vk-requester.connect.client_id'),
-                config('vk-requester.connect.secret_key'),
-                config('vk-requester.connect.redirect_uri')
-            );
-        });
+        $this->app->when('App\Http\Controllers\Client\PageController')
+            ->needs('App\Repositories\ActionRepositoryInterface')
+            ->give('App\Repositories\ActionClientRepository');
+
+        $this->app->when('App\Http\Controllers\Admin\ActionsController')
+            ->needs('App\Repositories\ActionRepositoryInterface')
+            ->give('App\Repositories\ActionClientRepository');
     }
 }

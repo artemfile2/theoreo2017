@@ -3,21 +3,35 @@
 namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Repositories\ActionRepositoryInterface;
 use App\Models\Category;
 use App\Models\Tag;
 use App\Models\Brand;
-use App\Models\Action;
 
 class PageController extends Controller
 {
 
-    public function index(Request $request)
-    {
-        $actions = Action::intime()
-            ->orderBy('active_from', 'DESC')
-            ->paginate(config('app.itemsPerPage'));
+    /**
+     * @var ActionRepositoryInterface
+     */
+    protected $action;
+    protected $sort = false;
 
-        return view('client.pages.main', ['actions' => $actions, 'sort' => 'active']);
+    public function __construct(ActionRepositoryInterface $action, Request $request)
+    {
+        $this->action = $action;
+        $sort =  trim($request->input('sort_by'));
+        if($sort){
+            $this->sort = $sort;
+        }
+    }
+
+    public function index()
+    {
+        $this->sort = 'active';
+        $actions = $this->action->getAllSorted($this->sort);
+
+        return view('client.pages.main', ['actions' => $actions, 'sort' => $this->sort]);
     }
 
     /**
@@ -26,7 +40,7 @@ class PageController extends Controller
      */
     public function action($id)
     {
-        $action = Action::findOrFail($id);
+        $action = $this->action->getOne($id);
         $same_action = false;
 
         //TODO 'Сделать вывод похожих акций';
@@ -36,59 +50,39 @@ class PageController extends Controller
         return view('client.pages.detail', ['action' => $action, 'sameActions ' => $same_action]);
     }
 
-    public function showCategory($id, $sort = false)
+    public function showCategory($id)
     {
         $title = Category::findOrFail($id);
-        $actions = Action::intime()
-            ->inCategory($id)
-            ->orderBy('active_from', 'DESC')
-            ->sortBy($sort)
-            ->paginate(config('app.itemsPerPage'));
+        $actions = $this->action->inCategory($id, $this->sort);
+        $sort = $this->sort;
 
         return view('client.pages.main', compact(['actions', 'title', 'sort']));
     }
 
-    public function filterBySort($sort)
-    {
-        $actions = Action::intime()
-            ->sortBy($sort)
-            ->paginate(config('app.itemsPerPage'));
-        //TODO 'сделать возврат сортировки на страницу отправки (не факт, что здесь)';
-
-        return view('client.pages.main', ['actions' => $actions, 'sort' => $sort]);
-    }
-
-    public function filterByTag(Request $request, $sort = false)
+    public function filterByTag(Request $request)
     {
         $tag =  trim($request->input('tag'));
 
         $title = Tag::where('name', 'like',  $tag)->firstOrFail();
-        $actions = Action::intime()
-            ->withTag($tag)
-            ->orderBy('active_from', 'DESC')
-            ->sortBy($sort)
-            ->paginate(config('app.itemsPerPage'));
+        $actions = $this->action->WithTag($tag, $this->sort);
+        $sort = $this->sort;
 
-        return view('client.pages.main', compact(['actions', 'title', 'sort']));
+        return view('client.pages.main', compact(['actions', 'title', 'sort', 'tag']));
     }
 
-    public function filterByBrand($id, $sort = false)
+    public function filterByBrand($id)
     {
         $title = Brand::findOrFail($id);
-        $actions = Action::pastAndActive()
-            ->withBrand($id)
-            ->orderBy('active_from', 'DESC')
-            ->sortBy($sort)
-            ->paginate(config('app.itemsPerPage'));
+        $sort = $this->sort;
+        $actions = $this->action->withBrand($id,$this->sort);
+
 
         return view('client.pages.main', compact(['actions', 'title', 'sort']));
     }
 
     public function showArchives()
     {
-        $actions = Action::notInTime()
-            ->orderBy('active_from', 'DESC')
-            ->paginate(config('app.itemsPerPage'));
+        $actions = $this->action->archive();
         $title = new \stdClass();
         $title->name = 'В архиве';
         return view('client.pages.main', ['actions' => $actions, 'title' => $title]);
@@ -102,10 +96,7 @@ class PageController extends Controller
         ]);
        $query_str = $request->input('query');
 
-       $actions = Action::pastAndActive()
-           ->search($query_str)
-           ->orderBy('active_from', 'DESC')
-           ->paginate(config('app.itemsPerPage'));
+       $actions = $this->action->search($query_str);
 
        return view('client.pages.main', ['actions' => $actions, 'query' => $query_str]);
     }
