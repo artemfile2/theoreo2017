@@ -32,9 +32,9 @@
                         @endif
                         <div class="form-group">
                             <label for="email">Логин (E-mail) *</label>
-                            <input class="form-control" id="email" placeholder="Введите логин или email" type="text" name="email" value="{{ old('email') }}">
+                            <input class="form-control" id="email" placeholder="Введите логин или email" type="text" name="login" value="{{ old('login') }}">
                         </div>
-                        @if ($errors->has('email'))
+                        @if ($errors->has('login'))
                             <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('email') }}</div>
                         @endif
                         <div class="form-group">
@@ -54,14 +54,21 @@
                         <div class="form-group" id="groups">
                             <label for="groups">Группа пользователя *</label>
                             <select id="roles" class="form-control select2" name="role_id">
-                                {{--@foreach($roles as $role)
+                                @foreach($roles as $role)
                                     <option value="{{ $role->id }}" {{ old('role_id') == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
-                                @endforeach--}}
+                                @endforeach
                             </select>
                         </div>
                         @if ($errors->has('role_id'))
                             <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('role_id') }}</div>
                         @endif
+                        <div class="form-group">
+                            <label for="gender">Пол *</label>
+                            <select id="gender" class="form-control select2" name="gender">
+                                <option value="male" selected>Мужчина</option>
+                                <option value="female">Женшина</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="box-footer">
                         <input type="submit" class="btn btn-success margin-r-5" value="Сохранить">

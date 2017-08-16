@@ -97,9 +97,19 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'],function () {
                 ->name('admin.actions.delete');
         });
 
+        /*
+        * роуты в админке для пункта Контент*/
+        Route::group(['prefix' => 'content'], function (){
+            Route::get('/', 'ContentController@content')
+                ->name('admin.content.get_all');
 
-    Route::get('/content', 'AdminController@content')
-        ->name('admin.content');
+            Route::post('/', 'ContentController@VKFeedDownload')
+                ->name('admin.content.download');
+        });
+
+
+    /* Route::get('/comments', 'AdminController@comments')
+         ->name('admin.comments');*/
 
     Route::get('/logs', 'AdminController@logs')
         ->name('admin.logs');
@@ -107,8 +117,6 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'],function () {
     Route::get('/queries', 'AdminController@queries')
         ->name('admin.queries');
 
-    /* Route::get('/comments', 'AdminController@comments')
-         ->name('admin.comments');*/
 });
 
 Route::group(['namespace' => 'Admin', 'prefix' => 'user'],function () {

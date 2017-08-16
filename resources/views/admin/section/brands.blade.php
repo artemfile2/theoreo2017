@@ -57,8 +57,8 @@
                                         </td>
                                         <td>{{ $brand->phones }}</td>
                                         <td>{{ $brand->site_link }}</td>
-                                        <td>{{ $brand->created_at }}</td>
-                                        <td>{{ $brand->updated_at }}</td>
+                                        <td>{{ getRusDate(date($brand->created_at)) }}</td>
+                                        <td>{{ getRusDate(date($brand->updated_at)) }}</td>
                                         <td class="control">
                                             <a href="{{ route('admin.brands.edit', ['id' => $brand->id]) }}" class="btn" title="Редактировать">
                                                 <i class="fa fa-edit"></i>
@@ -134,8 +134,8 @@
                                         <td>{{ $brandDeleted->name }}</td>
                                         <td>{{ $brandDeleted->phones }}</td>
                                         <td>{{ $brandDeleted->site_link }}</td>
-                                        <td>{{ $brandDeleted->created_at }}</td>
-                                        <td>{{ $brandDeleted->updated_at }}</td>
+                                        <td>{{ getRusDate(date($brandDeleted->created_at)) }}</td>
+                                        <td>{{ getRusDate(date($brandDeleted->updated_at)) }}</td>
                                         <td class="control">
                                             <a href="{{ route('admin.brands.restore', ['id' => $brandDeleted->id]) }}" class="btn" title="Восстановить">
                                                 <i class="fa fa-history"></i>

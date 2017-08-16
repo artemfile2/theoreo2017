@@ -65,7 +65,7 @@ class ActionsController extends Controller
         $tags = Tag::all();
         $cities = City::all();
         $types = Type::all();
-        $status = Status::all();
+        $statuses = Status::all();
 
         return view('admin.section.action_create', [
             'title' => 'Создание акции',
@@ -74,7 +74,7 @@ class ActionsController extends Controller
             'tags' => $tags,
             'cities' => $cities,
             'types' => $types,
-            'status' => $status,
+            'statuses' => $statuses,
         ]);
     }
 
