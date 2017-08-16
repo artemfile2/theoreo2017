@@ -27,7 +27,7 @@
                         </div>
                         <div class="form-group">
                             <label for="addresses">Адреса точек продаж</label>
-                            <textarea class="form-control" id="address" rows="5" placeholder="г. Барнаул, ул. Конотопская, д. 5, стр. 3" name="addresses"></textarea>
+                            <textarea class="form-control" id="addresses" rows="5" placeholder="г. Барнаул, ул. Конотопская, д. 5, стр. 3" name="addresses"></textarea>
                             <p class="help-block">Адреса указываются списком по одному на строчку</p>
                         </div>
                         <div class="form-group">

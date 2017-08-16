@@ -19,7 +19,7 @@
                                         ID
                                     </th>
                                     <th class="sorting" tabindex="0" aria-controls="brands" rowspan="1" colspan="1" style="width: 10%" aria-label="">
-                                    Изображение
+                                        Изображение
                                     </th>
                                     <th class="sorting" tabindex="0" aria-controls="actions" rowspan="1" colspan="1" style="width: 40%" aria-label="">
                                         Название акции
@@ -31,7 +31,7 @@
                                         Статус
                                     </th>
                                     <th class="sorting" tabindex="0" aria-controls="actions" rowspan="1" colspan="1" style="width: 10%" aria-label="">
-                                        Дата создание
+                                        Дата создания
                                     </th>
                                     <th class="sorting" tabindex="0" aria-controls="actions" rowspan="1" colspan="1" style="width: 10%" aria-label="">
                                         Дата изменения
@@ -56,7 +56,7 @@
                                     </td>
                                     <td>
                                         <a href="{{ route('admin.actions.edit', ['id' => $action->id]) }}">
-                                            {{ $action->name }}
+                                            {{ $action->title }}
                                         </a>
                                     </td>
                                     <td>
@@ -66,10 +66,14 @@
                                         {{ $action->status->name }}
                                     </td>
                                     <td>
-                                        {{ $action->created_at }}
+                                        @if($action->created_at)
+                                            {{ getRusDate(date($action->created_at)) }}
+                                        @endif
                                     </td>
                                     <td>
-                                        {{ $action->updated_at }}
+                                        @if($action->updated_at)
+                                            {{ getRusDate(date($action->updated_at)) }}
+                                        @endif
                                     </td>
                                     <td class="control">
                                         <a href="{{ route('admin.actions.edit', ['id' => $action->id]) }}" class="btn" title="Редактировать">
@@ -146,7 +150,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            {{ $actionDeleted->name }}
+                                            {{ $actionDeleted->title }}
                                         </td>
                                         <td>
                                             {{ $actionDeleted->brand->name }}

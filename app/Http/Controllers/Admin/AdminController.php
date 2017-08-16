@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Action;
 use App\Models\User;
 use App\Models\Brand;
+use App\Models\VkFeed;
 use App\Http\Controllers\Controller;
 
 class AdminController extends Controller
@@ -14,20 +15,17 @@ class AdminController extends Controller
      * панель управления, главная страница в админке*/
     public function index()
     {
-        $users = User::all()
-            ->sortByDesc('created_at');
-
-        $brands = Brand::all()
-            ->sortByDesc('created_at');
-
-        $actions = Action::all()
-            ->sortByDesc('created_at');
+        $users = User::all();
+        $brands = Brand::all();
+        $actions = Action::all();
+        $vkfeeds = VkFeed::all();
 
         return view('admin.section.control_panel', [
             'title' => 'Панель управления',
             'users' => $users,
             'brands' => $brands,
             'actions' => $actions,
+            'vkfeeds' => $vkfeeds,
         ]);
     }
 

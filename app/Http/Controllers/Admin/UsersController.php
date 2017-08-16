@@ -33,9 +33,11 @@ class UsersController extends Controller
             $fileError = $request->session()->pull('fileError', 'default');
         }
 
+        $roles = Role::all();
+
         return view('admin.section.user_create', [
             'title' => 'Создание пользователя',
-            'roles' => Role::all(),
+            'roles' => $roles,
             'genders' => ['женский', 'мужской'],
             'fileError' => $fileError,
         ]);
@@ -99,6 +101,7 @@ class UsersController extends Controller
     public function userEdit($id, Request $request, $fileError = null)
     {
         $user = User::findOrFail($id);
+        $roles = Role::all();
 
         if($request->session()->has('fileError')) {
             $fileError = $request->session()->pull('fileError', 'default');
@@ -107,7 +110,7 @@ class UsersController extends Controller
         return view('admin.section.user_edit', [
             'title' => 'Редактирование пользователя',
             'user' => $user,
-            'roles' => Role::all(),
+            'roles' => $roles,
             'genders' => ['женский', 'мужской'],
             'fileError' => $fileError,
         ]);

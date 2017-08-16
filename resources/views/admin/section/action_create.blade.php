@@ -41,24 +41,17 @@
                             <a class="btn btn-primary" href="#tab_3" data-toggle="tab">Редактировать</a>
                         </div>
                         <div class="form-group">
-                            <label for="description">Анонс</label>
-                            <textarea class="form-control" id="description" rows="2" placeholder="Введите анонс акции" name="description">{{ old('description') }}</textarea>
+                            <label for="full-description">Полный анонс</label>
+                            <textarea class="form-control" id="full-description" rows="5" placeholder="Введите полный анонс акции" name="description">{{ old('description') }}</textarea>
                             @if ($errors->has('description'))
                                 <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('description') }}</div>
                             @endif
                         </div>
                         <div class="form-group">
-                            <label for="full-description">Полный анонс</label>
-                            <textarea class="form-control" id="full-description" rows="5" placeholder="Введите полный анонс акции" name="full_text">{{ old('full_text') }}</textarea>
-                            @if ($errors->has('full_text'))
-                                <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('full_text') }}</div>
-                            @endif
-                        </div>
-                        <div class="form-group">
                             <label for="eshop-link">Ссылка на интернет-магазин</label>
-                            <input class="form-control" id="eshop-link" placeholder="http://eshop_name.com" type="text" name="link" value="{{ old('link') }}">
-                            @if ($errors->has('link'))
-                                <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('link') }}</div>
+                            <input class="form-control" id="eshop-link" placeholder="http://eshop_name.com" type="text" name="shop_link" value="{{ old('shop_link') }}">
+                            @if ($errors->has('shop_link'))
+                                <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('shop_link') }}</div>
                             @endif
                         </div>
                         <div class="form-group date">
@@ -121,25 +114,28 @@
                         </div>
                         <div class="form-group">
                             <label>Теги</label>
-                            <select id="tags" class="form-control select2 select2-hidden-accessible" multiple="multiple" style="width: 100%;" tabindex="-1" aria-hidden="true" name="tags[]">
+                            <select id="tags" class="form-control select2 select2-hidden-accessible" multiple="multiple" style="width: 100%;" tabindex="-1" aria-hidden="true" name="tag_id">
+                                {{--tags[]--}}
                                 {{--@foreach($selectedTags as $tag_name)
                                     <option value="{{$tag_name}}" selected >{{$tag_name }}</option>
                                 @endforeach--}}
                                
-                                {{--@foreach($tags as $tag)
-                                    @if (!in_array($tag->name, $selectedTags))
+                                @foreach($tags as $tag)
+                                    {{--@if (!in_array($tag->name, $selectedTags))--}}
                                         <option value="{{$tag->name}}">{{$tag->name }}</option>  
-                                    @endif       
-                                @endforeach--}}
+                                    {{--@endif--}}
+                                @endforeach
                             </select>
                             @if ($errors->has('tags'))
                                 <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('tags') }}</div>
                             @endif
                         </div>
+
                         {{--<div class="form-group">--}}
                             {{--<label for="rating">Рейтинг *</label>--}}
                             {{--<input class="form-control" id="rating" placeholder="" type="number" name="rating">--}}
                         {{--</div>--}}
+
                         <div class="form-group">
                             <label>Город проведения *</label>
                             <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" name="city_id">

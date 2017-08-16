@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Classes\Parser;
-use App\VkFeed;
+use App\Models\VkFeed;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -58,55 +58,39 @@ class VkController extends Controller
      */
     private function saveData($responseItems)
     {
-        foreach ($responseItems as $item){
-            //dump($item);
-            $item['response_item'] = json_encode($item);
-            unset($item['type']);
-            $item['id'] = $item['post_id'];
-            unset($item['post_id']);
-            $item['group_id'] = $item['source_id'];
-            unset($item['source_id']);
-            $item['post_date'] = Carbon::createFromTimestamp($item['date'])->toDateTimeString();
-            unset($item['date']);
-            unset($item['post_type']);
-            $item['content'] = $item['text'];
-            unset($item['text']);
-            unset($item['copy_history']);
-            unset($item['marked_as_ads']);
-            unset($item['post_source']);
-            unset($item['comments']);
-            unset($item['likes']);
-            unset($item['reposts']);
+        $newItems = 0;
+
+        foreach ($responseItems as $key => $item){
+            $post[$key]['id'] = $item['post_id'];
+            $post[$key]['response_item'] = json_encode($item);
+            $post[$key]['group_id'] = $item['source_id'];
+            $post[$key]['post_date'] = Carbon::createFromTimestamp($item['date'])->toDateTimeString();
+            $post[$key]['content'] = $item['text'];
             if(isset($item['attachments'])){
                 foreach($item['attachments'] as $attachment){
                     if($attachment['type'] == 'photo'){
-                        foreach($attachment['photo'] as $key => $link){
-                            if(preg_match('/^photo_/', $key)){
-                                $item[$key] = $link;
+                        foreach($attachment['photo'] as $size => $link){
+                            if(preg_match('/^photo_/', $size)){
+                                $post[$key][$size] = $link;
                             }
                         }
                     }
                 }
-                unset($item['attachments']);
             }
-            if(isset($item['signer_id'])){
-                unset($item['signer_id']);
-            }
-            dump($item);
 
             try{
-                VkFeed::updateOrCreate($item);
+                //VkFeed::updateOrCreate($post[$key]);
+                $feed = VkFeed::firstOrNew(['id' => $post[$key]['id']]);
+                $feed->fill($post[$key])->save();
+                if($feed->wasRecentlyCreated){
+                    $newItems++;
+                }
+                dump($feed, $post[$key]);
             } catch (\Exception $e){
-                dump($e);
+                dump($e);//todo заменить на нормальное исключение
             }
+        }
 
-        }
-        /*
-        try{
-            VkFeed::updateOrCreate($responseItems);
-        } catch (\Exception $e){
-           dump($e);
-        }
-        */
+        echo "done. New items : $newItems";
     }
 }

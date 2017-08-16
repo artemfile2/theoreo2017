@@ -62,7 +62,7 @@
                 </div>
             {{--@endcan--}}
             <div class="col-lg-4 col-md-6 col-sm-12">
-                <a href="{{ route('admin.content') }}">
+                <a href="{{ route('admin.content.get_all') }}">
                     <div class="info-box">
                     <span class="info-box-icon bg-yellow">
                         <i class="fa fa-th"></i>
@@ -72,14 +72,14 @@
                             Контент
                         </span>
                             <span class="info-box-number">
-                            3534
+                            {{ $vkfeeds->count() }}
                         </span>
                         </div>
                     </div>
                 </a>
             </div>
             {{--@can('control', \App\Models\Tag::class)--}}
-                <div class="col-lg-4 col-md-6 col-sm-12">
+                {{--<div class="col-lg-4 col-md-6 col-sm-12">
                     <a href="#">
                         <div class="info-box">
                         <span class="info-box-icon bg-teal">
@@ -90,13 +90,13 @@
                                 Теги
                             </span>
                                 <span class="info-box-number">
-                                {{--{{ $tags->count() }}--}}
+                                --}}{{--{{ $tags->count() }}--}}{{--
                                     {{ '555' }}
                             </span>
                             </div>
                         </div>
                     </a>
-                </div>
+                </div>--}}
            {{-- @endcan--}}
             <div class="col-lg-4 col-md-6 col-sm-12">
                 <a href="{{ route('admin.logs') }}">
