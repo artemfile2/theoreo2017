@@ -66,19 +66,19 @@
                     <span>Комментарии</span>
                 </a>.users
             </li>--}}
-            <li class="{{ (URL::current() == route('admin.content')) ? "active" : '' }}">
-                <a href="{{ route('admin.content') }}">
+            <li class="{{ (URL::current() == route('admin.content.get_all')) ? "active" : '' }}">
+                <a href="{{ route('admin.content.get_all') }}">
                     <i class="fa fa-th"></i>
                     <span>Контент</span>
                 </a>
             </li>
             {{--@can('control', \App\Models\Tag::class)--}}
-                <li class="">
+                {{--<li class="">
                     <a href="#">
                         <i class="fa fa-tags"></i>
                         <span>Теги</span>
                     </a>
-                </li>
+                </li>--}}
             {{--@endcan--}}
             <li class="{{ (URL::current() == route('admin.logs')) ? "active" : '' }}">
                 <a href="{{ route('admin.logs') }}">

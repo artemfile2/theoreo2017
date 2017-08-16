@@ -64,8 +64,8 @@
                                         <td>{{ $user->surname }}</td>
                                         <td>{{ $user->login }}</td>
                                         <td>{{ $user->role_id}}</td>
-                                        <td>{{ $user->created_at }}</td>
-                                        <td>{{ $user->updated_at }}</td>
+                                        <td>{{ getRusDate(date($user->created_at)) }}</td>
+                                        <td>{{ getRusDate(date($user->created_at)) }}</td>
                                         <td class="control">
                                             <a href="{{ route('admin.user.edit', ['id' => $user->id]) }}" class="btn" title="Редактировать">
                                                 <i class="fa fa-edit"></i>
@@ -142,8 +142,8 @@
                                         <td>{{ $userDeleted->name }}</td>
                                         <td>{{ $userDeleted->login }}</td>
                                         <td>{{ $userDeleted->role_id }}</td>
-                                        <td>{{ $userDeleted->created_at }}</td>
-                                        <td>{{ $userDeleted->updated_at }}</td>
+                                        <td>{{ getRusDate(date($userDeleted->created_at)) }}</td>
+                                        <td>{{ getRusDate(date($userDeleted->updated_at)) }}</td>
                                         <td class="control">
                                             <a href="{{ route('admin.user.restore', ['id' => $userDeleted->id]) }}" class="btn" title="Восстановить">
                                                 <i class="fa fa-history"></i>

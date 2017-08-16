@@ -13,7 +13,7 @@ class StatusesTableSeeder extends Seeder
     {
         DB::table('statuses')->insert([
             'code' => 'added',
-            'name' => 'Оплачена',
+            'name' => 'Добавлена',
         ]);
 
         DB::table('statuses')->insert([

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Classes\Parser;
-use App\VkFeed;
+use App\Models\VkFeed;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
