@@ -70,7 +70,7 @@ class VkController extends Controller
                 foreach($item['attachments'] as $attachment){
                     if($attachment['type'] == 'photo'){
                         foreach($attachment['photo'] as $size => $link){
-                            if(preg_match('/^photo_/', $key)){
+                            if(preg_match('/^photo_/', $size)){
                                 $post[$key][$size] = $link;
                             }
                         }
@@ -85,6 +85,7 @@ class VkController extends Controller
                 if($feed->wasRecentlyCreated){
                     $newItems++;
                 }
+                dump($feed, $post[$key]);
             } catch (\Exception $e){
                 dump($e);//todo заменить на нормальное исключение
             }
