@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\VkFeed;
 use App\Models\Action;
+use App\Models\Vktemp;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -32,25 +33,41 @@ class ContentController extends Controller
 
     public function VKFeedDownload()
     {
-
-        /*$contents = VkFeed::all();
-        foreach ($contents as $content)
+        $vkfeeds = VkFeed::all();
+        foreach ($vkfeeds as $vkfeed)
         {
-            $actions = Action::create();
-            $actions->fill([
-                'title' => 'test',
-                'brand_id' => 1,
-                'status_id' => 1,
-                'city_id' => 1,
-                'type_id' => 1,
-                'category_id' => 1,
-                'description' => $content->content,
-                'active_from' => date(),
-                'active_to' => date(),
-                'rating' => 1,
-            ]);
-        }*/
+            if (!empty ($vkfeed->content))
+            {
+                $vktemp = new VkTemp;
+                $vktemp->id = $vkfeed->id;
+                $vktemp->group_id = $vkfeed->group_id;
+                $vktemp->content = $vkfeed->content;
+                $vktemp->post_date = $vkfeed->post_date;
+                $vktemp->response_item = $vkfeed->response_item;
+                $vktemp->photo_75 = $vkfeed->photo_75;
+                $vktemp->photo_130 = $vkfeed->photo_130;
+                $vktemp->photo_604 = $vkfeed->photo_604;
+                $vktemp->photo_640 = $vkfeed->photo_640;
+                $vktemp->photo_807 = $vkfeed->photo_807;
+                $vktemp->photo_1280 = $vkfeed->photo_1280;
+                $vktemp->photo_2560 = $vkfeed->photo_2560;
+                $vktemp->status = false;
+                $vktemp->save();
+            }
+            $vkfeed->delete();
+        }
 
+        $vktemps = VkTemp::all();
+        $vktempsDeleted = VkTemp::onlyTrashed()->get();
+        return view('admin.section.premoderation', [
+            'title' => 'Контент из парсера на модерацию',
+            'vktemps' => $vktemps,
+            'vktempsDeleted' => $vktempsDeleted,
+        ]);
+    }
+
+    /*public function VKFeedDownload()
+    {
         $contents = VkFeed::all();
         foreach ($contents as $content)
         {
@@ -70,11 +87,9 @@ class ContentController extends Controller
             $content->delete();
         }
 
-        /*VkFeed::getQuery()
-            ->delete();*/
-
-
         return redirect()
             ->route('admin.actions.get_all');
-    }
+    }*/
+
+
 }
