@@ -142,8 +142,14 @@
                                         <td>{{ $brandDeleted->name }}</td>
                                         <td>{{ $brandDeleted->phones }}</td>
                                         <td>{{ $brandDeleted->site_link }}</td>
-                                        <td>{{ getRusDate(date($brandDeleted->created_at)) }}</td>
-                                        <td>{{ getRusDate(date($brandDeleted->updated_at)) }}</td>
+                                        <td>
+                                            @if($brandDeleted->created_at)
+                                                {{ getRusDate(date($brandDeleted->created_at)) }}</td>
+                                            @endif
+                                        <td>
+                                            @if($brandDeleted->updated_at)
+                                                {{ getRusDate(date($brandDeleted->updated_at)) }}</td>
+                                            @endif
                                         <td class="control">
                                             <a href="{{ route('admin.brands.restore', ['id' => $brandDeleted->id]) }}" class="btn" title="Восстановить">
                                                 <i class="fa fa-history"></i>

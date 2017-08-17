@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Action;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Tag;
@@ -13,28 +12,32 @@ use App\Models\Upload;
 use App\Classes\Uploader;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Repositories\ActionRepositoryInterface;
 
 class ActionsController extends Controller
 {
+
+    protected $actions;
+
+    public function __construct(ActionRepositoryInterface $actions, Request $request)
+    {
+        $this->actions = $actions;
+    }
+
     public function actions()
     {
-        $actions = Action::all()
-            ->sortByDesc('created_at');
-
-        $actionsDeleted = Action::onlyTrashed()
-            ->get();
+        $actions = $this->actions->getAll();
 
         return view('admin.section.actions', [
             'title' => 'Акции',
-            'actions' => $actions,
-            'actionsDeleted' => $actionsDeleted,
+            'actions' => $actions['actions'],
+            'actionsDeleted' => $actions['actionsDeleted'],
         ]);
     }
 
     public function actionTrash($id)
     {
-        Action::findOrFail($id)
-            ->delete();
+        $this->actions->inTrash($id);
 
         return redirect()
             ->route('admin.actions.get_all');
@@ -42,9 +45,7 @@ class ActionsController extends Controller
 
     public function actionRestore($id)
     {
-        Action::withTrashed()
-            ->where('id', $id)
-            ->restore();
+        $this->actions->restore($id);
 
         return redirect()
             ->route('admin.actions.get_all');
@@ -52,9 +53,7 @@ class ActionsController extends Controller
 
     public function actionDelete($id)
     {
-        Action::withTrashed()
-            ->where('id', $id)
-            ->forceDelete();
+        $this->actions->delete($id);
 
         return redirect()
             ->route('admin.actions.get_all');
@@ -109,7 +108,8 @@ class ActionsController extends Controller
         }
 
         $requestAll['upload_id'] = isset($uploadsModel) ? $uploadsModel->id : null;
-        Action::create($requestAll);
+
+        $this->actions->create($requestAll);
 
         return redirect()
             ->route('admin.actions.get_all');
@@ -117,7 +117,7 @@ class ActionsController extends Controller
 
     public function actionEdit($id, Request $request, $fileError = null)
     {
-        $action = Action::findOrFail($id);
+        $action = $this->actions->getOne($id);
         $brands = Brand::all();
         $categories =Category::all();
         $tags = Tag::all();
@@ -145,7 +145,7 @@ class ActionsController extends Controller
     public function actionEditPost(Request $request, $id, Uploader $uploader, Upload $uploadModel)
     {
         $requestAll = $request->all();
-        $action = Action::findOrFail($id);
+        $action = $this->actions->getOne($id);
         if($request->image) {
             if ($uploader->validate($request, 'image', config ('imagerules') )) {
                 $uploadedPath = $uploader->upload(config('site.imageUploadSection'));

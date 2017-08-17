@@ -159,10 +159,14 @@
                                             {{ $actionDeleted->status->name }}
                                         </td>
                                         <td>
-                                            {{ $actionDeleted->created_at }}
+                                            @if($actionDeleted->created_at)
+                                                {{ $actionDeleted->created_at }}
+                                            @endif
                                         </td>
                                         <td>
-                                            {{ $actionDeleted->updated_at }}
+                                            @if($actionDeleted->updated_at)
+                                                {{ $actionDeleted->updated_at }}
+                                            @endif
                                         </td>
                                         <td class="control">
                                             <a href="{{ route('admin.actions.restore', ['id' => $actionDeleted->id]) }}" class="btn" title="Восстановить">

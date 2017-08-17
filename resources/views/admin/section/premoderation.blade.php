@@ -48,7 +48,8 @@
                                     </td>
                                     <td>
                                         <div class="form-group col-sm-6 col-lg-4">
-                                            <input type="checkbox" value="{{ $vktemp->status }}" name="check_status">
+                                            <button type="button" class="btn btn-success margin-bottom margin-r-5" name="download" value="download"><i class="fa fa-download"></i> Добавить </button>
+                                            <button type="button" class="btn btn-danger margin-bottom"><i class="fa fa-close"></i> Удалить </button>
                                         </div>
                                     </td>
                                 </tr>
