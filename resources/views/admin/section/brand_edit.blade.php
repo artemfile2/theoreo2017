@@ -32,101 +32,72 @@
                             @endif
                         </div>
                         <div class="form-group">
-                        <label for="address">Адреса точек продаж</label>
-                        <textarea class="form-control" id="address" rows="5" placeholder="г. Барнаул, ул. Конотопская, д. 5, стр. 3" name="addresses">{{ $brand->addresses }}</textarea>
+                        <label for="address">Адреса *</label>
+                        <textarea class="form-control" id="address" rows="5" placeholder="Введите адреса торговых точек" name="addresses">{{ $brand->addresses }}</textarea>
                         <p class="help-block">Адреса указываются списком по одному на строчку</p>
+                            @if ($errors->has('addresses'))
+                                <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('addresses') }}</div>
+                            @endif
                         </div>
                         <div class="form-group">
-                            <label for="phones">Телефоны</label>
+                            <label for="phones">Телефоны *</label>
                             <textarea class="form-control" id="phones" rows="5" placeholder="+ 7 (999) 999 99 99" name="phones">{{ $brand->phones }}</textarea>
+                            <p class="help-block">Телефоны указываются списком по одному на строчку</p>
                             @if ($errors->has('phones'))
                                 <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('phones') }}</div>
                             @endif
-                            <p class="help-block">Телефоны указываются списком по одному на строчку</p>
                         </div>
                         <div class="form-group">
-                            <label for="site-link">Ссылка на сайт</label>
+                            <label for="site_link">Ссылка на сайт</label>
                             <input class="form-control" id="site-link" placeholder="http://site_name.com" type="text" name="site_link" value="{{ $brand->site_link }}">
-                            @if ($errors->has('site'))
+                            @if ($errors->has('site_link'))
                                 <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('site_link') }}</div>
                             @endif
                         </div>
                         <div class="form-group">
-                            <label for="vk-link">Ссылка на страницу группы в VK</label>
+                            <label for="vk-link">Ссылка на группу VK *</label>
                             <input class="form-control" id="vk-link" placeholder="https://vk.com/group_name" type="text" name="vk_link" value="{{ $brand->vk_link}}">
+                            @if ($errors->has('vk_link'))
+                                <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('vk_link') }}</div>
+                            @endif
                         </div>
-                        {{--<div class="form-group" id="settings">--}}
-                        {{--<label for="settings">Настройки бренда</label>--}}
-                        {{--<div class="checkbox">--}}
-                        {{--<label>--}}
-                        {{--<input type="checkbox" name="federal">--}}
-                        {{--Федеральный бренд--}}
-                        {{--</label>--}}
-                        {{--</div>--}}
-                        {{--<div class="checkbox">--}}
-                        {{--<label>--}}
-                        {{--<input type="checkbox" name="eshop">--}}
-                        {{--Интернет-магазин--}}
-                        {{--</label>--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
-                        {{--<div class="form-group" id="categories">--}}
-                        {{--<label for="categories">Категории *</label>--}}
-                        {{--<div class="checkbox">--}}
-                        {{--<label>--}}
-                        {{--<input type="checkbox" name="categoriesId">--}}
-                        {{--Кафе / рестораны--}}
-                        {{--</label>--}}
-                        {{--</div>--}}
-                        {{--<div class="checkbox">--}}
-                        {{--<label>--}}
-                        {{--<input type="checkbox" name="categoriesId">--}}
-                        {{--Одежда и аксессуары--}}
-                        {{--</label>--}}
-                        {{--</div>--}}
-                        {{--<div class="checkbox">--}}
-                        {{--<label>--}}
-                        {{--<input type="checkbox" name="categoriesId">--}}
-                        {{--Продукты--}}
-                        {{--</label>--}}
-                        {{--</div>--}}
-                        {{--<div class="checkbox">--}}
-                        {{--<label>--}}
-                        {{--<input type="checkbox" name="categoriesId">--}}
-                        {{--Развлечения--}}
-                        {{--</label>--}}
-                        {{--</div>--}}
-                        {{--<div class="checkbox">--}}
-                        {{--<label>--}}
-                        {{--<input type="checkbox" name="categoriesId">--}}
-                        {{--Спорт / здоровье / красота--}}
-                        {{--</label>--}}
-                        {{--</div>--}}
-                        {{--<div class="checkbox">--}}
-                        {{--<label>--}}
-                        {{--<input type="checkbox" name="categoriesId">--}}
-                        {{--Разное--}}
-                        {{--</label>--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
-                        {{--<div class="form-group" id="regions">--}}
-                        {{--<label for="regions">Области *</label>--}}
-                        {{--<div class="checkbox">--}}
-                        {{--<label>--}}
-                        {{--<input type="checkbox" name="regionId">--}}
-                        {{--Саратовская область--}}
-                        {{--</label>--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
-                        {{--<div class="form-group" id="cities">--}}
-                        {{--<label for="cities">Города *</label>--}}
-                        {{--<div class="checkbox">--}}
-                        {{--<label>--}}
-                        {{--<input type="checkbox" name="citiesId">--}}
-                        {{--Саратов--}}
-                        {{--</label>--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
+                        <div class="form-group" id="settings">
+                            <label for="settings">Настройки бренда</label>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="is_federal" value="1">
+                                    Федеральный бренд
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="is_internet_shop" value="1">
+                                    Интернет-магазин
+                                    </label>
+                            </div>
+                        </div>
+                        <div class="form-group" id="categories">
+                            <label for="categories">Категории *</label>
+                            @foreach($categories as $category)
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="{{ $category->code }}" value="{{ $category->id }}">
+                                        {{ $category->name }}
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="form-group" id="cities">
+                            <label for="cities">Города *</label>
+                            @foreach($cities as $city)
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="{{ $city->code }}" value="{{ $city->id }}">
+                                        {{ $city->name }}
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
 
                     {{--Временное решение !!!!!--}}

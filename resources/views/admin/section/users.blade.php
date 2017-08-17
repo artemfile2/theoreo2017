@@ -32,7 +32,7 @@
                                             Фамилия
                                         </th>
                                         <th class="sorting" tabindex="0" aria-controls="users" rowspan="1" colspan="1" style="width: 23%" aria-label="">
-                                            Логин/Email
+                                            Логин
                                         </th>
                                         <th class="sorting" tabindex="0" aria-controls="users" rowspan="1" colspan="1" style="width: 18%" aria-label="">
                                             Роль
