@@ -100,11 +100,25 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'],function () {
         /*
         * роуты в админке для пункта Контент*/
         Route::group(['prefix' => 'content'], function (){
+
             Route::get('/', 'ContentController@content')
                 ->name('admin.content.get_all');
 
+            /*
+             * Роут для извлечения данных из парсера во временную таблицу*/
             Route::post('/', 'ContentController@VKFeedDownload')
                 ->name('admin.content.download');
+
+            /*
+             * роут для jquery - button.js,
+             * Insert копирует запись из временной таблицы в таблицу Акции
+             * и мягко удаляет данную запись*/
+            Route::get('/insert/{id}', 'ContentController@insert')
+                ->name('admin.content.insert');
+            /*
+             * Delete мягко удаляет запись из временной таблицы*/
+            Route::get('/delete/{id}', 'ContentController@delete')
+                ->name('admin.content.delete');
         });
 
 
