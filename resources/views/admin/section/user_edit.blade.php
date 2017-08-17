@@ -12,6 +12,13 @@
                     {{ csrf_field() }}
                     <div class="box-body">
                         <div class="form-group">
+                            <label for="login">Логин (E-mail) *</label>
+                            <input class="form-control" id="login" placeholder="Введите логин или email" type="text" name="login" value="{{ $user->login}}">
+                        </div>
+                        @if ($errors->has('login'))
+                            <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('login') }}</div>
+                        @endif
+                        <div class="form-group">
                             <label for="name">Имя *</label>
                             <input class="form-control" id="name" placeholder="Введите имя" type="text" name="name" value="{{ $user->name }}">
                         </div>
@@ -19,9 +26,12 @@
                             <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('name') }}</div>
                         @endif
                         <div class="form-group">
-                        <label for="surname">Фамилия *</label>
-                        <input class="form-control" id="surname" placeholder="Введите фамилию" type="text" name="surname" value="{{ $user->surname }}">
+                            <label for="surname">Фамилия *</label>
+                            <input class="form-control" id="surname" placeholder="Введите фамилию" type="text" name="surname" value="{{ $user->surname }}">
                         </div>
+                        @if ($errors->has('surname'))
+                            <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('surname') }}</div>
+                        @endif
                         <div class="form-group">
                             <label for="avatar">Аватар</label>
                             @if($user->upload)
@@ -33,13 +43,6 @@
                         </div>
                         @if ($fileError)
                             <div class="alert alert-danger alert-dismissibler margin-top">{{ $fileError }}</div>
-                        @endif
-                        <div class="form-group">
-                            <label for="login">Логин (E-mail) *</label>
-                            <input class="form-control" id="login" placeholder="Введите логин или email" type="text" name="login" value="{{ $user->login}}">
-                        </div>
-                        @if ($errors->has('login'))
-                            <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('login') }}</div>
                         @endif
                         <div class="box box-solid box-primary collapsed-box">
                             <div class="box-header with-border">

@@ -12,6 +12,13 @@
                     {{ csrf_field() }}
                     <div class="box-body">
                         <div class="form-group">
+                            <label for="login">Логин  *</label>
+                            <input class="form-control" id="login" placeholder="Введите логин" type="text" name="login" value="{{ old('login') }}">
+                        </div>
+                        @if ($errors->has('login'))
+                            <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('login') }}</div>
+                        @endif
+                        <div class="form-group">
                             <label for="name">Имя *</label>
                             <input class="form-control" id="name" placeholder="Введите имя" type="text" name="name" value="{{ old('name') }}">
                         </div>
@@ -22,6 +29,9 @@
                             <label for="surname">Фамилия *</label>
                             <input class="form-control" id="surname" placeholder="Введите фамилию" type="text" name="surname" value="{{ old('surname') }}">
                         </div>
+                        @if ($errors->has('surname'))
+                            <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('surname') }}</div>
+                        @endif
                         <div class="form-group">
                             <label for="avatar">Аватар</label>
                             <img class="img-responsive margin-bottom" src="{{ asset('/image/fit/300/300/default.jpg') }}" alt="">
@@ -30,13 +40,7 @@
                         @if ($fileError)
                             <div class="alert alert-danger alert-dismissibler margin-top">{{ $fileError }}</div>
                         @endif
-                        <div class="form-group">
-                            <label for="login">Логин (E-mail) *</label>
-                            <input class="form-control" id="login" placeholder="Введите логин или email" type="text" name="login" value="{{ old('login') }}">
-                        </div>
-                        @if ($errors->has('login'))
-                            <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('login') }}</div>
-                        @endif
+
                         <div class="form-group">
                             <label for="password">Пароль *</label>
                             <input class="form-control" id="password" placeholder="Введите пароль" type="password" name="password">

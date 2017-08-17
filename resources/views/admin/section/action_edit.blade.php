@@ -45,7 +45,7 @@
                             <a class="btn btn-primary" href="#tab_3" data-toggle="tab">Редактировать</a>
                         </div>
                         <div class="form-group">
-                            <label for="full-description">Полный анонс</label>
+                            <label for="full-description">Полный анонс *</label>
                             <textarea class="form-control" id="full-description" rows="5" placeholder="Введите полный анонс акции" name="description">{{ $action->description }}</textarea>
                             @if ($errors->has('description'))
                                 <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('description') }}</div>
@@ -59,7 +59,7 @@
                             @endif
                         </div>
                         <div class="form-group date">
-                            <label>Дата начала акции</label>
+                            <label>Дата начала акции *</label>
                             <div class="input-group">
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
@@ -71,7 +71,7 @@
                             </div>
                         </div>
                         <div class="form-group date">
-                            <label>Дата окончания акции</label>
+                            <label>Дата окончания акции *</label>
                             <div class="input-group">
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
@@ -116,29 +116,6 @@
                             @endif
                         </div>
                         <div class="form-group">
-                            <label>Теги</label>
-                            <select id="tags" class="form-control select2 select2-hidden-accessible" multiple="multiple" style="width: 100%;" tabindex="-1" aria-hidden="true" name="tag_id">
-                                {{--tags[]--}}
-                                {{--@foreach($selectedTags as $tag_name)
-                                    <option value="{{$tag_name}}" selected >{{$tag_name }}</option>
-                                @endforeach--}}
-                                @foreach($tags as $tag)
-                                    {{--@if (!in_array($tag->name, $selectedTags))--}}
-                                        <option value="{{$tag->name}}">{{$tag->name }}</option>  
-                                    {{--@endif--}}
-                                @endforeach
-                            </select>
-                            @if ($errors->has('tags'))
-                                <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('tags') }}</div>
-                            @endif
-                        </div>
-
-                        {{--<div class="form-group">--}}
-                            {{--<label for="rating">Рейтинг *</label>--}}
-                            {{--<input class="form-control" id="rating" placeholder="" type="number" name="rating">--}}
-                        {{--</div>--}}
-
-                        <div class="form-group">
                             <label>Город проведения *</label>
                             <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" name="city_id">
                                 @foreach($cities as $city)
@@ -147,6 +124,39 @@
                             </select>
                             @if ($errors->has('city_id'))
                                 <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('city_id') }}</div>
+                            @endif
+                        </div>
+                        <div class="form-group">
+                            <label for="addresses">Адреса</label>
+                            <textarea class="form-control" id="addresses" rows="5" placeholder="Введите адреса проведения акции" name="addresses">{{ old('addresses') }}</textarea>
+                            <p class="help-block">Адреса указываются списком по одному на строчку</p>
+                            @if ($errors->has('addresses'))
+                                <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('addresses') }}</div>
+                            @endif
+                        </div>
+                        <div class="form-group">
+                            <label for="phones">Телефоны</label>
+                            <textarea class="form-control" id="phones" rows="5" placeholder="Введите контактные телефоны" name="phones">{{ old('phones') }}</textarea>
+                            <p class="help-block">Телефоны указываются списком по одному на строчку</p>
+                            @if ($errors->has('phones'))
+                                <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('phones') }}</div>
+                            @endif
+                        </div>
+                        <div class="form-group">
+                            <label>Теги</label>
+                            <select id="tags" class="form-control select2 select2-hidden-accessible" multiple="multiple" style="width: 100%;" tabindex="-1" aria-hidden="true" name="tag_id">
+                                {{--tags[]--}}
+                                {{--@foreach($selectedTags as $tag_name)
+                                    <option value="{{$tag_name}}" selected >{{$tag_name }}</option>
+                                @endforeach--}}
+                                @foreach($tags as $tag)
+                                    {{--@if (!in_array($tag->name, $selectedTags))--}}
+                                    <option value="{{$tag->name}}">{{$tag->name }}</option>
+                                    {{--@endif--}}
+                                @endforeach
+                            </select>
+                            @if ($errors->has('tags'))
+                                <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('tags') }}</div>
                             @endif
                         </div>
                     </div>

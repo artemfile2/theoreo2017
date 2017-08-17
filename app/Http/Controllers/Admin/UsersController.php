@@ -8,6 +8,7 @@ use App\Models\Upload;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Classes\Uploader;
+use Illuminate\Validation\Rule;
 
 class UsersController extends Controller
 {
@@ -46,6 +47,16 @@ class UsersController extends Controller
     public function userCreatePost(Request $request, Uploader $uploader, Upload $uploadModel)
     {
         $requestAll = $request->all();
+
+        $this->validate($request, [
+            'login' => 'required|unique:users|max:30|min:5',
+            'password' => 'required|max:30|min:6',
+            'password2' => 'required|same:password',
+            'name' => 'required|max:200|min:2',
+            'surname' => 'required|max:200|min:2',
+            'role_id' => 'integer|required',
+            'gender' => 'required',
+        ]);
 
         if ($request->avatar) {
             if ($uploader->validate($request, 'avatar', config ('imagerules') )) {
@@ -120,6 +131,21 @@ class UsersController extends Controller
     {
         $requestAll = $request->all();
         $user = User::findOrFail($id);
+
+        $this->validate($request, [
+            'login' => [
+                'required',
+                Rule::unique('users')->ignore($user->id),
+                'max:30',
+                'min:5'
+        ],
+            'password' => 'required|max:30|min:6',
+            'password2' => 'required|same:password',
+            'name' => 'required|max:200|min:2',
+            'surname' => 'required|max:200|min:2',
+            'role_id' => 'integer|required',
+            'gender' => 'required',
+        ]);
 
         if($request->avatar) {
             if ($uploader->validate($request, 'avatar', config ('imagerules') )) {
