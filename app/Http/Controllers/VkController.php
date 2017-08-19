@@ -85,12 +85,12 @@ class VkController extends Controller
                 if($feed->wasRecentlyCreated){
                     $newItems++;
                 }
-                dump($feed, $post[$key]);
+                //dump($feed, $post[$key]);
             } catch (\Exception $e){
                 dump($e);//todo заменить на нормальное исключение
             }
         }
 
-        echo "done. New items : $newItems";
+        echo "Done. Parsed items: " . count($responseItems) . ". New items : $newItems";
     }
 }
