@@ -7,6 +7,7 @@
             <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="false">Основное</a></li>
             <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">Фотографии</a></li>
             <li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="false">Изображение</a></li>
+            <li class="brand-add-tab hidden"><a href="#tab_4" data-toggle="tab" aria-expanded="false">Брэнд</a></li>
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="tab_1">
@@ -15,7 +16,8 @@
                     <div class="box-body">
                         <div class="form-group">
                             <label>Компания/Бренд *</label>
-                            <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" name="brand_id">
+                            <div class="btn btn-primary plus" id="add_brand"><i class="fa fa-plus"></i></div>
+                            <select id="brand_id" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" name="brand_id">
                                 @foreach($brands as $brand)
                                     <option value="{{ $brand->id }}" {{ old('brand_id') ? 'selected' : '' }}>{{ $brand->name }}</option>
                                 @endforeach
@@ -192,17 +194,21 @@
             <div class="tab-pane" id="tab_3">
 
             </div>
+            <div class="tab-pane" id="tab_4">
+
+            </div>
         </div>
     </div>
-
 @endsection
 
 @push('styles')
     <link href="{{ asset("/css/admin/datepicker3.css")}}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset("/css/admin/admin-style.css")}}" rel="stylesheet" type="text/css" />
 @endpush
 
 @push('script')
     <script src="{{ asset ("/js/admin/datepicker/bootstrap-datepicker.js") }}"></script>
     <script src="{{ asset ("/js/admin/datepicker/locales/bootstrap-datepicker.ru.js") }}" charset="UTF-8"></script>
     <script src="{{ asset ("/js/admin/theoreo.admin.actions.js") }}"></script>
+    <script src="{{ asset ("/js/admin/script_add_action.js") }}"></script>
 @endpush
