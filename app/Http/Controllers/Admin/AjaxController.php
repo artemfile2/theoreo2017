@@ -48,9 +48,11 @@ class AjaxController extends Controller
                 $message = implode($uploader->getErrors(), '. ');
                 $request->session()->flash('fileError', $message);
 
-                return redirect()
-                    ->route('admin.brands.create')
-                    ->withInput();
+                return view('admin.ajax.brand_add', [
+                    'categories' => Category::all(),
+                    'cities' => City::all(),
+                    'fileError' => $message
+                ]);
             }
         }
 

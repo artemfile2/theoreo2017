@@ -3,6 +3,7 @@
     <div class="box-body">
         <div class="form-group">
             <label>Компания/Бренд *</label>
+            <div class="btn btn-primary plus" id="add_brand"><i class="fa fa-plus"></i></div>
             <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" name="brand_id">
                 @foreach($brands as $brand)
                     <option value="{{ $brand->id }}" {{ old('brand_id') ? 'selected' : '' }}>{{ $brand->name }}</option>
@@ -129,6 +130,10 @@
         </div>
         <div class="form-group">
             <label>Теги</label>
+            <div class="btn btn-primary plus" id="add_tag"><i class="fa fa-plus"></i></div>
+            <div id="tag_box" class="hidden">
+
+            </div>
             <select id="tags" class="form-control select2 select2-hidden-accessible" multiple="multiple" style="width: 100%;" tabindex="-1" aria-hidden="true" name="tag_id">
                 {{--tags[]--}}
                 {{--@foreach($selectedTags as $tag_name)

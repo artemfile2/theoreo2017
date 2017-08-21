@@ -2,11 +2,11 @@
 
 /*
 |--------------------------------------------------------------------------
-| Admin ajax Routes
+| Ajax Routes
 |--------------------------------------------------------------------------
 */
 
-
+/* Ajax для Админки */
 
 Route::group(['namespace' => 'Admin', 'prefix' => 'ajax'],function () {
 
@@ -14,6 +14,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'ajax'],function () {
         ->name('ajax.admin.brandAddForm');
     Route::post('/admin/brand/add', 'AjaxController@brandAddPost')
         ->name('ajax.admin.brandAddPost');
-
+    Route::post('/admin/tag/add', 'AjaxController@tagAddPost')
+        ->name('ajax.admin.tagAddPost');
 });
 
