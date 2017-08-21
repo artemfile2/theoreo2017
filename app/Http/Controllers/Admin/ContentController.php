@@ -7,17 +7,24 @@ use App\Models\Action;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+/**
+ * Class ContentController
+ * Контроллер для работы с данными, полученными из парсера
+ */
 class ContentController extends Controller
 {
+    /**
+     * Главная страница модерации контента, полученного из парсера
+     */
     public function content()
     {
         $contents = VkFeed::all();
         $actions = Action::all();
 
-        /*Получаем акции только что добавленные*/
+        //Получаем акции только что добавленные
         $actionsAdded = Action::where('status_id', 1)
             ->get();
-        /*Получаем акции отклоненные и утвержденные*/
+        //Получаем акции отклоненные и утвержденные
         $actionsMove = Action::whereIn('status_id', [2,3])
             ->get();
 

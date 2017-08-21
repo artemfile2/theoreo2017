@@ -25,6 +25,11 @@ class RolePrivilegeTableSeeder extends Seeder
 
         DB::table('role_privilege')->insert([
             'role_id' => 2,
+            'privilege_id' => 2,
+        ]);
+
+        DB::table('role_privilege')->insert([
+            'role_id' => 2,
             'privilege_id' => 3,
         ]);
 

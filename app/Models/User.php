@@ -43,4 +43,17 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Brand');
     }
+
+
+    public function hasPrivilege($privilege)
+    {
+        if($this->role->privilege
+            ->where('code', $privilege)
+            ->first())
+        {
+            return true;
+        }
+
+        return false;
+    }
 }

@@ -4,7 +4,7 @@
 
     <section class="content">
         <div class="row">
-            {{--@can('control', \App\Models\User::class)--}}
+            @can ('users_management', \App\Models\User::class)
                 <div class="col-lg-4 col-md-6 col-sm-12">
                     <a href="{{ route('admin.user.get_all') }}">
                         <div class="info-box">
@@ -22,8 +22,8 @@
                         </div>
                     </a>
                 </div>
-           {{-- @endcan
-            @can('control', \App\Models\Brand::class)--}}
+            @endcan
+            @can ('brand_management', \App\Models\User::class)
                 <div class="col-lg-4 col-md-6 col-sm-12">
                     <a href="{{ route('admin.brands.get_all') }}">
                         <div class="info-box">
@@ -41,8 +41,8 @@
                         </div>
                     </a>
                 </div>
-           {{-- @endcan
-            @can('control', \App\Models\Action::class)--}}
+           @endcan
+            @can('actions_management', \App\Models\User::class)
                 <div class="col-lg-4 col-md-6 col-sm-12">
                     <a href="{{ route('admin.actions.get_all') }}">
                         <div class="info-box">
@@ -60,7 +60,7 @@
                         </div>
                     </a>
                 </div>
-            {{--@endcan--}}
+            @endcan
             <div class="col-lg-4 col-md-6 col-sm-12">
                 <a href="{{ route('admin.content.get_all') }}">
                     <div class="info-box">

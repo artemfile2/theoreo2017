@@ -8,11 +8,16 @@ use App\Models\Brand;
 use App\Models\VkFeed;
 use App\Http\Controllers\Controller;
 
+/**
+ * Class AdminController
+ * Базовый контроллер для контроллеров админ-панели
+ */
 class AdminController extends Controller
 {
 
-    /*
-     * панель управления, главная страница в админке*/
+    /**
+     * Панель управления, главная страница в админке
+     */
     public function index()
     {
         $users = User::all();
@@ -29,34 +34,9 @@ class AdminController extends Controller
         ]);
     }
 
-    public function brands()
-    {
-        return view('admin.section.brands', [
-            'title' => 'Компании',
-        ]);
-    }
-
-    public function actions()
-    {
-        return view('admin.section.actions', [
-            'title' => 'Акции',
-        ]);
-    }
-
-/*    public function comments()
-    {
-        return view('admin.section.comments', [
-            'title' => 'Комментарии',
-        ]);
-    }*/
-
-    public function content()
-    {
-        return view('admin.section.moderation', [
-            'title' => 'Контент',
-        ]);
-    }
-
+    /**
+     * Страница логов парсера
+     */
     public function logs()
     {
         return view('admin.section.logs', [
@@ -64,6 +44,9 @@ class AdminController extends Controller
         ]);
     }
 
+    /**
+     * Страница поисковых запросов
+     */
     public function queries()
     {
         return view('admin.section.queries', [

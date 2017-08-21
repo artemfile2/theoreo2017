@@ -10,8 +10,15 @@ use App\Http\Controllers\Controller;
 use App\Classes\Uploader;
 use Illuminate\Validation\Rule;
 
+/**
+ * Class UsersController
+ * Контроллер для работы с пользователями
+ */
 class UsersController extends Controller
 {
+    /**
+     * Главная (список активных/удаленных)
+     */
     public function users()
     {
         $users = User::all()
@@ -28,6 +35,9 @@ class UsersController extends Controller
         ]);
     }
 
+    /**
+     * Создание нового пользователя
+     */
     public function userCreate(Request $request, $fileError = null)
     {
         if($request->session()->has('fileError')) {
@@ -78,15 +88,16 @@ class UsersController extends Controller
         }
 
         $requestAll['upload_id'] = isset($uploadsModel) ? $uploadsModel->id : null;
+        $requestAll['password'] = bcrypt($request->password);
         $userModel = User::create($requestAll);
 
         return redirect()
             ->route('admin.user.get_all');
     }
 
-    /*
-     * восстановление удаленного пользователя,
-     * при неявном удалении из таблицы*/
+    /**
+     * Восстановление удаленного пользователя из раздела "Удаленные"
+     */
     public function userRestore($id)
     {
         User::withTrashed()
@@ -97,9 +108,9 @@ class UsersController extends Controller
             ->route('admin.user.get_all');
     }
 
-    /*
-     * неявное удаление пользователя из таблицы
-     * */
+    /**
+     * Мягкое удаление пользователя (перемещение в раздел "Удаленные")
+     */
     public function userTrash($id)
     {
         User::findOrFail($id)
@@ -109,6 +120,9 @@ class UsersController extends Controller
             ->route('admin.user.get_all');
     }
 
+    /**
+     * Редактирование пользователя
+     */
     public function userEdit($id, Request $request, $fileError = null)
     {
         $user = User::findOrFail($id);
@@ -139,8 +153,8 @@ class UsersController extends Controller
                 'max:30',
                 'min:5'
         ],
-            'password' => 'required|max:30|min:6',
-            'password2' => 'required|same:password',
+            'password' => 'nullable|max:30|min:6',
+            'password2' => 'nullable|same:password',
             'name' => 'required|max:200|min:2',
             'surname' => 'required|max:200|min:2',
             'role_id' => 'integer|required',
@@ -172,15 +186,22 @@ class UsersController extends Controller
             }
         }
 
+        if(!$request->password) {
+            $requestAll['password'] = $user->password;
+        }
+        else {
+            $requestAll['password'] = bcrypt($request->password);
+        }
+
         $user->update($requestAll);
 
         return redirect()
             ->route('admin.user.get_all');
     }
 
-    /*
-     * полное удаление пользователя из таблицы
-     * */
+    /**
+     * Безвозвратное удаление пользователя
+     */
     public function userDelete($id)
     {
         User::withTrashed()

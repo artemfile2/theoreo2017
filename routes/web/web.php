@@ -24,6 +24,23 @@ Route::group(['namespace' => 'Client'],function () {
     /* Поиск */
 
     Route::post('/search', 'PageController@search')->name('client.actionSearch');
-
-
 });
+
+/**
+ * Аутентификация
+ */
+
+/**
+ * Логин
+ */
+Route::get('/login', 'AuthController@login')
+    ->name('login');
+
+Route::post('/login', 'AuthController@loginPost')
+    ->name('loginPost');
+
+/**
+ * Логаут
+ */
+Route::get('/logout', 'AuthController@logout')
+    ->name('logout');
