@@ -21,6 +21,6 @@ class Role extends Model
     }
     public function privilege()
     {
-        return $this->belongsTo('App\Models\Privilege');
+        return $this->belongsToMany('App\Models\Privilege', 'role_privilege', 'role_id', 'privilege_id');
     }
 }

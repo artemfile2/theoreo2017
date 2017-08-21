@@ -10,10 +10,17 @@ use App\Http\Controllers\Controller;
 use App\Models\Upload;
 use App\Classes\Uploader;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
+/**
+ * Class BrandsController
+ * Контроллер для работы с компаниями (брендами)
+ */
 class BrandsController extends Controller
 {
-
+    /**
+     * Список брендов (активных и удаленных)
+     */
     public function brands()
     {
         $brands = Brand::all()
@@ -29,6 +36,9 @@ class BrandsController extends Controller
         ]);
     }
 
+    /**
+     * Мягкое удаление бренда (перемещение в раздел "Удаленные")
+     */
     public function brandTrash($id)
     {
         Brand::findOrFail($id)
@@ -38,6 +48,9 @@ class BrandsController extends Controller
             ->route('admin.brands.get_all');
     }
 
+    /**
+     * Восстановление бренда из раздела "Удаленные"
+     */
     public function brandRestore($id)
     {
         Brand::withTrashed()
@@ -48,6 +61,9 @@ class BrandsController extends Controller
             ->route('admin.brands.get_all');
     }
 
+    /**
+     * Безвозвратное удаление бренда
+     */
     public function brandDelete($id)
     {
         Brand::withTrashed()
@@ -58,6 +74,9 @@ class BrandsController extends Controller
             ->route('admin.brands.get_all');
     }
 
+    /**
+     * Создание нового бренда
+     */
     public function brandCreate(Request $request, $fileError = null)
     {
         if($request->session()->has('fileError')) {
@@ -107,11 +126,7 @@ class BrandsController extends Controller
             }
         }
 
-        /**
-         * Раскомментировать после внедрения авторизации для админ-панели.
-         * $requestAll['user_id'] = Auth::user()->id;
-        */
-
+        $requestAll['user_id'] = Auth::user()->id;
         $requestAll['upload_id'] = isset($uploadsModel) ? $uploadsModel->id : null;
         Brand::create($requestAll);
 
@@ -119,6 +134,9 @@ class BrandsController extends Controller
             ->route('admin.brands.get_all');
     }
 
+    /**
+     * Редактирование бренда
+     */
     public function brandEdit($id, Request $request, $fileError = null)
     {
         $brand = Brand::findOrFail($id);

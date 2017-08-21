@@ -44,14 +44,14 @@
             <div class="box-body">
                 <div class="form-group">
                     <label for="password">Пароль *</label>
-                    <input class="form-control" id="password" placeholder="Введите пароль" type="password" name="password" value="{{ $user->password }}">
+                    <input class="form-control" id="password" placeholder="Введите пароль" type="password" name="password" value="">
                 </div>
                 @if ($errors->has('password'))
                     <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('password') }}</div>
                 @endif
                 <div class="form-group">
                     <label for="password2">Повтор пароля *</label>
-                    <input class="form-control" id="password2" placeholder="Введите пароль еще раз" type="password" name="password2" value="{{ $user->password }}">
+                    <input class="form-control" id="password2" placeholder="Введите пароль еще раз" type="password" name="password2" value="">
                 </div>
                 @if ($errors->has('password2'))
                     <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('password2') }}</div>

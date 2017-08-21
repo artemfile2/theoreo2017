@@ -15,8 +15,15 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
 
+/**
+ * Class ActionsController
+ * Контроллер для работы с акциями
+ */
 class ActionsController extends Controller
 {
+    /**
+     * Главная страница (список активных/удаленных)
+     */
     public function actions()
     {
         $actions = Action::all()
@@ -32,6 +39,9 @@ class ActionsController extends Controller
         ]);
     }
 
+    /**
+     * Мягкое удаление акции(перемещение в раздел "Удаленные")
+     */
     public function actionTrash($id)
     {
         Action::findOrFail($id)
@@ -41,6 +51,9 @@ class ActionsController extends Controller
             ->route('admin.actions.get_all');
     }
 
+    /**
+     * Восстановление бренда из раздела "Удаленные"
+     */
     public function actionRestore($id)
     {
         Action::withTrashed()
@@ -51,6 +64,9 @@ class ActionsController extends Controller
             ->route('admin.actions.get_all');
     }
 
+    /**
+     * Безвозвратное удаление бренда
+     */
     public function actionDelete($id)
     {
         Action::withTrashed()
@@ -61,6 +77,9 @@ class ActionsController extends Controller
             ->route('admin.actions.get_all');
     }
 
+    /**
+     * Создание новой акции
+     */
     public function actionCreate(Request $request, $fileError = null)
     {
         if($request->session()->has('fileError')) {
@@ -85,6 +104,7 @@ class ActionsController extends Controller
             'fileError' => $fileError,
         ]);
     }
+
 
     public function actionCreatePost(Request $request, Uploader $uploader, Upload $uploadModel)
     {
@@ -131,6 +151,9 @@ class ActionsController extends Controller
             ->route('admin.actions.get_all');
     }
 
+    /**
+     * Редактирование акции
+     */
     public function actionEdit($id, Request $request, $fileError = null)
     {
         $action = Action::findOrFail($id);
