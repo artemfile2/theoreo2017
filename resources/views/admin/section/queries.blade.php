@@ -29,12 +29,14 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr role="row" class="odd">
-                                <td class="sorting_1">скидки</td>
-                                <td>1</td>
-                                <td>06.08.2017 01:00:07</td>
-                                <td>20</td>
-                            </tr>
+                            @foreach ($queries as $query)
+                                <tr role="row" class="odd">
+                                    <td class="sorting_1">{{ $query->query_text }}</td>
+                                    <td>{{ $query->query_cnt }}</td>
+                                    <td>{{ $query->last_date }}</td>
+                                    <td>{{ $query->results_cnt }}</td>
+                                </tr>
+                            @endforeach
                             </tbody>
                             <tfoot>
                             <tr>
