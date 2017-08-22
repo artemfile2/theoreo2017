@@ -37,7 +37,6 @@ class AdminController extends Controller
         ]);
     }
 
-
     /**
      * Страница логов парсера
      */
