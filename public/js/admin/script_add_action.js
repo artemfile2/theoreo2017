@@ -20,15 +20,21 @@ $(document).ready( function() {
                     if(f.name != '' && f.code != ''){
                         $.post("/ajax/admin/category/add", {name: ""+f.name+"", code: ""+f.code+"", _token: ""+token+""}, function(data) { // Do an AJAX call
                             $.prompt.close();
-                            $.prompt(data);
+                            if($.isNumeric(data)){
+                                var new_cat = [{ id: data, text: f.name, selected: true }];
+                                $("#category_box").select2({data: new_cat});
+                                $.prompt("Категория сохранена");
+                            }else{
+                                $.prompt(data);
+                            }
                         });
                     }else{
                         $.prompt("Заполните все поля");
                     }
-                };
+                }
             },
             title: 'Добавить категорию',
-            buttons: { Сохранить: 1, Отменить: false },
+            buttons: { Сохранить: 1, Отменить: false }
         });
     });
 });

@@ -25,7 +25,14 @@ class AjaxController extends Controller
     public function categoryAddPost()
     {
         //TODO получить данные из массива и сохранить категорию.
-        return 'Категория сохранена';
+        $category_id = 13;
+        return $category_id;
+
+        /*Формат возврата ( по прочтении стереть ;) )
+        return $category_id;  // Всплывашка проверит, что это число и обновит селект
+        return 'Категория уже существует!'; // всплывашка, увидев строку вместо числа, выведет строку.
+        return 'Не удалось сохранить категорию!';
+        */
     }
 
     public function brandAddPost(Request $request, Uploader $uploader, Upload $uploadModel)
