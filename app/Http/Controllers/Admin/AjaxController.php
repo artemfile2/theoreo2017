@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Upload;
 use App\Classes\Uploader;
+use Illuminate\Support\Facades\Auth;
 
 class AjaxController extends Controller
 {
@@ -56,11 +57,7 @@ class AjaxController extends Controller
             }
         }
 
-        /**
-         * Раскомментировать после внедрения авторизации для админ-панели.
-         * $requestAll['user_id'] = Auth::user()->id;
-         */
-
+        $requestAll['user_id'] = Auth::user()->id;
         $requestAll['upload_id'] = isset($uploadsModel) ? $uploadsModel->id : null;
         Brand::create($requestAll);
 

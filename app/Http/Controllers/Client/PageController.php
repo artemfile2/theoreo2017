@@ -44,6 +44,14 @@ class PageController extends Controller
     public function action($id)
     {
         $action = $this->action->getOne($id);
+
+        /**
+         * Инкремент рейтинга статьи при просмотре
+         */
+        $action->update([
+            'rating' => $action->rating + 1,
+        ]);
+
         $same_action = false;
 
         //TODO 'Сделать вывод похожих акций';

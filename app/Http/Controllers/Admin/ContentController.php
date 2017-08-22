@@ -71,7 +71,6 @@ class ContentController extends Controller
             $action->description = $content->content;
             $action->active_from = date('Y-m-d');
             $action->active_to = date('Y-m-d');
-            $action->rating = 1;
             $action->save();
 
             $content->delete();
