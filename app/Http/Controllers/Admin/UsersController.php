@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\User;
 use App\Models\Role;
 use App\Models\Upload;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Classes\Uploader;
 use Illuminate\Validation\Rule;
+use App\Repositories\ActionRepositoryInterface;
 
 /**
  * Class UsersController
@@ -16,22 +16,20 @@ use Illuminate\Validation\Rule;
  */
 class UsersController extends Controller
 {
-    /**
-     * Главная (список активных/удаленных)
-     */
+    public function __construct(ActionRepositoryInterface $user, Request $request)
+    {
+        $this->user = $user;
+    }
+
+
     public function users()
     {
-        $users = User::all()
-            ->sortByDesc('created_at');
-
-        $usersDeleted = User::onlyTrashed()
-            ->get();
+        $users = $this->user->getAll();
 
         return view('admin.section.users', [
             'title' => 'Пользователи',
-            'users' => $users,
-            'usersDeleted' => $usersDeleted,
-            /*'usersDeleted' => $this->usersGetAll()->withTrashed(),*/
+            'users' => $users['users'],
+            'usersDeleted' => $users['usersDeleted'],
         ]);
     }
 
@@ -89,7 +87,8 @@ class UsersController extends Controller
 
         $requestAll['upload_id'] = isset($uploadsModel) ? $uploadsModel->id : null;
         $requestAll['password'] = bcrypt($request->password);
-        $userModel = User::create($requestAll);
+
+        $this->user->create($requestAll);
 
         return redirect()
             ->route('admin.user.get_all');
@@ -100,9 +99,7 @@ class UsersController extends Controller
      */
     public function userRestore($id)
     {
-        User::withTrashed()
-            ->where('id', $id)
-            ->restore();
+        $this->user->restore($id);
 
         return redirect()
             ->route('admin.user.get_all');
@@ -113,8 +110,7 @@ class UsersController extends Controller
      */
     public function userTrash($id)
     {
-        User::findOrFail($id)
-            ->delete();
+        $this->user->inTrash($id);
 
         return redirect()
             ->route('admin.user.get_all');
@@ -125,7 +121,7 @@ class UsersController extends Controller
      */
     public function userEdit($id, Request $request, $fileError = null)
     {
-        $user = User::findOrFail($id);
+        $user = $this->user->getOne($id);
         $roles = Role::all();
 
         if($request->session()->has('fileError')) {
@@ -144,7 +140,7 @@ class UsersController extends Controller
     public function userEditPost(Request $request, $id, Uploader $uploader, Upload $uploadModel)
     {
         $requestAll = $request->all();
-        $user = User::findOrFail($id);
+        $user = $this->user->getOne($id);
 
         $this->validate($request, [
             'login' => [
@@ -204,9 +200,7 @@ class UsersController extends Controller
      */
     public function userDelete($id)
     {
-        User::withTrashed()
-            ->where('id', $id)
-            ->forceDelete();
+        $this->user->delete($id);
 
         return redirect()
             ->route('admin.user.get_all');

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Action;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Tag;
@@ -14,6 +13,7 @@ use App\Classes\Uploader;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
+use App\Repositories\ActionRepositoryInterface;
 
 /**
  * Class ActionsController
@@ -21,64 +21,61 @@ use Illuminate\Validation\Rule;
  */
 class ActionsController extends Controller
 {
-    /**
-     * Главная страница (список активных/удаленных)
-     */
+    protected $actions;
+
+    public function __construct(ActionRepositoryInterface $actions, Request $request)
+    {
+        $this->actions = $actions;
+    }
+
+    /*
+     * Вывод всех Акций на страницу*/
     public function actions()
     {
-        $actions = Action::all()
-            ->sortByDesc('created_at');
-
-        $actionsDeleted = Action::onlyTrashed()
-            ->get();
+        $actions = $this->actions->getAll();
 
         return view('admin.section.actions', [
             'title' => 'Акции',
-            'actions' => $actions,
-            'actionsDeleted' => $actionsDeleted,
+            'actions' => $actions['actions'],
+            'actionsDeleted' => $actions['actionsDeleted'],
         ]);
     }
 
     /**
-     * Мягкое удаление акции(перемещение в раздел "Удаленные")
+     * Удаление Акции в корзину(мягкое удаление)
      */
     public function actionTrash($id)
     {
-        Action::findOrFail($id)
-            ->delete();
+        $this->actions->inTrash($id);
 
         return redirect()
             ->route('admin.actions.get_all');
     }
 
     /**
-     * Восстановление бренда из раздела "Удаленные"
+     * Восстановление Акции из корзины
      */
     public function actionRestore($id)
     {
-        Action::withTrashed()
-            ->where('id', $id)
-            ->restore();
+        $this->actions->restore($id);
 
         return redirect()
             ->route('admin.actions.get_all');
     }
 
     /**
-     * Безвозвратное удаление бренда
+     * Удаление Акции
      */
     public function actionDelete($id)
     {
-        Action::withTrashed()
-            ->where('id', $id)
-            ->forceDelete();
+        $this->actions->delete($id);
 
         return redirect()
             ->route('admin.actions.get_all');
     }
 
     /**
-     * Создание новой акции
+     * Добавление новой Акции
      */
     public function actionCreate(Request $request, $fileError = null)
     {
@@ -105,7 +102,9 @@ class ActionsController extends Controller
         ]);
     }
 
-
+    /**
+     * Добавление новой Акции
+     */
     public function actionCreatePost(Request $request, Uploader $uploader, Upload $uploadModel)
     {
         $requestAll = $request->all();
@@ -145,18 +144,19 @@ class ActionsController extends Controller
         }
 
         $requestAll['upload_id'] = isset($uploadsModel) ? $uploadsModel->id : null;
-        Action::create($requestAll);
+
+        $this->actions->create($requestAll);
 
         return redirect()
             ->route('admin.actions.get_all');
     }
 
     /**
-     * Редактирование акции
+     * Редактирование Акции
      */
     public function actionEdit($id, Request $request, $fileError = null)
     {
-        $action = Action::findOrFail($id);
+        $action = $this->actions->getOne($id);
         $brands = Brand::all();
         $categories =Category::all();
         $tags = Tag::all();
@@ -181,10 +181,13 @@ class ActionsController extends Controller
         ]);
     }
 
+    /**
+     * Редактирование Акции
+     */
     public function actionEditPost(Request $request, $id, Uploader $uploader, Upload $uploadModel)
     {
         $requestAll = $request->all();
-        $action = Action::findOrFail($id);
+        $action = $this->actions->getOne($id);
 
         $this->validate($request, [
             'title' => [

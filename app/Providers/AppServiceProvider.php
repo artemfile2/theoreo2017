@@ -37,6 +37,14 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->when('App\Http\Controllers\Admin\ActionsController')
             ->needs('App\Repositories\ActionRepositoryInterface')
-            ->give('App\Repositories\ActionClientRepository');
+            ->give('App\Repositories\ActionAdminRepository');
+
+        $this->app->when('App\Http\Controllers\Admin\UsersController')
+            ->needs('App\Repositories\ActionRepositoryInterface')
+            ->give('App\Repositories\UsersAdminRepository');
+
+        $this->app->when('App\Http\Controllers\Admin\BrandsController')
+            ->needs('App\Repositories\ActionRepositoryInterface')
+            ->give('App\Repositories\BrandsAdminRepository');
     }
 }
