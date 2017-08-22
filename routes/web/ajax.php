@@ -8,7 +8,7 @@
 
 /* Ajax для Админки */
 
-Route::group(['namespace' => 'Admin', 'prefix' => 'ajax'],function () {
+Route::group(['namespace' => 'Admin', 'prefix' => 'ajax', 'middleware' => 'admin:admin_access'],function () {
 
     Route::get('/admin/brand/add', 'AjaxController@brandAddForm')
         ->name('ajax.admin.brandAddForm');

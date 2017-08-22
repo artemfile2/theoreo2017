@@ -34,22 +34,13 @@ class AdminController extends Controller
         ]);
     }
 
+
     /**
      * Страница логов парсера
      */
     public function logs()
     {
         return view('admin.section.logs', [
-            'title' => 'Логи парсера',
-        ]);
-    }
-
-    /**
-     * Страница поисковых запросов
-     */
-    public function queries()
-    {
-        return view('admin.section.queries', [
             'title' => 'Поисковые запросы',
         ]);
     }

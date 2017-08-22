@@ -4,7 +4,7 @@
  * Роуты для работы в админ-панели
  */
 Route::group(['prefix' => 'admin'], function () {
-    Route::group(['namespace' => 'Admin',  'middleware' => 'admin:admin_access'], function () {
+    Route::group(['namespace' => 'Admin', 'middleware' => 'admin:admin_access'], function () {
 
         /**
          * Главная страница
@@ -181,7 +181,7 @@ Route::group(['prefix' => 'admin'], function () {
         /**
          * Поисковые запросы
          */
-        Route::get('/queries', 'AdminController@queries')
+        Route::get('/queries', 'QueriesController@queries')
             ->name('admin.queries');
     });
 

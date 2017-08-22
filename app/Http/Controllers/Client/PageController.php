@@ -1,12 +1,15 @@
 <?php
 
 namespace App\Http\Controllers\Client;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Repositories\ActionRepositoryInterface;
 use App\Models\Category;
 use App\Models\Tag;
 use App\Models\Brand;
+use App\Models\Query;
+use Carbon\Carbon;
 
 class PageController extends Controller
 {
@@ -90,13 +93,35 @@ class PageController extends Controller
 
     public function search(Request $request)
     {
-        //TODO 'сделать логирование поисковых запросов';
         $this->validate($request, [
             'query' => 'required|max:200'
         ]);
        $query_str = $request->input('query');
 
        $actions = $this->action->search($query_str);
+
+
+       /**
+         * Логгирование поисковых запросов
+         */
+       $queryModel = Query::where('query_text', $query_str)
+            ->first();
+
+       if(!$queryModel) {
+           $queryModel = Query::create([
+               'query_text' => $query_str,
+               'results_cnt' => $actions->count(),
+               'query_cnt' => 1,
+               'last_date' => Carbon::now(),
+           ]);
+       }
+       else {
+            $queryModel->update([
+                'query_cnt' => $queryModel->query_cnt + 1,
+                'results_cnt' => $actions->count(),
+                'last_date' => Carbon::now(),
+            ]);
+       }
 
        return view('client.pages.main', ['actions' => $actions, 'query' => $query_str]);
     }
