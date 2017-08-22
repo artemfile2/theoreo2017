@@ -7,9 +7,11 @@
 
 @push('main-styles')
 <link href="{{ asset("/css/admin/admin-style.css")}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset("/js/admin/impromptu/jquery-impromptu.min.css")}}" rel="stylesheet" type="text/css" />
 @endpush
 
 @push('main-script')
 <script src="{{ asset ("/js/admin/script_add_brand.js") }}"></script>
+<script src="{{ asset ("/js/admin/impromptu/jquery-impromptu.min.js") }}"></script>
 @endpush
 
