@@ -30,7 +30,7 @@
                                 </thead>
                                 <tbody>
                                 @foreach($vktemps as $vktemp)
-                                <tr role="row" class="odd">
+                                <tr role="row" class="odd del{{ $vktemp->id }}">
                                     <td class="sorting_1">
                                         {{ $vktemp->id }}
                                     </td>
@@ -48,8 +48,8 @@
                                     </td>
                                     <td>
                                         <div class="form-group col-sm-6 col-lg-4">
-                                            <button type="button" class="btn btn-success margin-bottom margin-r-5" name="download" value="download"><i class="fa fa-download"></i> Добавить </button>
-                                            <button type="button" class="btn btn-danger margin-bottom"><i class="fa fa-close"></i> Удалить </button>
+                                            <button type="button" class="btn btn-success margin-bottom margin-r-5" name="download" value="{{ $vktemp->id }}"><i class="fa fa-download"></i> Добавить </button>
+                                            <button type="button" class="btn btn-danger margin-bottom" name="delete" value="{{ $vktemp->id }}"><i class="fa fa-close"></i> Удалить </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -131,7 +131,5 @@
 @endpush
 
 @push('script')
-    <script src="{{ asset ("/js/admin/theoreo.admin.actions.js") }}" type="text/javascript"></script>
-    <script src="{{ asset ("/js/admin/datepicker/bootstrap-datepicker.js") }}"></script>
-    <script src="{{ asset ("/js/admin/datepicker/locales/bootstrap-datepicker.ru.js") }}" charset="UTF-8"></script>
+    <script src="{{ asset ("/js/admin/buttons.js") }}"></script>
 @endpush
