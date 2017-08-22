@@ -29,6 +29,8 @@ class AdminController extends Controller
         ]);
     }
 
+    /*
+     * открывает страницу Компании/Бренда*/
     public function brands()
     {
         return view('admin.section.brands', [
@@ -36,6 +38,8 @@ class AdminController extends Controller
         ]);
     }
 
+    /*
+     * открывает страницу Акции*/
     public function actions()
     {
         return view('admin.section.actions', [
@@ -50,6 +54,8 @@ class AdminController extends Controller
         ]);
     }*/
 
+    /*
+    * открывает страницу Контента*/
     public function content()
     {
         return view('admin.section.moderation', [

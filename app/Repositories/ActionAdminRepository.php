@@ -11,8 +11,7 @@ class ActionAdminRepository implements ActionRepositoryInterface
 
     public function getAll(){
 
-        $actions = Action::all()
-            ->sortByDesc('created_at');
+        $actions = Action::all();
 
         $actionsDeleted = Action::onlyTrashed()
             ->get();

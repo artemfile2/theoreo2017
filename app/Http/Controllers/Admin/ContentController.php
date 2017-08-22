@@ -31,6 +31,9 @@ class ContentController extends Controller
         ]);
     }
 
+    /*
+     * копирует из таблицы парсера во временную таблицу,
+     * записи которые ничего не содержат в контенте не копируются*/
     public function VKFeedDownload()
     {
         $vkfeeds = VkFeed::all();
@@ -66,30 +69,34 @@ class ContentController extends Controller
         ]);
     }
 
-    /*public function VKFeedDownload()
+    /*
+     * Прошедщие премодерацию посты копируются в таблицу Акции*/
+    public function insert($id)
     {
-        $contents = VkFeed::all();
-        foreach ($contents as $content)
-        {
+        $vktemp = VkTemp::findOrFail($id);
+
             $action = new Action;
-            $action->title = mb_substr ($content->content, 0, 50);
+            $action->title = mb_substr ($vktemp->content, 0, 50);
             $action->brand_id = 1;
             $action->status_id = 1;
             $action->city_id = 1;
             $action->type_id = 1;
             $action->category_id = 1;
-            $action->description = $content->content;
+            $action->description = $vktemp->content;
             $action->active_from = date('Y-m-d');
             $action->active_to = date('Y-m-d');
             $action->rating = 1;
             $action->save();
 
-            $content->delete();
-        }
+            $vktemp->delete();
+    }
 
-        return redirect()
-            ->route('admin.actions.get_all');
-    }*/
-
-
+    /*
+     * мягко удаляет запись поста из временной таблицы*/
+    public function delete($id)
+    {
+        VkTemp::findOrFail($id)
+            ->delete();
+    }
 }
+

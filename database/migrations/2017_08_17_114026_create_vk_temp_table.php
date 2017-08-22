@@ -8,7 +8,9 @@ class CreateVkTempTable extends Migration
 {
     /**
      * Run the migrations.
-     *
+     * Временная таблица
+     * Содержит в себе записи из таблицы парсера,
+     * только те которые не пустые
      * @return void
      */
     public function up()

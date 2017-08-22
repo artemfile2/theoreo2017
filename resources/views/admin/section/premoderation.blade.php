@@ -24,13 +24,13 @@
                                         Текст
                                     </th>
                                     <th class="sorting" tabindex="0" aria-controls="actions" rowspan="1" colspan="1" style="width: 5%" aria-label="">
-                                        Статус
+                                        Действие
                                     </th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($vktemps as $vktemp)
-                                <tr role="row" class="odd del{{ $vktemp->id }}">
+                                <tr role="row" class="odd del{{ $vktemp->id }}" id="ajax_{{ $vktemp->id }}">
                                     <td class="sorting_1">
                                         {{ $vktemp->id }}
                                     </td>
@@ -60,7 +60,7 @@
                                     <th rowspan="1" colspan="1">ID</th>
                                     <th rowspan="1" colspan="1">Изображение</th>
                                     <th rowspan="1" colspan="1">Текст</th>
-                                    <th rowspan="1" colspan="1">Статус</th>
+                                    <th rowspan="1" colspan="1">Действие</th>
                                 </tr>
                                 </tfoot>
                             </table>
@@ -85,7 +85,7 @@
                                         Текст
                                     </th>
                                     <th class="sorting" tabindex="0" aria-controls="actionsDeleted" rowspan="1" colspan="1" style="width: 5%" aria-label="">
-                                        Статус
+                                        Действие
                                     </th>
                                 </tr>
                                 </thead>
@@ -114,7 +114,7 @@
                                     <th rowspan="1" colspan="1">ID</th>
                                     <th rowspan="1" colspan="1">Изображение</th>
                                     <th rowspan="1" colspan="1">Текст</th>
-                                    <th rowspan="1" colspan="1">Статус</th>
+                                    <th rowspan="1" colspan="1">Действие</th>
                                 </tr>
                                 </tfoot>
                             </table>
@@ -128,8 +128,11 @@
 
 @push('styles')
     <link href="{{ asset("/css/admin/datepicker3.css")}}" rel="stylesheet" type="text/css" />
+    {{--<link href="{{ asset("/js/admin/jquery_confirm/jquery_confirm.css")}}" rel="stylesheet" type="text/css" />--}}
 @endpush
 
 @push('script')
     <script src="{{ asset ("/js/admin/buttons.js") }}"></script>
+    {{--<script src="{{ asset ("/js/admin/jquery_confirm/jquery_confirm.js") }}"></script>--}}
+    <script src="{{ asset ("/js/admin/theoreo.admin.brands.js") }}" type="text/javascript"></script>
 @endpush

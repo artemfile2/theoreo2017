@@ -16,7 +16,8 @@ use App\Repositories\ActionRepositoryInterface;
 
 class ActionsController extends Controller
 {
-
+    /*
+     * Контроллер Акций*/
     protected $actions;
 
     public function __construct(ActionRepositoryInterface $actions, Request $request)
@@ -24,6 +25,8 @@ class ActionsController extends Controller
         $this->actions = $actions;
     }
 
+    /*
+     * Вывод всех Акций на страницу*/
     public function actions()
     {
         $actions = $this->actions->getAll();
@@ -35,6 +38,8 @@ class ActionsController extends Controller
         ]);
     }
 
+    /*
+     * Удаление Акции в корзину(мягкое удаление)*/
     public function actionTrash($id)
     {
         $this->actions->inTrash($id);
@@ -43,6 +48,8 @@ class ActionsController extends Controller
             ->route('admin.actions.get_all');
     }
 
+    /*
+     * Восстановление Акции из корзины*/
     public function actionRestore($id)
     {
         $this->actions->restore($id);
@@ -51,6 +58,8 @@ class ActionsController extends Controller
             ->route('admin.actions.get_all');
     }
 
+    /*
+     * Удаление Акции*/
     public function actionDelete($id)
     {
         $this->actions->delete($id);
@@ -59,6 +68,8 @@ class ActionsController extends Controller
             ->route('admin.actions.get_all');
     }
 
+    /*
+     * Добавление новой Акции*/
     public function actionCreate(Request $request, $fileError = null)
     {
         if($request->session()->has('fileError')) {
@@ -84,6 +95,8 @@ class ActionsController extends Controller
         ]);
     }
 
+    /*
+     * Добавление новой Акции*/
     public function actionCreatePost(Request $request, Uploader $uploader, Upload $uploadModel)
     {
         $requestAll = $request->all();
@@ -115,6 +128,8 @@ class ActionsController extends Controller
             ->route('admin.actions.get_all');
     }
 
+    /*
+     * Редактирование Акции*/
     public function actionEdit($id, Request $request, $fileError = null)
     {
         $action = $this->actions->getOne($id);
@@ -142,6 +157,8 @@ class ActionsController extends Controller
         ]);
     }
 
+    /*
+     * Редактирование Акции*/
     public function actionEditPost(Request $request, $id, Uploader $uploader, Upload $uploadModel)
     {
         $requestAll = $request->all();
