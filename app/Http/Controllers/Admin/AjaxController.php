@@ -22,6 +22,12 @@ class AjaxController extends Controller
         ]);
     }
 
+    public function categoryAddPost()
+    {
+        //TODO получить данные из массива и сохранить категорию.
+        return 'Категория сохранена';
+    }
+
     public function brandAddPost(Request $request, Uploader $uploader, Upload $uploadModel)
     {
         $requestAll = $request->all();

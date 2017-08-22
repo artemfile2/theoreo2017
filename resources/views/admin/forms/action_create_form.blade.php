@@ -92,7 +92,8 @@
         </div>
         <div class="form-group">
             <label>Категории *</label>
-            <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" name="category_id">
+            <div class="btn btn-primary plus" name="{{ csrf_token() }}" id="add_category"><i class="fa fa-plus"></i></div>
+            <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" id="category_box" name="category_id">
                 @foreach($categories as $category)
                     <option value="{{ $category->id }}" {{ old('category_id') ? 'selected' : '' }}>{{ $category->name }}</option>
                 @endforeach
@@ -130,10 +131,6 @@
         </div>
         <div class="form-group">
             <label>Теги</label>
-            <div class="btn btn-primary plus" id="add_tag"><i class="fa fa-plus"></i></div>
-            <div id="tag_box" class="hidden">
-
-            </div>
             <select id="tags" class="form-control select2 select2-hidden-accessible" multiple="multiple" style="width: 100%;" tabindex="-1" aria-hidden="true" name="tag_id">
                 {{--tags[]--}}
                 {{--@foreach($selectedTags as $tag_name)

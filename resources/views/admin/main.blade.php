@@ -13,6 +13,7 @@
     <link href="{{ asset("/css/admin/skins/skin-blue.min.css")}}" rel="stylesheet" type="text/css" />
     <link href="{{ asset("/css/admin/icheck/all.css")}}" rel="stylesheet" type="text/css" />
     <link href="{{ asset("/css/admin/icheck/square/blue.css")}}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset("/js/admin/impromptu/jquery-impromptu.min.css")}}" rel="stylesheet" type="text/css" />
 
 @endpush
 
@@ -28,5 +29,6 @@
     <script src="{{ asset ("/js/admin/i18n/ru.js") }}" charset="UTF-8"></script>
     <script src="{{ asset ("/js/admin/icheck/icheck.min.js") }}" charset="UTF-8"></script>
     <script src="{{ asset ("/js/admin/icheck/icheck.js") }}" charset="UTF-8"></script>
+    <script src="{{ asset ("/js/admin/impromptu/jquery-impromptu.min.js") }}"></script>
 @endpush
 
