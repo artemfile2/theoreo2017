@@ -35,5 +35,4 @@ class AjaxController extends Controller
         */
     }
 
-
 }

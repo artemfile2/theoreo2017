@@ -1,7 +1,7 @@
 <div class="paginator">
     @if($actions)
         <nav>
-            {{ $actions->links() }}
+            {{ $links }}
         </nav>
     @endif
 </div>

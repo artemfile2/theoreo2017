@@ -62,3 +62,10 @@ if (!function_exists('sort_link')) {
     }
  }
 
+if (!function_exists('format_string')) {
+    function format_string($string)
+    {
+        return nl2br($string);
+    }
+}
+

@@ -126,7 +126,7 @@
                             Поисковые запросы
                         </span>
                             <span class="info-box-number">
-                            3534
+                            {{ $queries->count() }}
                         </span>
                         </div>
                     </div>

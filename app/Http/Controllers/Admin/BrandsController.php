@@ -10,8 +10,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Upload;
 use App\Classes\Uploader;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Auth;
+use App\Repositories\ActionRepositoryInterface;
+
 
 /**
  * Class BrandsController
@@ -19,21 +19,21 @@ use Illuminate\Support\Facades\Auth;
  */
 class BrandsController extends Controller
 {
-    /**
-     * Список брендов (активных и удаленных)
-     */
+    protected $brand;
+
+    public function __construct(ActionRepositoryInterface $brand, Request $request)
+    {
+        $this->brand = $brand;
+    }
+
     public function brands()
     {
-        $brands = Brand::all()
-            ->sortByDesc('created_at');
-
-        $brandsDeleted = Brand::onlyTrashed()
-            ->get();
+        $brands = $this->brand->getAll();
 
         return view('admin.section.brands', [
             'title' => 'Компании',
-            'brands' => $brands,
-            'brandsDeleted' => $brandsDeleted,
+            'brands' => $brands['brands'],
+            'brandsDeleted' => $brands['brandsDeleted'],
         ]);
     }
 
@@ -42,8 +42,7 @@ class BrandsController extends Controller
      */
     public function brandTrash($id)
     {
-        Brand::findOrFail($id)
-            ->delete();
+        $this->brand->inTrash($id);
 
         return redirect()
             ->route('admin.brands.get_all');
@@ -54,9 +53,7 @@ class BrandsController extends Controller
      */
     public function brandRestore($id)
     {
-        Brand::withTrashed()
-            ->where('id', $id)
-            ->restore();
+        $this->brand->restore($id);
 
         return redirect()
             ->route('admin.brands.get_all');
@@ -67,9 +64,7 @@ class BrandsController extends Controller
      */
     public function brandDelete($id)
     {
-        Brand::withTrashed()
-            ->where('id', $id)
-            ->forceDelete();
+        $this->brand->delete($id);
 
         return redirect()
             ->route('admin.brands.get_all');
@@ -97,7 +92,6 @@ class BrandsController extends Controller
 
     public function brandCreatePost(Request $request, Uploader $uploader, Upload $uploadModel)
     {
-
         $validator =  Validator::make( $request->all(), [
             'name' => 'required|unique:brands|max:100|min:2',
             'addresses' => 'required|min:10',
@@ -155,7 +149,8 @@ class BrandsController extends Controller
 
         $requestAll['user_id'] = Auth::user()->id;
         $requestAll['upload_id'] = isset($uploadsModel) ? $uploadsModel->id : null;
-        Brand::create($requestAll);
+
+        $this->brand->create($requestAll);
 
         if($request->input('brand_in_action')){
             return redirect()
@@ -172,7 +167,7 @@ class BrandsController extends Controller
      */
     public function brandEdit($id, Request $request, $fileError = null)
     {
-        $brand = Brand::findOrFail($id);
+        $brand = $this->brand->getOne($id);
 
         $categories = Category::all();
         $cities = City::all();
@@ -193,7 +188,7 @@ class BrandsController extends Controller
     public function brandEditPost(Request $request, $id, Uploader $uploader, Upload $uploadModel)
     {
         $requestAll = $request->all();
-        $brand = Brand::findOrFail($id);
+        $brand = $this->brand->getOne($id);
 
         $this->validate($request, [
             'name' => [

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\VkFeed;
 use App\Models\Action;
+use App\Models\Vktemp;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -37,51 +38,72 @@ class ContentController extends Controller
         ]);
     }
 
+    /*
+     * копирует из таблицы парсера во временную таблицу,
+     * записи которые ничего не содержат в контенте не копируются*/
     public function VKFeedDownload()
     {
-
-        /*$contents = VkFeed::all();
-        foreach ($contents as $content)
+        $vkfeeds = VkFeed::all();
+        foreach ($vkfeeds as $vkfeed)
         {
-            $actions = Action::create();
-            $actions->fill([
-                'title' => 'test',
-                'brand_id' => 1,
-                'status_id' => 1,
-                'city_id' => 1,
-                'type_id' => 1,
-                'category_id' => 1,
-                'description' => $content->content,
-                'active_from' => date(),
-                'active_to' => date(),
-                'rating' => 1,
-            ]);
-        }*/
+            if (!empty ($vkfeed->content))
+            {
+                $vktemp = new VkTemp;
+                $vktemp->id = $vkfeed->id;
+                $vktemp->group_id = $vkfeed->group_id;
+                $vktemp->content = $vkfeed->content;
+                $vktemp->post_date = $vkfeed->post_date;
+                $vktemp->response_item = $vkfeed->response_item;
+                $vktemp->photo_75 = $vkfeed->photo_75;
+                $vktemp->photo_130 = $vkfeed->photo_130;
+                $vktemp->photo_604 = $vkfeed->photo_604;
+                $vktemp->photo_640 = $vkfeed->photo_640;
+                $vktemp->photo_807 = $vkfeed->photo_807;
+                $vktemp->photo_1280 = $vkfeed->photo_1280;
+                $vktemp->photo_2560 = $vkfeed->photo_2560;
+                $vktemp->status = false;
+                $vktemp->save();
+            }
+            $vkfeed->delete();
+        }
 
-        $contents = VkFeed::all();
-        foreach ($contents as $content)
-        {
+        $vktemps = VkTemp::all();
+        $vktempsDeleted = VkTemp::onlyTrashed()->get();
+
+        return view('admin.section.premoderation', [
+            'title' => 'Контент из парсера на модерацию',
+            'vktemps' => $vktemps,
+            'vktempsDeleted' => $vktempsDeleted,
+        ]);
+    }
+
+    /*
+     * Прошедщие премодерацию посты копируются в таблицу Акции*/
+    public function insert($id)
+    {
+        $vktemp = VkTemp::findOrFail($id);
+
             $action = new Action;
-            $action->title = mb_substr ($content->content, 0, 50);
+            $action->title = mb_substr ($vktemp->content, 0, 50);
             $action->brand_id = 1;
             $action->status_id = 1;
             $action->city_id = 1;
             $action->type_id = 1;
             $action->category_id = 1;
-            $action->description = $content->content;
+            $action->description = $vktemp->content;
             $action->active_from = date('Y-m-d');
             $action->active_to = date('Y-m-d');
-            $action->rating = 1;
             $action->save();
 
-            $content->delete();
-        }
+            $vktemp->delete();
+    }
 
-        /*VkFeed::getQuery()
-            ->delete();*/
-
-
-        return redirect()
-            ->route('admin.actions.get_all');
+    /*
+     * удаляет запись поста из временной таблицы*/
+    public function delete($id)
+    {
+        VkTemp::findOrFail($id)
+            ->delete();
     }
 }
+

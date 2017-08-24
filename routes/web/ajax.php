@@ -8,7 +8,7 @@
 
 /* Ajax для Админки */
 
-Route::group(['namespace' => 'Admin', 'prefix' => 'ajax'],function () {
+Route::group(['namespace' => 'Admin', 'prefix' => 'ajax', 'middleware' => 'admin:admin_access'],function () {
 
     Route::post('/admin/category/add', 'AjaxController@categoryAddPost')
         ->name('ajax.admin.categoryAddPost');
