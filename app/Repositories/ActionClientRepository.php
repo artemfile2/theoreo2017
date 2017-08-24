@@ -18,39 +18,35 @@ class ActionClientRepository implements ActionRepositoryInterface
 
     public function getAllSorted($sort){
         return Action::intime()
-            ->sortBy($sort)
-            ->orderBy('active_from', 'DESC')
+            ->orderBy($sort, 'DESC')
             ->paginate(config('app.itemsPerPage'));
     }
 
 
-    public function inCategory($id, $sort = false)
+    public function inCategory($id, $sort)
     {
         return Action::intime()
             ->where('category_id', '=', $id)
-            ->orderBy('active_from', 'DESC')
-            ->sortBy($sort)
+            ->orderBy($sort, 'DESC')
             ->paginate(config('app.itemsPerPage'));
     }
 
-    public function WithTag($tag, $sort = false)
+    public function WithTag($tag, $sort)
     {
         return  Action::intime()
             ->whereHas('tag', function($query) use ($tag){
                 $query->where('name', 'like', $tag);
             })
-            ->orderBy('active_from', 'DESC')
-            ->sortBy($sort)
+            ->orderBy($sort, 'DESC')
             ->paginate(config('app.itemsPerPage'));
 
     }
 
-    public function withBrand($id, $sort = false)
+    public function withBrand($id, $sort)
     {
         return Action::pastAndActive()
             ->where('brand_id', '=', $id)
-            ->orderBy('active_from', 'DESC')
-            ->sortBy($sort)
+            ->orderBy($sort, 'DESC')
             ->paginate(config('app.itemsPerPage'));
     }
 

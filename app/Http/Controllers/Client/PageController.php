@@ -18,23 +18,33 @@ class PageController extends Controller
      * @var ActionRepositoryInterface
      */
     protected $action;
-    protected $sort = false;
+    protected $sort = 'active_from';
+    protected $request_sort;
 
     public function __construct(ActionRepositoryInterface $action, Request $request)
     {
         $this->action = $action;
-        $sort =  trim($request->input('sort_by'));
-        if($sort){
-            $this->sort = $sort;
+        $this->request_sort =  trim($request->input('sort_by'));
+
+        if($this->request_sort){
+            $this->sort = $this->request_sort;
         }
     }
 
     public function index()
     {
-        $this->sort = 'active';
         $actions = $this->action->getAllSorted($this->sort);
 
-        return view('client.pages.main', ['actions' => $actions, 'sort' => $this->sort]);
+        if($this->request_sort) {
+            $links = $actions->appends(['sort_by' => $this->sort])->links();
+        }
+        else{
+            $links = $actions->links();
+        }
+
+        return view('client.pages.main', [
+            'actions' => $actions, 'sort' => $this->sort, 'links' => $links
+        ]);
     }
 
     /**
@@ -58,16 +68,25 @@ class PageController extends Controller
 
         //TODO 'Настроить работу Google Maps Geocoding API в шаблоне map.blade.php';
 
-        return view('client.pages.detail', ['action' => $action, 'sameActions ' => $same_action]);
+        return view('client.pages.detail', [
+            'action' => $action, 'sameActions ' => $same_action
+        ]);
     }
 
     public function showCategory($id)
     {
         $title = Category::findOrFail($id);
         $actions = $this->action->inCategory($id, $this->sort);
+
+        if($this->request_sort) {
+            $links = $actions->appends(['sort_by' => $this->sort])->links();
+        }
+        else{
+            $links = $actions->links();
+        }
         $sort = $this->sort;
 
-        return view('client.pages.main', compact(['actions', 'title', 'sort']));
+        return view('client.pages.main', compact(['actions', 'title', 'sort', 'links']));
     }
 
     public function filterByTag(Request $request)
@@ -76,27 +95,44 @@ class PageController extends Controller
 
         $title = Tag::where('name', 'like',  $tag)->firstOrFail();
         $actions = $this->action->WithTag($tag, $this->sort);
+
+        if($this->request_sort) {
+            $links = $actions->appends(['sort_by' => $this->sort])->links();
+        }
+        else{
+            $links = $actions->links();
+        }
+
         $sort = $this->sort;
 
-        return view('client.pages.main', compact(['actions', 'title', 'sort', 'tag']));
+        return view('client.pages.main', compact(['actions', 'title', 'sort', 'tag', 'links']));
     }
 
     public function filterByBrand($id)
     {
         $title = Brand::findOrFail($id);
         $sort = $this->sort;
-        $actions = $this->action->withBrand($id,$this->sort);
+        $actions = $this->action->withBrand($id, $this->sort);
 
+        if($this->request_sort) {
+            $links = $actions->appends(['sort_by' => $this->sort])->links();
+        }
+        else{
+            $links = $actions->links();
+        }
 
-        return view('client.pages.main', compact(['actions', 'title', 'sort']));
+        return view('client.pages.main', compact(['actions', 'title', 'sort', 'links']));
     }
 
     public function showArchives()
     {
         $actions = $this->action->archive();
+        $links = $actions->links();
         $title = new \stdClass();
         $title->name = 'В архиве';
-        return view('client.pages.main', ['actions' => $actions, 'title' => $title]);
+        return view('client.pages.main', [
+            'actions' => $actions, 'title' => $title, 'links' => $links
+        ]);
     }
 
     public function search(Request $request)
@@ -107,6 +143,7 @@ class PageController extends Controller
        $query_str = $request->input('query');
 
        $actions = $this->action->search($query_str);
+       $links = $actions->links();
 
 
        /**
@@ -131,7 +168,9 @@ class PageController extends Controller
             ]);
        }
 
-       return view('client.pages.main', ['actions' => $actions, 'query' => $query_str]);
+       return view('client.pages.main', [
+           'actions' => $actions, 'query' => $query_str, 'links' => $links
+       ]);
     }
 
 }
