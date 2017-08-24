@@ -7,17 +7,20 @@ class ActionClientRepository implements ActionRepositoryInterface
 {
     public function getOne($id){
         return  Action::pastAndActive()
+            ->allowed()
             ->findOrFail($id);
     }
 
     public function getAll(){
         return Action::intime()
+            ->allowed()
             ->orderBy('active_from', 'DESC')
             ->paginate(config('app.itemsPerPage'));
     }
 
     public function getAllSorted($sort){
         return Action::intime()
+            ->allowed()
             ->sortBy($sort)
             ->orderBy('active_from', 'DESC')
             ->paginate(config('app.itemsPerPage'));
@@ -27,6 +30,7 @@ class ActionClientRepository implements ActionRepositoryInterface
     public function inCategory($id, $sort = false)
     {
         return Action::intime()
+            ->allowed()
             ->where('category_id', '=', $id)
             ->orderBy('active_from', 'DESC')
             ->sortBy($sort)
@@ -36,6 +40,7 @@ class ActionClientRepository implements ActionRepositoryInterface
     public function WithTag($tag, $sort = false)
     {
         return  Action::intime()
+            ->allowed()
             ->whereHas('tag', function($query) use ($tag){
                 $query->where('name', 'like', $tag);
             })
@@ -48,6 +53,7 @@ class ActionClientRepository implements ActionRepositoryInterface
     public function withBrand($id, $sort = false)
     {
         return Action::pastAndActive()
+            ->allowed()
             ->where('brand_id', '=', $id)
             ->orderBy('active_from', 'DESC')
             ->sortBy($sort)
@@ -57,6 +63,7 @@ class ActionClientRepository implements ActionRepositoryInterface
     public function archive()
     {
         return Action::notInTime()
+            ->allowed()
             ->orderBy('active_from', 'DESC')
             ->paginate(config('app.itemsPerPage'));
     }
@@ -64,6 +71,7 @@ class ActionClientRepository implements ActionRepositoryInterface
     public function search($query_str)
     {
         return Action::pastAndActive()
+            ->allowed()
             ->whereHas('tag', function($query) use ($query_str){
                 $query->where('name', 'like', $query_str);
             })

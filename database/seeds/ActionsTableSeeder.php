@@ -41,7 +41,7 @@ class ActionsTableSeeder extends Seeder
         DB::table('actions')->insert([
             'title' => '"Якитория": наши суши самые вкусные в городе!',
             'brand_id' => 2,
-            'status_id' => 1,
+            'status_id' => 3,
             'city_id' => 2,
             'description' => 'Сеть ресторанов японской и итальянской кухни "Якитория" приглашает гостей!
                 При заказе фирменного суши-сета - вино в подарок! Работает круглосуточная доставка.
@@ -55,7 +55,7 @@ class ActionsTableSeeder extends Seeder
         DB::table('actions')->insert([
             'title' => 'Проводи лето здорово!',
             'brand_id' => 4,
-            'status_id' => 1,
+            'status_id' => 3,
             'city_id' => 1,
             'description' => 'Сеть аптек "Самсон-фарма" поможет вам выгодно собрать аптечку на летний период.
                 Мы предлагаем вам квалифицированную консультацию специалиста, широкий ассортимент препаратов 
@@ -63,13 +63,13 @@ class ActionsTableSeeder extends Seeder
             'active_from' => '2017-08-01',
             'active_to' => '2017-09-01',
             'type_id' => 1,
-            'category_id' => 3,
+            'category_id' => 4,
         ]);
 
         DB::table('actions')->insert([
             'title' => 'Встречай весну!',
             'brand_id' => 4,
-            'status_id' => 1,
+            'status_id' => 3,
             'city_id' => 2,
             'description' => 'Сеть аптек "Самсон-фарма" поможет выгодно подобрать витаминные наборы для тех, кто устал от зимы. 
                 Мы предлагаем вам квалифицированную консультацию специалиста, широкий ассортимент препаратов 
@@ -77,15 +77,14 @@ class ActionsTableSeeder extends Seeder
             'active_from' => '2017-03-01',
             'active_to' => '2017-05-20',
             'type_id' => 1,
-            'category_id' => 3,
+            'category_id' => 4,
         ]);
-
 
         DB::table('actions')->insert([
             'title' => 'Неделя скидок от "Магнита"',
             'brand_id' => 5,
-            'status_id' => 2,
-            'city_id' => 1,
+            'status_id' => 1,
+            'city_id' => 2,
             'description' => 'Только в магазинах нашей сети: скидки до 20% на продукцию рыбного и мясного отделов,
                 до 30% на кондитерские изделия и до 40% на выпечку собственного производства!',
             'active_from' => '2017-08-23',
@@ -93,5 +92,20 @@ class ActionsTableSeeder extends Seeder
             'type_id' => 2,
             'category_id' => 5,
         ]);
+
+        DB::table('actions')->insert([
+            'title' => 'Отклонённая акция"',
+            'brand_id' => 5,
+            'status_id' => 2,
+            'city_id' => 2,
+            'description' => 'Только в магазинах нашей сети: Цены больше на 20%',
+            'active_from' => '2017-08-23',
+            'active_to' => '2017-08-30',
+            'type_id' => 2,
+            'category_id' => 5,
+        ]);
+
+
+
     }
 }

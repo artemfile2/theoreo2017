@@ -64,12 +64,17 @@ class Action extends Model
     {
         return $query->where(DB::raw('NOW()'), '>=', DB::raw('active_from'))->where(DB::raw('NOW()'), '>', DB::raw('active_to'));
 
-
     }
 
     public function scopePastAndActive($query)
     {
         return $query->where(DB::raw('NOW()'), '>=', DB::raw('active_from'));
+
+    }
+
+    public function scopeAllowed($query)
+    {
+        return $query->where('status_id', '>', '2');
 
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Validator;
 use App\Models\Brand;
 use App\Models\City;
 use App\Models\Category;
@@ -96,16 +97,33 @@ class BrandsController extends Controller
 
     public function brandCreatePost(Request $request, Uploader $uploader, Upload $uploadModel)
     {
-        $requestAll = $request->all();
-        dump($requestAll);
 
-        $this->validate($request, [
+        $validator =  Validator::make( $request->all(), [
             'name' => 'required|unique:brands|max:100|min:2',
             'addresses' => 'required|min:10',
             'phones' => 'required|min:10',
             'site_link' => 'nullable|url',
             'vk_link' => 'required|url',
+            'brand_in_action' => 'sometimes',
         ]);
+
+        $requestAll = $request->except('brand_in_action');
+        // dump($requestAll);
+
+        if ($validator->fails()) {
+            if($request->input('brand_in_action')){
+                return redirect()
+                    ->route('admin.actions.create')
+                    ->withErrors($validator, 'brand')
+                    ->withInput();
+
+            }else{
+                return redirect()
+                    ->route('admin.brands.create')
+                    ->withErrors($validator, 'brand')
+                    ->withInput();
+            }
+        }
 
         if ($request->logo) {
             if ($uploader->validate($request, 'logo', config ('imagerules') )) {
@@ -120,9 +138,18 @@ class BrandsController extends Controller
                 $message = implode($uploader->getErrors(), '. ');
                 $request->session()->flash('fileError', $message);
 
-                return redirect()
-                    ->route('admin.brands.create')
-                    ->withInput();
+                if($request->input('brand_in_action')){
+                    return redirect()
+                        ->route('admin.actions.create')
+                        ->withErrors($validator, 'brand')
+                        ->withInput();
+                }else{
+                    return redirect()
+                        ->route('admin.brands.create')
+                        ->withErrors($validator, 'brand')
+                        ->withInput();
+                }
+
             }
         }
 
@@ -130,8 +157,14 @@ class BrandsController extends Controller
         $requestAll['upload_id'] = isset($uploadsModel) ? $uploadsModel->id : null;
         Brand::create($requestAll);
 
-        return redirect()
-            ->route('admin.brands.get_all');
+        if($request->input('brand_in_action')){
+            return redirect()
+                ->route('admin.actions.create')
+                ->with('brand_added',  true);
+        }else{
+            return redirect()
+                ->route('admin.brands.get_all');
+        }
     }
 
     /**
