@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\VkFeed;
 use App\Models\Action;
-use App\Models\Vktemp;
+use App\Models\VkTemp;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
