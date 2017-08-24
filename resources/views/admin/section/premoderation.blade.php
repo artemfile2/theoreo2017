@@ -14,12 +14,12 @@
 @endsection
 
 @push('styles')
-    <link href="{{ asset("/css/admin/datepicker3.css")}}" rel="stylesheet" type="text/css" />
+    {{--<link href="{{ asset("/css/admin/datepicker3.css")}}" rel="stylesheet" type="text/css" />--}}
     {{--<link href="{{ asset("/js/admin/jquery_confirm/jquery_confirm.css")}}" rel="stylesheet" type="text/css" />--}}
 @endpush
 
 @push('script')
     <script src="{{ asset ("/js/admin/buttons.js") }}"></script>
     {{--<script src="{{ asset ("/js/admin/jquery_confirm/jquery_confirm.js") }}"></script>--}}
-    <script src="{{ asset ("/js/admin/theoreo.admin.brands.js") }}" type="text/javascript"></script>
+    {{--<script src="{{ asset ("/js/admin/theoreo.admin.brands.js") }}" type="text/javascript"></script>--}}
 @endpush
