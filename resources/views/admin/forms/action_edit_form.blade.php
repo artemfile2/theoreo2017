@@ -116,7 +116,7 @@
         </div>
         <div class="form-group">
             <label for="addresses">Адреса</label>
-            <textarea class="form-control" id="addresses" rows="5" placeholder="Введите адреса проведения акции" name="addresses">{{ old('addresses') }}</textarea>
+            <textarea class="form-control" id="addresses" rows="5" placeholder="Введите адреса проведения акции" name="addresses">{{ $action->addresses }}</textarea>
             <p class="help-block">Адреса указываются списком по одному на строчку</p>
             @if ($errors->has('addresses'))
                 <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('addresses') }}</div>
@@ -124,23 +124,18 @@
         </div>
         <div class="form-group">
             <label for="phones">Телефоны</label>
-            <textarea class="form-control" id="phones" rows="5" placeholder="Введите контактные телефоны" name="phones">{{ old('phones') }}</textarea>
+            <textarea class="form-control" id="phones" rows="5" placeholder="Введите контактные телефоны" name="phones">{{ $action->phones }}</textarea>
             <p class="help-block">Телефоны указываются списком по одному на строчку</p>
             @if ($errors->has('phones'))
                 <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->first('phones') }}</div>
             @endif
         </div>
         <div class="form-group">
-            <label>Теги</label>
-            <select id="tags" class="form-control select2 select2-hidden-accessible" multiple="multiple" style="width: 100%;" tabindex="-1" aria-hidden="true" name="tag_id">
-                {{--tags[]--}}
-                {{--@foreach($selectedTags as $tag_name)
-                    <option value="{{$tag_name}}" selected >{{$tag_name }}</option>
-                @endforeach--}}
+            <label>Теги:</label>
+            <div class="btn btn-primary plus" name="{{ csrf_token() }}" id="add_tag"><i class="fa fa-plus"></i></div>
+            <select id="tags" class="form-control select2 select2-hidden-accessible" multiple="multiple" style="width: 100%;" tabindex="-1" aria-hidden="true" name="tags[]">
                 @foreach($tags as $tag)
-                    {{--@if (!in_array($tag->name, $selectedTags))--}}
-                    <option value="{{$tag->name}}">{{$tag->name }}</option>
-                    {{--@endif--}}
+                    <option value="{{$tag->id}}">{{$tag->name }}</option>
                 @endforeach
             </select>
             @if ($errors->has('tags'))

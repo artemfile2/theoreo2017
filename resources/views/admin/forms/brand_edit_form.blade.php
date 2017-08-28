@@ -67,32 +67,29 @@
             </div>
         </div>
         <div class="form-group" id="categories">
-            <label for="categories">Категории *</label>
-            @foreach($categories as $category)
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" name="{{ $category->code }}" value="{{ $category->id }}">
-                        {{ $category->name }}
-                    </label>
-                </div>
-            @endforeach
+            <label>Категории *</label>
+            <div class="btn btn-primary plus" name="{{ csrf_token() }}" id="add_category"><i class="fa fa-plus"></i></div>
+            <select class="form-control select2-selection--multiple select2 select2-hidden-accessible" multiple="multiple" style="width: 100%;" tabindex="-1" aria-hidden="true" id="category_box" name="categories[]">
+                @foreach($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                @endforeach
+            </select>
+            @if ($errors->brand->has('categories'))
+                <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->brand->first('categories') }}</div>
+            @endif
         </div>
         <div class="form-group" id="cities">
             <label for="cities">Города *</label>
-            @foreach($cities as $city)
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" name="{{ $city->code }}" value="{{ $city->id }}">
-                        {{ $city->name }}
-                    </label>
-                </div>
-            @endforeach
+            <select class="form-control select2-selection--multiple select2 select2-hidden-accessible" multiple="multiple" style="width: 100%;" tabindex="-1" aria-hidden="true" id="city_box" name="cities[]">
+                @foreach($cities as $city)
+                    <option value="{{ $city->id }}">{{ $city->name }}</option>
+                @endforeach
+            </select>
+            @if ($errors->brand->has('cities'))
+                <div class="alert alert-danger alert-dismissibler margin-top">{{ $errors->brand->first('cities') }}</div>
+            @endif
         </div>
     </div>
-
-    {{--Временное решение !!!!!--}}
-
-    <input type="hidden" name="user_id" value="1">
     <div class="box-footer">
         <input type="submit" class="btn btn-success margin-r-5" value="Сохранить">
         <a href="{{ route('admin.brands.get_all') }}" class="btn btn-primary">Назад</a>
