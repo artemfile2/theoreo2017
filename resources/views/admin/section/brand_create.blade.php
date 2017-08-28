@@ -11,3 +11,10 @@
     </div>
 
 @endsection
+
+@push('script')
+<script src="{{ asset ("/js/admin/datepicker/bootstrap-datepicker.js") }}"></script>
+<script src="{{ asset ("/js/admin/datepicker/locales/bootstrap-datepicker.ru.js") }}" charset="UTF-8"></script>
+<script src="{{ asset ("/js/admin/theoreo.admin.actions.js") }}"></script>
+<script src="{{ asset ("/js/admin/theoreo.admin.brands.js") }}"></script>
+@endpush

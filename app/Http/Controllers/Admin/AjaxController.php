@@ -5,34 +5,50 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Tag;
 
 class AjaxController extends Controller
 {
 
-    public function categoryAddPost()
+    public function categoryAddPost(Request $request)
     {
-        //TODO получить данные из массива и сохранить категорию.
-        $category_id = 13;
-        return $category_id;
+        $categories = Category::all();
+        $categories_names = $categories->pluck('name');
+        $categories_codes = $categories->pluck('code');
 
-        /*Формат возврата ( по прочтении стереть ;) )
-        return $category_id;  // Всплывашка проверит, что это число и обновит селект
-        return 'Категория уже существует!'; // всплывашка, увидев строку вместо числа, выведет строку.
-        return 'Не удалось сохранить категорию!';
-        */
+        if($categories_names->contains($request->name)) {
+            return "Категория с таким именем уже существует в базе данных.";
+        }
+        elseif($categories_codes->contains($request->code)) {
+            return "Категория с таким кодом уже существует в базе данных.";
+        }
+        else {
+            $categoryModel = Category::create([
+                'code' => $request->code,
+                'name' => $request->name,
+            ]);
+
+            $result = ($categoryModel->id) ? $categoryModel->id : 'Не удалось сохранить категорию!';
+            return $result;
+        }
     }
 
-    public function tagAddPost()
-    {
-        //TODO получить данные из массива и сохранить тэг.
-        $tag_id = 20;
-        return $tag_id;
 
-        /*Формат возврата ( по прочтении стереть ;) )
-        return $tag_id;  // Всплывашка проверит, что это число и обновит селект
-        return 'Тэг уже существует!'; // всплывашка, увидев строку вместо числа, выведет строку.
-        return 'Не удалось сохранить тэг!';
-        */
+    public function tagAddPost(Request $request)
+    {
+        $tags = Tag::pluck('name');
+
+        if($tags->contains($request->name)) {
+            return "Тег с таким именем уже существует в базе данных.";
+        }
+        else {
+            $tagModel = Tag::create([
+                'name' => $request->name,
+            ]);
+
+            $result = ($tagModel->id) ? $tagModel->id : 'Не удалось сохранить тег!';
+            return $result;
+        }
     }
 
 }
