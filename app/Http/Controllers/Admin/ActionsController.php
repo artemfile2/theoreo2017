@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
 use App\Repositories\ActionRepositoryInterface;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class ActionsController
@@ -122,6 +123,7 @@ class ActionsController extends Controller
             'shop_link' => 'nullable|url',
             'active_from' => 'required|date_format:"Y-m-d"',
             'active_to' => 'required|date_format:"Y-m-d"',
+            'tags' => 'nullable',
         ]);
 
         if ($request->image) {
@@ -145,7 +147,16 @@ class ActionsController extends Controller
 
         $requestAll['upload_id'] = isset($uploadsModel) ? $uploadsModel->id : null;
 
-        $this->actions->create($requestAll);
+        $actionModel = $this->actions->create($requestAll);
+
+        if(!empty($requestAll['tags'])) {
+            foreach($requestAll['tags'] as $tag) {
+                DB::table('action_tag')->insert([
+                    'action_id' => $actionModel->id,
+                    'tag_id' => $tag,
+                ]);
+            }
+        }
 
         return redirect()
             ->route('admin.actions.get_all');
@@ -207,6 +218,7 @@ class ActionsController extends Controller
             'shop_link' => 'nullable|url',
             'active_from' => 'required|date_format:"Y-m-d"',
             'active_to' => 'required|date_format:"Y-m-d"',
+            'tags' => 'nullable',
         ]);
 
         if($request->image) {

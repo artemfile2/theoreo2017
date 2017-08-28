@@ -11,6 +11,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Upload;
 use App\Classes\Uploader;
 use App\Repositories\ActionRepositoryInterface;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 
 /**
@@ -99,10 +101,11 @@ class BrandsController extends Controller
             'site_link' => 'nullable|url',
             'vk_link' => 'required|url',
             'brand_in_action' => 'sometimes',
+            'categories' => 'required',
+            'cities' => 'required',
         ]);
 
         $requestAll = $request->except('brand_in_action');
-        // dump($requestAll);
 
         if ($validator->fails()) {
             if($request->input('brand_in_action')){
@@ -150,13 +153,28 @@ class BrandsController extends Controller
         $requestAll['user_id'] = Auth::user()->id;
         $requestAll['upload_id'] = isset($uploadsModel) ? $uploadsModel->id : null;
 
-        $this->brand->create($requestAll);
+        $brandModel = $this->brand->create($requestAll);
+
+        foreach($requestAll['categories'] as $category) {
+            DB::table('brand_category')->insert([
+                'brand_id' => $brandModel->id,
+                'category_id' => $category,
+            ]);
+        }
+
+        foreach($requestAll['cities'] as $city) {
+            DB::table('city_brand')->insert([
+                'brand_id' => $brandModel->id,
+                'city_id' => $city,
+            ]);
+        }
 
         if($request->input('brand_in_action')){
             return redirect()
                 ->route('admin.actions.create')
                 ->with('brand_added',  true);
-        }else{
+        }
+        else {
             return redirect()
                 ->route('admin.brands.get_all');
         }
@@ -201,6 +219,8 @@ class BrandsController extends Controller
             'phones' => 'required|min:10',
             'site_link' => 'nullable|url',
             'vk_link' => 'required|url',
+            'categories' => 'required',
+            'cities' => 'required',
         ]);
 
         if($request->logo) {
