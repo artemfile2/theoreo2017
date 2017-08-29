@@ -131,9 +131,10 @@
         <div class="form-group">
             <label>Теги</label>
             <div class="btn btn-primary plus" name="{{ csrf_token() }}" id="add_tag"><i class="fa fa-plus"></i></div>
+
             <select id="tags" class="form-control select2 select2-hidden-accessible" multiple="multiple" style="width: 100%;" tabindex="-1" aria-hidden="true" name="tags[]">
                 @foreach($tags as $tag)
-                    <option value="{{$tag->id}}">{{$tag->name }}</option>
+                    <option value="{{$tag->id}}" {{ collect(old('tags'))->contains( $tag->id) ? 'selected' : '' }}>{{$tag->name }}</option>
                 @endforeach
             </select>
             @if ($errors->has('tags'))

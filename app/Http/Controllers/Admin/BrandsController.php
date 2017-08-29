@@ -7,6 +7,7 @@ use App\Models\Brand;
 use App\Models\City;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use App\Models\Upload;
 use App\Classes\Uploader;
@@ -89,6 +90,7 @@ class BrandsController extends Controller
             'categories' => $categories,
             'cities' => $cities,
             'fileError' => $fileError,
+            'is_action' => false,
         ]);
     }
 
