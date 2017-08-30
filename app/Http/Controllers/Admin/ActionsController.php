@@ -100,6 +100,7 @@ class ActionsController extends Controller
             'types' => $types,
             'statuses' => $statuses,
             'fileError' => $fileError,
+            'is_action' => 'action',
         ]);
     }
 

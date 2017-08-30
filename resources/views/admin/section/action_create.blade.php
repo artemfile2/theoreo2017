@@ -24,11 +24,12 @@
 
 @push('styles')
     <link href="{{ asset("/css/admin/datepicker3.css")}}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset("/css/admin/admin-style.css")}}" rel="stylesheet" type="text/css" />
 @endpush
 
 @push('script')
     <script src="{{ asset ("/js/admin/datepicker/bootstrap-datepicker.js") }}"></script>
     <script src="{{ asset ("/js/admin/datepicker/locales/bootstrap-datepicker.ru.js") }}" charset="UTF-8"></script>
-    <script src="{{ asset ("/js/admin/theoreo.admin.actions.js") }}"></script>
+    <script src="{{ asset ("/js/admin/theoreo.admin.forms.js") }}"></script>
+    <script src="{{ asset ("/js/admin/theoreo.admin.action.add.js") }}"></script>
+    <script src="{{ asset ("/js/admin/theoreo.admin.brand.add.js") }}"></script>
 @endpush

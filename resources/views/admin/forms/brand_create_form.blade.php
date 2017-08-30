@@ -66,7 +66,7 @@
             <div class="btn btn-primary plus" name="{{ csrf_token() }}" id="add_category"><i class="fa fa-plus"></i></div>
             <select class="form-control select2-selection--multiple select2 select2-hidden-accessible" multiple="multiple" style="width: 100%;" tabindex="-1" aria-hidden="true" id="category_box" name="categories[]">
                 @foreach($categories as $category)
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    <option value="{{ $category->id }}" {{ collect(old('categories'))->contains( $category->id) ? 'selected' : '' }}>{{ $category->name }}</option>
                 @endforeach
             </select>
             @if ($errors->brand->has('categories'))
@@ -77,7 +77,7 @@
             <label for="cities">Города *</label>
             <select class="form-control select2-selection--multiple select2 select2-hidden-accessible" multiple="multiple" style="width: 100%;" tabindex="-1" aria-hidden="true" id="city_box" name="cities[]">
                 @foreach($cities as $city)
-                    <option value="{{ $city->id }}">{{ $city->name }}</option>
+                    <option value="{{ $city->id }}" {{ collect(old('cities'))->contains($city->id) ? 'selected' : '' }}>{{ $city->name }}</option>
                 @endforeach
             </select>
             @if ($errors->brand->has('cities'))
@@ -85,8 +85,7 @@
             @endif
         </div>
     </div>
-
-    <input type="hidden" name="brand_in_action" value="1" id="brand_in_action_input" @if(!$errors->brand->any()) disabled @endif >
+    <input type="hidden" name="brand_in_action" value="1" id="brand_in_action_input" {{ $is_action == 'action' ? '' : 'disabled' }}>
     <div class="box-footer">
         <input type="submit" class="btn btn-success margin-r-5" value="Сохранить">
         <a href="{{ route('admin.brands.get_all') }}" class="btn btn-primary">Назад</a>

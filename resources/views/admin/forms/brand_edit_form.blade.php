@@ -71,7 +71,7 @@
             <div class="btn btn-primary plus" name="{{ csrf_token() }}" id="add_category"><i class="fa fa-plus"></i></div>
             <select class="form-control select2-selection--multiple select2 select2-hidden-accessible" multiple="multiple" style="width: 100%;" tabindex="-1" aria-hidden="true" id="category_box" name="categories[]">
                 @foreach($categories as $category)
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    <option value="{{ $category->id }}" {{ (old('categories') ? collect(old('categories')) : $brand->category)->contains($category->id) ? 'selected' : '' }}>{{ $category->name }}</option>
                 @endforeach
             </select>
             @if ($errors->brand->has('categories'))
@@ -82,7 +82,7 @@
             <label for="cities">Города *</label>
             <select class="form-control select2-selection--multiple select2 select2-hidden-accessible" multiple="multiple" style="width: 100%;" tabindex="-1" aria-hidden="true" id="city_box" name="cities[]">
                 @foreach($cities as $city)
-                    <option value="{{ $city->id }}">{{ $city->name }}</option>
+                    <option value="{{ $city->id }}" {{ (old('cities') ? collect(old('cities')) : $brand->city)->contains($city->id) ? 'selected' : '' }}>{{ $city->name }}</option>
                 @endforeach
             </select>
             @if ($errors->brand->has('cities'))

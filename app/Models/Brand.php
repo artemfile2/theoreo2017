@@ -22,8 +22,7 @@ class Brand extends Model
 
     public function category()
     {
-        return $this->belongsToMany('App\Models\Category', 'category_brand', 'brand_id', 'category_id');
-
+        return $this->belongsToMany('App\Models\Category', 'brand_category', 'brand_id', 'category_id');
     }
 
     public function city()
