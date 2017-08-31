@@ -249,6 +249,27 @@ class ActionsController extends Controller
 
         $action->update($requestAll);
 
+        /*
+         * Tags editing
+         */
+        $oldTags = $action->tag->pluck('id');
+        $newTags = collect($request->tags);
+
+        $addingTags = $newTags->diff($oldTags);
+        foreach($addingTags as $tag) {
+            DB::table('action_tag')->insert([
+                'action_id' => $action->id,
+                'tag_id' => $tag,
+            ]);
+        }
+
+        $deletingTags = $oldTags->diff($newTags);
+        foreach($deletingTags as $tag) {
+            DB::table('action_tag')
+                ->where('tag_id', $tag)
+                ->delete();
+        }
+
         return redirect()
             ->route('admin.actions.get_all');
     }

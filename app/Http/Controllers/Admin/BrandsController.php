@@ -252,6 +252,48 @@ class BrandsController extends Controller
 
         $brand->update($requestAll);
 
+        /*
+         * Categories editing
+         */
+        $oldCategories = $brand->category->pluck('id');
+        $newCategories = collect($request->categories);
+
+        $addingCategories = $newCategories->diff($oldCategories);
+        foreach($addingCategories as $category) {
+            DB::table('brand_category')->insert([
+                'brand_id' => $brand->id,
+                'category_id' => $category,
+            ]);
+        }
+
+        $deletingCategories = $oldCategories->diff($newCategories);
+        foreach($deletingCategories as $category) {
+            DB::table('brand_category')
+                ->where('category_id', $category)
+                ->delete();
+        }
+
+        /*
+         * Cities editing
+         */
+        $oldCities = $brand->city->pluck('id');
+        $newCities = collect($request->cities);
+
+        $addingCities = $newCities->diff($oldCities);
+        foreach($addingCities as $city) {
+            DB::table('city_brand')->insert([
+                'brand_id' => $brand->id,
+                'city_id' => $city,
+            ]);
+        }
+
+        $deletingCities = $oldCities->diff($newCities);
+        foreach($deletingCities as $city) {
+            DB::table('city_brand')
+                ->where('city_id', $city)
+                ->delete();
+        }
+
         return redirect()
             ->route('admin.brands.get_all');
     }
