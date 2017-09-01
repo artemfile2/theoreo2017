@@ -1,4 +1,6 @@
-<div class="tab-pane" id="tab_2">
+@extends('admin.section.users')
+@section('tab')
+<div class="tab-pane active" id="tab_1">
     <div class="dataTables_wrapper form-inline dt-bootstrap">
         <div class="row">
             <div class="col-sm-12">
@@ -48,12 +50,12 @@
                             <td>{{ getRusDate(date($userDeleted->created_at)) }}</td>
                             <td>{{ getRusDate(date($userDeleted->updated_at)) }}</td>
                             <td class="control">
-                                <a href="{{ route('admin.user.restore', ['id' => $userDeleted->id]) }}" class="btn" title="Восстановить">
+                                <a href="{{ route('admin.user.restore', ['id' => $userDeleted->id]) }}" class="btn restoreUser" title="Восстановить">
                                     <i class="fa fa-history"></i>
                                 </a>
                                 <a href="{{ route('admin.user.delete', ['id' => $userDeleted->id]) }}" class="btn forceDeleteUser" title="Удалить">
                                     <i class="fa fa-close"></i>
-                                </a>
+                                  </a>
                             </td>
                         </tr>
                     @endforeach
@@ -75,3 +77,4 @@
         </div>
     </div>
 </div>
+@endsection

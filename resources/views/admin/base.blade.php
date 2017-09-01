@@ -21,6 +21,7 @@
         @include('admin.parts.footer')
 
     </div><!-- ./wrapper -->
+    <div id="ajax_mess" style="display: none"></div>
 
     @stack('main-script')
     @stack('script')

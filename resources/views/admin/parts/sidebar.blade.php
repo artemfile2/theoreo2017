@@ -32,24 +32,24 @@
                 </a>
             </li>
             @can('users_management', \App\Models\User::class)
-                <li class="{{ (URL::current() == route('admin.user.get_all')) ? "active" : '' }}">
-                    <a href="{{ route('admin.user.get_all') }}">
+                <li class="{{ (URL::current() == route('admin.user.active')) ? "active" : '' }}">
+                    <a href="{{ route('admin.user.active') }}">
                         <i class="fa fa-users"></i>
                         <span>Пользователи</span>
                     </a>
                 </li>
             @endcan
             @can('brand_management', \App\Models\User::class)
-                <li class="{{ (URL::current() == route('admin.brands.get_all')) ? "active" : '' }}">
-                    <a href="{{ route('admin.brands.get_all') }}">
+                <li class="{{ (URL::current() == route('admin.brands.active')) ? "active" : '' }}">
+                    <a href="{{ route('admin.brands.active') }}">
                         <i class="fa fa-building"></i>
                         <span>Компании</span>
                     </a>
                 </li>
             @endcan
             @can('actions_management', \App\Models\User::class)
-                <li class="{{ (URL::current() == route('admin.actions.get_all')) ? "active" : '' }}">
-                    <a href="{{ route('admin.actions.get_all') }}">
+                <li class="{{ (URL::current() == route('admin.actions.active') || URL::current() == route('admin.actions.trashed')) ? "active" : '' }}">
+                    <a href="{{ route('admin.actions.active') }}">
                         <i class="fa fa-fire"></i>
                         <span>Акции</span>
                     </a>
@@ -85,6 +85,12 @@
                 <a href="{{ route('admin.queries') }}">
                     <i class="fa fa-search"></i>
                     <span>Поисковые запросы</span>
+                </a>
+            </li>
+            <li class="{{ (URL::current() == route('parser.vksimple')) ? "active" : '' }}">
+                <a href="{{ route('parser.vksimple') }}">
+                    <i class="fa fa-newspaper-o"></i>
+                    <span>Парсинг</span>
                 </a>
             </li>
         </ul>

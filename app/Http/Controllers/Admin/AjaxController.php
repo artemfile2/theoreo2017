@@ -50,5 +50,4 @@ class AjaxController extends Controller
             return $result;
         }
     }
-
 }

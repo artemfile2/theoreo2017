@@ -1,3 +1,5 @@
+@extends('admin.section.users')
+@section('tab')
 <div class="tab-pane active" id="tab_1">
     <div class="dataTables_wrapper form-inline dt-bootstrap">
         <div class="row">
@@ -64,7 +66,7 @@
                                 <a href="{{ route('admin.user.edit', ['id' => $user->id]) }}" class="btn" title="Редактировать">
                                     <i class="fa fa-edit"></i>
                                 </a>
-                                <a href="{{ route('admin.user.trash', ['id' => $user->id]) }}" class="btn deleteUser" title="Переместить в корзину">
+                                <a href="{{ route('admin.user.trash', ['id' => $user->id]) }}" class="btn trashUser" title="Переместить в корзину">
                                     <i class="fa fa-trash"></i>
                                 </a>
                             </td>
@@ -89,3 +91,4 @@
         </div>
     </div>
 </div>
+@endsection

@@ -41,6 +41,8 @@ class VkController extends Controller
         $feedItems = $this->parser->getNewsFeed();
 
         $this->saveData($feedItems);
+        return redirect()
+            ->route('admin');
     }
 
     /**

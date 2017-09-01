@@ -18,6 +18,14 @@ class ActionAdminRepository implements ActionRepositoryInterface
 
         return ['actions'=>$actions, 'actionsDeleted'=>$actionsDeleted];
     }
+    public function getTrashed(){
+        return  Action::onlyTrashed()
+            ->get();
+    }
+
+    public function getActive(){
+        return  Action::all();
+    }
 
     public function inTrash($id){
 

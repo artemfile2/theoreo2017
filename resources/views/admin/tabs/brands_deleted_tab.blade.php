@@ -1,4 +1,6 @@
-<div class="tab-pane" id="tab_2">
+@extends('admin.section.brands')
+@section('tab')
+<div class="tab-pane active" id="tab_2">
     <div class="dataTables_wrapper form-inline dt-bootstrap">
         <div class="row">
             <div class="col-sm-12">
@@ -11,13 +13,13 @@
                         <th class="sorting" tabindex="0" aria-controls="brandsDeleted" rowspan="1" colspan="1" style="width: 10%" aria-label="">
                             Лого
                         </th>
-                        <th class="sorting" tabindex="0" aria-controls="brandsDeleted" rowspan="1" colspan="1" style="width: 36%" aria-label="">
+                        <th class="sorting" tabindex="0" aria-controls="brandsDeleted" rowspan="1" colspan="1" style="width: 34%" aria-label="">
                             Имя бренда
                         </th>
-                        <th class="sorting" tabindex="0" aria-controls="brandsDeleted" rowspan="1" colspan="1" style="width: 16%" aria-label="">
+                        <th class="sorting" tabindex="0" aria-controls="brandsDeleted" rowspan="1" colspan="1" style="width: 12%" aria-label="">
                             Телефон
                         </th>
-                        <th class="sorting" tabindex="0" aria-controls="brandsDeleted" rowspan="1" colspan="1" style="width: 16%" aria-label="">
+                        <th class="sorting" tabindex="0" aria-controls="brandsDeleted" rowspan="1" colspan="1" style="width: 12%" aria-label="">
                             Сайт
                         </th>
                         <th class="sorting" tabindex="0" aria-controls="brandsDeleted" rowspan="1" colspan="1" style="width: 10%" aria-label="">
@@ -25,6 +27,9 @@
                         </th>
                         <th class="sorting" tabindex="0" aria-controls="brandsDeleted" rowspan="1" colspan="1" style="width: 10%" aria-label="">
                             Дата изменения
+                        </th>
+                        <th class="sorting" tabindex="0" aria-controls="brandsDeleted" rowspan="1" colspan="1" style="width: 10%" aria-label="">
+                            Зарегистрировал
                         </th>
                         <th style="width: 1%">
                             Управление
@@ -47,8 +52,9 @@
                             <td>{{ $brandDeleted->site_link }}</td>
                             <td>{{ getRusDate(date($brandDeleted->created_at)) }}</td>
                             <td>{{ getRusDate(date($brandDeleted->updated_at)) }}</td>
+                            <td>{{ $brandDeleted->user->name }}</td>
                             <td class="control">
-                                <a href="{{ route('admin.brands.restore', ['id' => $brandDeleted->id]) }}" class="btn" title="Восстановить">
+                                <a href="{{ route('admin.brands.restore', ['id' => $brandDeleted->id]) }}" class="btn restoreBrand" title="Восстановить">
                                     <i class="fa fa-history"></i>
                                 </a>
                                 <a href="{{ route('admin.brands.delete', ['id' => $brandDeleted->id]) }}" class="btn forceDeleteBrand" title="Удалить">
@@ -67,6 +73,7 @@
                         <th rowspan="1" colspan="1">Сайт</th>
                         <th rowspan="1" colspan="1">Дата создания</th>
                         <th rowspan="1" colspan="1">Дата изменения</th>
+                        <th rowspan="1" colspan="1">Зарегистрировал</th>
                         <th rowspan="1" colspan="1">Управление</th>
                     </tr>
                     </tfoot>
@@ -75,3 +82,4 @@
         </div>
     </div>
 </div>
+@endsection

@@ -24,12 +24,21 @@ class UsersController extends Controller
 
     public function users()
     {
-        $users = $this->user->getAll();
+        $users = $this->user->getActive();
 
-        return view('admin.section.users', [
+        return view('admin.tabs.users_active_tab', [
             'title' => 'Пользователи',
-            'users' => $users['users'],
-            'usersDeleted' => $users['usersDeleted'],
+            'users' => $users,
+        ]);
+    }
+
+    public function trashed()
+    {
+        $users = $this->user->getTrashed();
+
+        return view('admin.tabs.users_deleted_tab', [
+            'title' => 'Пользователи',
+            'usersDeleted' => $users,
         ]);
     }
 
@@ -91,7 +100,7 @@ class UsersController extends Controller
         $this->user->create($requestAll);
 
         return redirect()
-            ->route('admin.user.get_all');
+            ->route('admin.user.active');
     }
 
     /**
@@ -99,10 +108,8 @@ class UsersController extends Controller
      */
     public function userRestore($id)
     {
-        $this->user->restore($id);
+        return ajax_respond($this->user->restore($id));
 
-        return redirect()
-            ->route('admin.user.get_all');
     }
 
     /**
@@ -110,10 +117,7 @@ class UsersController extends Controller
      */
     public function userTrash($id)
     {
-        $this->user->inTrash($id);
-
-        return redirect()
-            ->route('admin.user.get_all');
+        return ajax_respond($this->user->inTrash($id));
     }
 
     /**
@@ -192,7 +196,7 @@ class UsersController extends Controller
         $user->update($requestAll);
 
         return redirect()
-            ->route('admin.user.get_all');
+            ->route('admin.user.active');
     }
 
     /**
@@ -200,9 +204,14 @@ class UsersController extends Controller
      */
     public function userDelete($id)
     {
-        $this->user->delete($id);
-
-        return redirect()
-            ->route('admin.user.get_all');
+      //TODO реализовать метод подсчёта
+      // $brands = $this->user->countBrands();
+       $brands  = 1;
+       if($brands){
+           // вынести в ланг файл
+           return "На имя данного пользователя имеются зарегистрированые бренды.<br> Удалите бренды, или пререгистрируйте их на ругого пользователя";
+       }else{
+          return ajax_respond($this->user->delete($id));
+       }
     }
 }

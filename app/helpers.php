@@ -8,10 +8,16 @@
  if (!function_exists('getRusDate')) {
     function getRusDate($dateTime, $format = '%DAYWEEK%, d %MONTH% Y H:i', $offset = 0)
     {
-        if (is_null($dateTime))
+       if (is_null($dateTime))
         {
             return '';
         }
+        $date = \DateTime::createFromFormat('Y-m-d H:i:s', $dateTime);
+        if (!$date)
+        {
+            return '';
+        }
+
         $monthArray = array('января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря');
         $daysArray = array('Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье');
 
@@ -69,3 +75,15 @@ if (!function_exists('format_string')) {
     }
 }
 
+if (!function_exists('ajax_respond')) {
+    function ajax_respond($respond)
+    {
+        if($respond == true){
+            return 1;
+        }elseif(is_numeric($respond)){
+            return $respond;
+        }else{
+            return 0;
+        }
+    }
+}

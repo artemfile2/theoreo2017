@@ -30,15 +30,25 @@ class ActionsController extends Controller
     }
 
     /*
-     * Вывод всех Акций на страницу*/
+     * Вывод активных Акций на страницу*/
     public function actions()
     {
-        $actions = $this->actions->getAll();
+        $actions = $this->actions->getActive();
 
-        return view('admin.section.actions', [
+        return view('admin.tabs.actions_active_tab', [
             'title' => 'Акции',
-            'actions' => $actions['actions'],
-            'actionsDeleted' => $actions['actionsDeleted'],
+            'actions' => $actions,
+             ]);
+    }
+    /*
+    * Вывод удалённых Акций на страницу*/
+    public function trashed()
+    {
+        $actions = $this->actions->getTrashed();
+
+        return view('admin.tabs.actions_deleted_tab', [
+            'title' => 'Удалённые акции',
+            'actionsDeleted' => $actions,
         ]);
     }
 
@@ -47,10 +57,7 @@ class ActionsController extends Controller
      */
     public function actionTrash($id)
     {
-        $this->actions->inTrash($id);
-
-        return redirect()
-            ->route('admin.actions.get_all');
+       return ajax_respond($this->actions->inTrash($id));
     }
 
     /**
@@ -58,10 +65,8 @@ class ActionsController extends Controller
      */
     public function actionRestore($id)
     {
-        $this->actions->restore($id);
+        return ajax_respond($this->actions->restore($id));
 
-        return redirect()
-            ->route('admin.actions.get_all');
     }
 
     /**
@@ -69,10 +74,7 @@ class ActionsController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->actions->delete($id);
-
-        return redirect()
-            ->route('admin.actions.get_all');
+        return ajax_respond($this->actions->delete($id));
     }
 
     /**
@@ -100,7 +102,6 @@ class ActionsController extends Controller
             'types' => $types,
             'statuses' => $statuses,
             'fileError' => $fileError,
-            'is_action' => 'action',
         ]);
     }
 
@@ -160,7 +161,7 @@ class ActionsController extends Controller
         }
 
         return redirect()
-            ->route('admin.actions.get_all');
+            ->route('admin.actions.active');
     }
 
     /**
@@ -271,6 +272,6 @@ class ActionsController extends Controller
         }
 
         return redirect()
-            ->route('admin.actions.get_all');
+            ->route('admin.actions.active');
     }
 }
