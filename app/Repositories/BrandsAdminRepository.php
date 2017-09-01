@@ -22,6 +22,18 @@ class BrandsAdminRepository implements ActionRepositoryInterface
         return ['brands'=>$brands, 'brandsDeleted'=>$brandsDeleted];
     }
 
+    public function getActive()
+    {
+        return Brand::all()
+            ->sortByDesc('created_at');
+    }
+
+    public function getTrashed()
+    {
+        return Brand::onlyTrashed()
+        ->get();
+    }
+
     public function inTrash($id){
 
         return Brand::findOrFail($id)

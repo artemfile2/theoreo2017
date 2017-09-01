@@ -31,24 +31,32 @@ class BrandsController extends Controller
 
     public function brands()
     {
-        $brands = $this->brand->getAll();
+        $brands = $this->brand->getActive();
 
-        return view('admin.section.brands', [
+        return view('admin.tabs.brands_active_tab', [
             'title' => 'Компании',
-            'brands' => $brands['brands'],
-            'brandsDeleted' => $brands['brandsDeleted'],
+            'brands' => $brands,
         ]);
     }
+
+    public function trashed()
+    {
+        $brands = $this->brand->getTrashed();
+
+        return view('admin.tabs.brands_deleted_tab', [
+            'title' => 'Компании',
+            'brandsDeleted' => $brands,
+        ]);
+    }
+
 
     /**
      * Мягкое удаление бренда (перемещение в раздел "Удаленные")
      */
     public function brandTrash($id)
     {
-        $this->brand->inTrash($id);
+        return ajax_respond($this->brand->inTrash($id));
 
-        return redirect()
-            ->route('admin.brands.get_all');
     }
 
     /**
@@ -56,10 +64,8 @@ class BrandsController extends Controller
      */
     public function brandRestore($id)
     {
-        $this->brand->restore($id);
+        return ajax_respond($this->brand->restore($id));
 
-        return redirect()
-            ->route('admin.brands.get_all');
     }
 
     /**
@@ -67,10 +73,8 @@ class BrandsController extends Controller
      */
     public function brandDelete($id)
     {
-        $this->brand->delete($id);
+        return ajax_respond($this->brand->delete($id));
 
-        return redirect()
-            ->route('admin.brands.get_all');
     }
 
     /**
@@ -90,7 +94,6 @@ class BrandsController extends Controller
             'categories' => $categories,
             'cities' => $cities,
             'fileError' => $fileError,
-            'is_action' => false,
         ]);
     }
 
@@ -178,7 +181,7 @@ class BrandsController extends Controller
         }
         else {
             return redirect()
-                ->route('admin.brands.get_all');
+                ->route('admin.brands.active');
         }
     }
 
@@ -253,6 +256,6 @@ class BrandsController extends Controller
         $brand->update($requestAll);
 
         return redirect()
-            ->route('admin.brands.get_all');
+            ->route('admin.brands.active');
     }
 }

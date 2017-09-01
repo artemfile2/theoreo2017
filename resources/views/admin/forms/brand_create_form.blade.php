@@ -85,9 +85,9 @@
             @endif
         </div>
     </div>
-    <input type="hidden" name="brand_in_action" value="1" id="brand_in_action_input" {{ $is_action == 'action' ? '' : 'disabled' }}>
+    <input type="hidden" name="brand_in_action" value="1" id="brand_in_action_input" {{ (URL::current() == route('admin.actions.create')) ? '' : 'disabled' }}>
     <div class="box-footer">
         <input type="submit" class="btn btn-success margin-r-5" value="Сохранить">
-        <a href="{{ route('admin.brands.get_all') }}" class="btn btn-primary">Назад</a>
+        <a href="{{ route('admin.brands.active') }}" class="btn btn-primary">Назад</a>
     </div>
 </form>

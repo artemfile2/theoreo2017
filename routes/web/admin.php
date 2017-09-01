@@ -18,10 +18,16 @@ Route::group(['prefix' => 'admin'], function () {
         Route::group(['prefix' => 'users', 'middleware' => 'admin:users_management'], function () {
 
             /**
-             * Главная (список активных/удаленных)
+             * Главная (список активных)
              */
             Route::get('/', 'UsersController@users')
-                ->name('admin.user.get_all');
+                ->name('admin.user.active');
+
+            /**
+             * Главная (список удаленных)
+             */
+            Route::get('/trashed', 'UsersController@trashed')
+                ->name('admin.user.trashed');
 
             /**
              * Создание нового пользователя
@@ -66,10 +72,16 @@ Route::group(['prefix' => 'admin'], function () {
         Route::group(['prefix' => 'brands', 'middleware' => 'admin:brand_management'], function () {
 
             /**
-             * Главная (список активных/удаленных)
+             * Главная (список активных)
              */
             Route::get('/', 'BrandsController@brands')
-                ->name('admin.brands.get_all');
+                ->name('admin.brands.active');
+
+            /**
+             * Главная (список удаленных)
+             */
+            Route::get('/trashed', 'BrandsController@trashed')
+                ->name('admin.brands.trashed');
 
             /**
              * Создание нового бренда
@@ -114,11 +126,15 @@ Route::group(['prefix' => 'admin'], function () {
         Route::group(['prefix' => 'actions', 'middleware' => 'admin:actions_management'], function () {
 
             /**
-             * Главная (список активных/удаленных)
+             * Главная (список активных)
              */
             Route::get('/', 'ActionsController@actions')
-                ->name('admin.actions.get_all');
-
+                ->name('admin.actions.active');
+            /**
+             * Главная (список удаленных)
+             */
+            Route::get('/trashed', 'ActionsController@trashed')
+                ->name('admin.actions.trashed');
             /**
              * Создание новой акции
              */

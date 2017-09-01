@@ -28,6 +28,18 @@ class UsersAdminRepository implements ActionRepositoryInterface
 
         return ['users'=>$users, 'usersDeleted'=>$usersDeleted];
     }
+    /* получает активных пользователей */
+    public function getActive()
+    {
+        return User::all()
+            ->sortByDesc('created_at');
+    }
+    /* получает удалённых пользователей */
+    public function getTrashed()
+    {
+        return User::onlyTrashed()
+            ->get();
+    }
 
     /*
      * Мягкое удаление пользователя */

@@ -1,4 +1,6 @@
-<div class="tab-pane active" id="tab_1">
+@extends('admin.section.actions')
+@section('tab')
+<div class="tab-pane active">
     <div class="dataTables_wrapper form-inline dt-bootstrap">
         <div class="row">
             <div class="col-sm-12">
@@ -69,7 +71,7 @@
                                 <a href="{{ route('admin.actions.edit', ['id' => $action->id]) }}" class="btn" title="Редактировать">
                                     <i class="fa fa-edit"></i>
                                 </a>
-                                <a href="{{ route('admin.actions.trash', ['id' => $action->id]) }}" class="btn deleteAction" title="Переместить в корзину">
+                                <a href="{{ route('admin.actions.trash', ['id' => $action->id]) }}" class="btn trashAction" title="Переместить в корзину">
                                     <i class="fa fa-trash"></i>
                                 </a>
                             </td>
@@ -93,3 +95,4 @@
         </div>
     </div>
 </div>
+@endsection

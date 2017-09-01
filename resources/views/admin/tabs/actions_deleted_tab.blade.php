@@ -1,4 +1,6 @@
-<div class="tab-pane" id="tab_2">
+@extends('admin.section.actions')
+@section('tab')
+<div class="tab-pane active">
     <div class="dataTables_wrapper form-inline dt-bootstrap">
         <div class="row">
             <div class="col-sm-12">
@@ -60,7 +62,7 @@
                                 {{ $actionDeleted->updated_at }}
                             </td>
                             <td class="control">
-                                <a href="{{ route('admin.actions.restore', ['id' => $actionDeleted->id]) }}" class="btn" title="Восстановить">
+                                <a href="{{ route('admin.actions.restore', ['id' => $actionDeleted->id]) }}" class="btn restoreAction" title="Восстановить">
                                     <i class="fa fa-history"></i>
                                 </a>
                                 <a href="{{ route('admin.actions.delete', ['id' => $actionDeleted->id]) }}" class="btn forceDeleteAction" title="Удалить">
@@ -87,3 +89,4 @@
         </div>
     </div>
 </div>
+@endsection

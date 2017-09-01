@@ -38,7 +38,8 @@ class CreateActionsTable extends Migration
         Schema::table('actions', function (Blueprint $table) {
             $table->foreign('brand_id')
                 ->references('id')
-                ->on('brands');
+                ->on('brands')
+                ->onDelete('cascade');
 
             $table->foreign('status_id')
                 ->references('id')

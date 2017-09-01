@@ -13,7 +13,8 @@ Route::group(['prefix' => 'parser'],function () {
     });
 
     /** тестовый маршрут для простого парсера */
-    Route::get('/vksimple', 'VkController@simpleNewsFeedGet');
+    Route::get('/vksimple', 'VkController@simpleNewsFeedGet')
+        ->name('parser.vksimple');
 
     /** получение токена */
     Route::get('/vktoken', 'VkController@getToken');

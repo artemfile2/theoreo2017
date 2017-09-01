@@ -1,3 +1,5 @@
+@extends('admin.section.brands')
+@section('tab')
 <div class="tab-pane active" id="tab_1">
     <div class="dataTables_wrapper form-inline dt-bootstrap">
         <div class="row">
@@ -11,13 +13,13 @@
                         <th class="sorting" tabindex="0" aria-controls="brands" rowspan="1" colspan="1" style="width: 10%" aria-label="">
                             Лого
                         </th>
-                        <th class="sorting" tabindex="0" aria-controls="brands" rowspan="1" colspan="1" style="width: 36%" aria-label="">
+                        <th class="sorting" tabindex="0" aria-controls="brands" rowspan="1" colspan="1" style="width: 34%" aria-label="">
                             Имя бренда
                         </th>
-                        <th class="sorting" tabindex="0" aria-controls="brands" rowspan="1" colspan="1" style="width: 16%" aria-label="">
+                        <th class="sorting" tabindex="0" aria-controls="brands" rowspan="1" colspan="1" style="width: 12%" aria-label="">
                             Телефон
                         </th>
-                        <th class="sorting" tabindex="0" aria-controls="brands" rowspan="1" colspan="1" style="width: 16%" aria-label="">
+                        <th class="sorting" tabindex="0" aria-controls="brands" rowspan="1" colspan="1" style="width: 12%" aria-label="">
                             Сайт
                         </th>
                         <th class="sorting" tabindex="0" aria-controls="brands" rowspan="1" colspan="1" style="width: 10%" aria-label="">
@@ -25,6 +27,9 @@
                         </th>
                         <th class="sorting" tabindex="0" aria-controls="brands" rowspan="1" colspan="1" style="width: 10%" aria-label="">
                             Дата изменения
+                        </th>
+                        <th class="sorting" tabindex="0" aria-controls="brands" rowspan="1" colspan="1" style="width: 10%" aria-label="">
+                            Зарегистрировал
                         </th>
                         <th style="width: 1%">
                             Управление
@@ -57,11 +62,12 @@
                                     {{ getRusDate(date($brand->updated_at)) }}
                                 @endif
                             </td>
+                            <td>{{ $brand->user->name }}</td>
                             <td class="control">
                                 <a href="{{ route('admin.brands.edit', ['id' => $brand->id]) }}" class="btn" title="Редактировать">
                                     <i class="fa fa-edit"></i>
                                 </a>
-                                <a href="{{ route('admin.brands.trash', ['id' => $brand->id]) }}" class="btn deleteBrand" title="Переместить в корзину">
+                                <a href="{{ route('admin.brands.trash', ['id' => $brand->id]) }}" class="btn trashBrand" title="Переместить в корзину">
                                     <i class="fa fa-trash"></i>
                                 </a>
                             </td>
@@ -77,6 +83,7 @@
                         <th rowspan="1" colspan="1">Сайт</th>
                         <th rowspan="1" colspan="1">Дата создания</th>
                         <th rowspan="1" colspan="1">Дата изменения</th>
+                        <th rowspan="1" colspan="1">Зарегистрировал</th>
                         <th rowspan="1" colspan="1">Управление</th>
                     </tr>
                     </tfoot>
@@ -85,3 +92,4 @@
         </div>
     </div>
 </div>
+@endsection
