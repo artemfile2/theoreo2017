@@ -38,11 +38,16 @@ class VkController extends Controller
      */
     public function simpleNewsFeedGet()
     {
-        $feedItems = $this->parser->getNewsFeed();
+        $this->getVkFeed();
 
-        $this->saveData($feedItems);
         return redirect()
             ->route('admin');
+    }
+
+    public function getVkFeed()
+    {
+        $feedItems = $this->parser->getNewsFeed();
+        $this->saveData($feedItems);
     }
 
     /**
