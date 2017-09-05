@@ -31,18 +31,32 @@ class ActionsController extends Controller
     }
 
     /*
-     * Вывод всех Акций на страницу*/
+     * Вывод активных Акций на страницу*/
     public function actions()
     {
         $actions = Cache::tags(['actions', 'list'])
             ->remember('actions', env('CACHE_TIME', 0), function () {
-                return $this->actions->getAll();
+                return $this->actions->getActive();
             });
 
-        return view('admin.section.actions', [
+        return view('admin.tabs.actions_active_tab', [
             'title' => 'Акции',
-            'actions' => $actions['actions'],
-            'actionsDeleted' => $actions['actionsDeleted'],
+            'actions' => $actions,
+             ]);
+    }
+
+    /*
+    * Вывод удалённых Акций на страницу*/
+    public function trashed()
+    {
+        $actions = Cache::tags(['actions', 'trashed'])
+            ->remember('actions', env('CACHE_TIME', 0), function () {
+                return $this->actions->getTrashed();
+            });
+
+        return view('admin.tabs.actions_deleted_tab', [
+            'title' => 'Удалённые акции',
+            'actionsDeleted' => $actions,
         ]);
     }
 
@@ -51,13 +65,7 @@ class ActionsController extends Controller
      */
     public function actionTrash($id)
     {
-        $this->actions->inTrash($id);
-
-        Cache::tags(['actions', 'list'])
-            ->flush();
-
-        return redirect()
-            ->route('admin.actions.get_all');
+       return ajax_respond($this->actions->inTrash($id));
     }
 
     /**
@@ -65,13 +73,7 @@ class ActionsController extends Controller
      */
     public function actionRestore($id)
     {
-        $this->actions->restore($id);
-
-        Cache::tags(['actions', 'list'])
-            ->flush();
-
-        return redirect()
-            ->route('admin.actions.get_all');
+        return ajax_respond($this->actions->restore($id));
     }
 
     /**
@@ -79,13 +81,7 @@ class ActionsController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->actions->delete($id);
-
-        Cache::tags(['actions', 'list'])
-            ->flush();
-
-        return redirect()
-            ->route('admin.actions.get_all');
+        return ajax_respond($this->actions->delete($id));
     }
 
     /**
@@ -136,7 +132,6 @@ class ActionsController extends Controller
             'types' => $types,
             'statuses' => $statuses,
             'fileError' => $fileError,
-            'is_action' => 'action',
         ]);
     }
 
@@ -199,7 +194,7 @@ class ActionsController extends Controller
             ->flush();
 
         return redirect()
-            ->route('admin.actions.get_all');
+            ->route('admin.actions.active');
     }
 
     /**
@@ -337,6 +332,6 @@ class ActionsController extends Controller
             ->flush();
 
         return redirect()
-            ->route('admin.actions.get_all');
+            ->route('admin.actions.active');
     }
 }

@@ -146,6 +146,6 @@
     <input type="hidden" name="id" value="{{ $action->id }}">
     <div class="box-footer">
         <input type="submit" class="btn btn-success margin-r-5" value="Сохранить">
-        <a href="{{ route('admin.actions.get_all') }}" class="btn btn-primary" >Назад</a>
+        <a href="{{ route('admin.actions.active') }}" class="btn btn-primary" >Назад</a>
     </div>
 </form>

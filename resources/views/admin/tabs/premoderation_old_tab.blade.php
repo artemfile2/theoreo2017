@@ -33,7 +33,7 @@
                             </td>
                             <td>
                                 <div class="form-group col-sm-6 col-lg-4">
-                                    <input type="checkbox" value="{{ $vktemp->status }}" name="check_status">
+                                    <input type="checkbox" value="{{ $vktempDeleted->status }}" name="check_status">
                                 </div>
                             </td>
                         </tr>

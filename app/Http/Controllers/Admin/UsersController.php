@@ -17,23 +17,36 @@ use Illuminate\Support\Facades\Cache;
  */
 class UsersController extends Controller
 {
+    protected $user;
+
     public function __construct(ActionRepositoryInterface $user, Request $request)
     {
         $this->user = $user;
     }
 
-
     public function users()
     {
         $users = Cache::tags(['users', 'list'])
             ->remember('users', env('CACHE_TIME', 0), function () {
-                return $this->user->getAll();
+                return $this->user->getActive();
             });
 
-        return view('admin.section.users', [
+        return view('admin.tabs.users_active_tab', [
             'title' => 'Пользователи',
-            'users' => $users['users'],
-            'usersDeleted' => $users['usersDeleted'],
+            'users' => $users,
+        ]);
+    }
+
+    public function trashed()
+    {
+        $users = Cache::tags(['users', 'trashed'])
+            ->remember('users', env('CACHE_TIME', 0), function () {
+                return $this->user->getTrashed();
+            });
+
+        return view('admin.tabs.users_deleted_tab', [
+            'title' => 'Пользователи',
+            'usersDeleted' => $users,
         ]);
     }
 
@@ -101,7 +114,7 @@ class UsersController extends Controller
             ->flush();
 
         return redirect()
-            ->route('admin.user.get_all');
+            ->route('admin.user.active');
     }
 
     /**
@@ -109,13 +122,7 @@ class UsersController extends Controller
      */
     public function userRestore($id)
     {
-        $this->user->restore($id);
-
-        Cache::tags(['users', 'list'])
-            ->flush();
-
-        return redirect()
-            ->route('admin.user.get_all');
+        return ajax_respond($this->user->restore($id));
     }
 
     /**
@@ -123,13 +130,7 @@ class UsersController extends Controller
      */
     public function userTrash($id)
     {
-        $this->user->inTrash($id);
-
-        Cache::tags(['users', 'list'])
-            ->flush();
-
-        return redirect()
-            ->route('admin.user.get_all');
+        return ajax_respond($this->user->inTrash($id));
     }
 
     /**
@@ -215,7 +216,7 @@ class UsersController extends Controller
             ->flush();
 
         return redirect()
-            ->route('admin.user.get_all');
+            ->route('admin.user.active');
     }
 
     /**
@@ -223,12 +224,16 @@ class UsersController extends Controller
      */
     public function userDelete($id)
     {
-        $this->user->delete($id);
-
-        Cache::tags(['users', 'list'])
-            ->flush();
-
-        return redirect()
-            ->route('admin.user.get_all');
+      //TODO реализовать метод подсчёта
+      // $brands = $this->user->countBrands();
+       $brands  = 1;
+       if($brands){
+           // вынести в ланг файл
+           return "На имя данного пользователя имеются зарегистрированые бренды.<br> 
+                    Удалите бренды, или пререгистрируйте их на ругого пользователя";
+       }
+       else {
+          return ajax_respond($this->user->delete($id));
+       }
     }
 }

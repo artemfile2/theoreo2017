@@ -6,7 +6,7 @@
         <div class="row">
             @can ('users_management', \App\Models\User::class)
                 <div class="col-lg-4 col-md-6 col-sm-12">
-                    <a href="{{ route('admin.user.get_all') }}">
+                    <a href="{{ route('admin.user.active') }}">
                         <div class="info-box">
                         <span class="info-box-icon bg-light-blue">
                             <i class="fa fa-users"></i>
@@ -25,7 +25,7 @@
             @endcan
             @can ('brand_management', \App\Models\User::class)
                 <div class="col-lg-4 col-md-6 col-sm-12">
-                    <a href="{{ route('admin.brands.get_all') }}">
+                    <a href="{{ route('admin.brands.active') }}">
                         <div class="info-box">
                         <span class="info-box-icon bg-green">
                             <i class="fa fa-building"></i>
@@ -44,7 +44,7 @@
            @endcan
             @can('actions_management', \App\Models\User::class)
                 <div class="col-lg-4 col-md-6 col-sm-12">
-                    <a href="{{ route('admin.actions.get_all') }}">
+                    <a href="{{ route('admin.actions.active') }}">
                         <div class="info-box">
                         <span class="info-box-icon bg-red">
                             <i class="fa fa-fire"></i>
@@ -132,6 +132,23 @@
                     </div>
                 </a>
             </div>
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                    <a href="{{ route('parser.vksimple') }}">
+                        <div class="info-box">
+                    <span class="info-box-icon bg-teal">
+                        <i class="fa fa-newspaper-o"></i>
+                    </span>
+                            <div class="info-box-content">
+                        <span class="info-box-text">
+                            Парсинг
+                        </span>
+                                <span class="info-box-number">
+                            Получить свежие данные
+                        </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
         </div>
     </section>
 

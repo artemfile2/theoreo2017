@@ -33,28 +33,35 @@ class BrandsController extends Controller
     {
         $brands = Cache::tags(['brands', 'list'])
             ->remember('brands', env('CACHE_TIME', 0), function () {
-                return $this->brand->getAll();
+                return $this->brand->getActive();
             });
 
-        return view('admin.section.brands', [
+        return view('admin.tabs.brands_active_tab', [
             'title' => 'Компании',
-            'brands' => $brands['brands'],
-            'brandsDeleted' => $brands['brandsDeleted'],
+            'brands' => $brands,
         ]);
     }
+
+    public function trashed()
+    {
+        $brands = Cache::tags(['brands', 'trashed'])
+            ->remember('brands', env('CACHE_TIME', 0), function () {
+                return $this->brand->getTrashed();
+            });
+
+        return view('admin.tabs.brands_deleted_tab', [
+            'title' => 'Компании',
+            'brandsDeleted' => $brands,
+        ]);
+    }
+
 
     /**
      * Мягкое удаление бренда (перемещение в раздел "Удаленные")
      */
     public function brandTrash($id)
     {
-        $this->brand->inTrash($id);
-
-        Cache::tags(['brands', 'list'])
-            ->flush();
-
-        return redirect()
-            ->route('admin.brands.get_all');
+        return ajax_respond($this->brand->inTrash($id));
     }
 
     /**
@@ -62,13 +69,7 @@ class BrandsController extends Controller
      */
     public function brandRestore($id)
     {
-        $this->brand->restore($id);
-
-        Cache::tags(['brands', 'list'])
-            ->flush();
-
-        return redirect()
-            ->route('admin.brands.get_all');
+        return ajax_respond($this->brand->restore($id));
     }
 
     /**
@@ -76,13 +77,7 @@ class BrandsController extends Controller
      */
     public function brandDelete($id)
     {
-        $this->brand->delete($id);
-
-        Cache::tags(['brands', 'list'])
-            ->flush();
-
-        return redirect()
-            ->route('admin.brands.get_all');
+        return ajax_respond($this->brand->delete($id));
     }
 
     /**
@@ -109,7 +104,6 @@ class BrandsController extends Controller
             'categories' => $categories,
             'cities' => $cities,
             'fileError' => $fileError,
-            'is_action' => false,
         ]);
     }
 
@@ -200,7 +194,7 @@ class BrandsController extends Controller
                 ->flush();
 
             return redirect()
-                ->route('admin.brands.get_all');
+                ->route('admin.brands.active');
         }
     }
 
@@ -327,6 +321,6 @@ class BrandsController extends Controller
             ->flush();
 
         return redirect()
-            ->route('admin.brands.get_all');
+            ->route('admin.brands.active');
     }
 }

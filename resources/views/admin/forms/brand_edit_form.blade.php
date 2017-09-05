@@ -92,6 +92,6 @@
     </div>
     <div class="box-footer">
         <input type="submit" class="btn btn-success margin-r-5" value="Сохранить">
-        <a href="{{ route('admin.brands.get_all') }}" class="btn btn-primary">Назад</a>
+        <a href="{{ route('admin.brands.active') }}" class="btn btn-primary">Назад</a>
     </div>
 </form>
