@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Cache;
 
 class UsersAdminRepository implements ActionRepositoryInterface
 {
@@ -18,32 +19,45 @@ class UsersAdminRepository implements ActionRepositoryInterface
      * возвращает массив
      * $users - все пользователи, кроме удаленных
      * $usersDeleted - все удаленные пользователи*/
+
     public function getAll()
     {
-        $users = User::all()
-            ->sortByDesc('created_at');
-
-        $usersDeleted = User::onlyTrashed()
+        $users = User::with(['role', 'upload'])
+            ->orderByDesc('created_at')
             ->get();
 
-        return ['users'=>$users, 'usersDeleted'=>$usersDeleted];
+        $usersDeleted = User::with(['role', 'upload'])
+            ->onlyTrashed()
+            ->get();
+
+        return ['users' => $users, 'usersDeleted' => $usersDeleted];
     }
+
     /* получает активных пользователей */
     public function getActive()
     {
-        return User::all()
-            ->sortByDesc('created_at');
+        return User::with(['role', 'upload'])
+            ->orderByDesc('created_at')
+            ->get();
     }
+
     /* получает удалённых пользователей */
     public function getTrashed()
     {
-        return User::onlyTrashed()
+        return User::with(['role', 'upload'])
+            ->onlyTrashed()
             ->get();
     }
 
     /*
      * Мягкое удаление пользователя */
-    public function inTrash($id){
+    public function inTrash($id)
+    {
+        Cache::tags(['users', 'list'])
+            ->flush();
+
+        Cache::tags(['users', 'trashed'])
+            ->flush();
 
         return User::findOrFail($id)
             ->delete();
@@ -51,7 +65,13 @@ class UsersAdminRepository implements ActionRepositoryInterface
 
     /*
      * Восстановление пользователя из удаленных*/
-    public function restore($id){
+    public function restore($id)
+    {
+        Cache::tags(['users', 'list'])
+            ->flush();
+
+        Cache::tags(['users', 'trashed'])
+            ->flush();
 
         return User::withTrashed()
             ->where('id', $id)
@@ -60,7 +80,10 @@ class UsersAdminRepository implements ActionRepositoryInterface
 
     /*
      * Безвозратное удаление пользователя*/
-    public function delete($id){
+    public function delete($id)
+    {
+        Cache::tags(['users', 'trashed'])
+            ->flush();
 
         return User::withTrashed()
             ->where('id', $id)

@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Classes\Uploader;
 use Illuminate\Validation\Rule;
 use App\Repositories\ActionRepositoryInterface;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * Class UsersController
@@ -16,15 +17,19 @@ use App\Repositories\ActionRepositoryInterface;
  */
 class UsersController extends Controller
 {
+    protected $user;
+
     public function __construct(ActionRepositoryInterface $user, Request $request)
     {
         $this->user = $user;
     }
 
-
     public function users()
     {
-        $users = $this->user->getActive();
+        $users = Cache::tags(['users', 'list'])
+            ->remember('users', env('CACHE_TIME', 0), function () {
+                return $this->user->getActive();
+            });
 
         return view('admin.tabs.users_active_tab', [
             'title' => 'Пользователи',
@@ -34,7 +39,10 @@ class UsersController extends Controller
 
     public function trashed()
     {
-        $users = $this->user->getTrashed();
+        $users = Cache::tags(['users', 'trashed'])
+            ->remember('users', env('CACHE_TIME', 0), function () {
+                return $this->user->getTrashed();
+            });
 
         return view('admin.tabs.users_deleted_tab', [
             'title' => 'Пользователи',
@@ -51,7 +59,10 @@ class UsersController extends Controller
             $fileError = $request->session()->pull('fileError', 'default');
         }
 
-        $roles = Role::all();
+        $roles = Cache::tags(['roles', 'list'])
+            ->remember('roles', env('CACHE_TIME', 0), function () {
+                return  Role::all();
+            });
 
         return view('admin.section.user_create', [
             'title' => 'Создание пользователя',
@@ -99,6 +110,9 @@ class UsersController extends Controller
 
         $this->user->create($requestAll);
 
+        Cache::tags(['users', 'list'])
+            ->flush();
+
         return redirect()
             ->route('admin.user.active');
     }
@@ -109,7 +123,6 @@ class UsersController extends Controller
     public function userRestore($id)
     {
         return ajax_respond($this->user->restore($id));
-
     }
 
     /**
@@ -126,7 +139,11 @@ class UsersController extends Controller
     public function userEdit($id, Request $request, $fileError = null)
     {
         $user = $this->user->getOne($id);
-        $roles = Role::all();
+
+        $roles = Cache::tags(['roles', 'list'])
+            ->remember('roles', env('CACHE_TIME', 0), function () {
+                return  Role::all();
+            });
 
         if($request->session()->has('fileError')) {
             $fileError = $request->session()->pull('fileError', 'default');
@@ -195,6 +212,9 @@ class UsersController extends Controller
 
         $user->update($requestAll);
 
+        Cache::tags(['users', 'list'])
+            ->flush();
+
         return redirect()
             ->route('admin.user.active');
     }
@@ -209,8 +229,10 @@ class UsersController extends Controller
        $brands  = 1;
        if($brands){
            // вынести в ланг файл
-           return "На имя данного пользователя имеются зарегистрированые бренды.<br> Удалите бренды, или пререгистрируйте их на ругого пользователя";
-       }else{
+           return "На имя данного пользователя имеются зарегистрированые бренды.<br> 
+                    Удалите бренды, или пререгистрируйте их на ругого пользователя";
+       }
+       else {
           return ajax_respond($this->user->delete($id));
        }
     }

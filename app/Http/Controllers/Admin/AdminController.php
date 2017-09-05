@@ -8,6 +8,7 @@ use App\Models\Brand;
 use App\Models\VkFeed;
 use App\Models\Query;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * Class AdminController
@@ -21,11 +22,27 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        $brands = Brand::all();
-        $actions = Action::all();
+        $users = Cache::tags(['users', 'list'])
+            ->remember('users', env('CACHE_TIME', 0), function () {
+                return  User::all();
+            });
+
+        $brands = Cache::tags(['brands', 'list'])
+            ->remember('brands', env('CACHE_TIME', 0), function () {
+                return  Brand::all();
+            });
+
+        $actions = Cache::tags(['actions', 'list'])
+            ->remember('actions', env('CACHE_TIME', 0), function () {
+                return  Action::all();
+            });
+
+        $queries = Cache::tags(['queries', 'list'])
+            ->remember('queries', env('CACHE_TIME', 0), function () {
+                return  Query::all();
+            });
+
         $vkfeeds = VkFeed::all();
-        $queries = Query::all();
 
         return view('admin.section.control_panel', [
             'title' => 'Панель управления',

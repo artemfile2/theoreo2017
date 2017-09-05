@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Brand;
+use Illuminate\Support\Facades\Cache;
 
 class BrandsAdminRepository implements ActionRepositoryInterface
 {
@@ -13,48 +14,68 @@ class BrandsAdminRepository implements ActionRepositoryInterface
 
     public function getAll()
     {
-        $brands = Brand::all()
-            ->sortByDesc('created_at');
-
-        $brandsDeleted = Brand::onlyTrashed()
+        $brands = Brand::with(['upload', 'user'])
+            ->orderByDesc('created_at')
             ->get();
 
-        return ['brands'=>$brands, 'brandsDeleted'=>$brandsDeleted];
+        $brandsDeleted = Brand::with(['upload', 'user'])
+            ->onlyTrashed()
+            ->get();
+
+        return ['brands' => $brands, 'brandsDeleted' => $brandsDeleted];
     }
 
     public function getActive()
     {
-        return Brand::all()
-            ->sortByDesc('created_at');
+        return Brand::with(['upload', 'user'])
+            ->orderByDesc('created_at')
+            ->get();
     }
 
     public function getTrashed()
     {
-        return Brand::onlyTrashed()
-        ->get();
+        return Brand::with(['upload', 'user'])
+            ->onlyTrashed()
+            ->get();
     }
 
-    public function inTrash($id){
+    public function inTrash($id)
+    {
+        Cache::tags(['brands', 'list'])
+            ->flush();
+
+        Cache::tags(['brands', 'trashed'])
+            ->flush();
 
         return Brand::findOrFail($id)
             ->delete();
     }
 
-    public function restore($id){
+    public function restore($id)
+    {
+        Cache::tags(['brands', 'list'])
+            ->flush();
+
+        Cache::tags(['brands', 'trashed'])
+            ->flush();
 
         return Brand::withTrashed()
             ->where('id', $id)
             ->restore();
     }
 
-    public function delete($id){
+    public function delete($id)
+    {
+        Cache::tags(['brands', 'trashed'])
+            ->flush();
 
         return Brand::withTrashed()
             ->where('id', $id)
             ->forceDelete();
     }
 
-    public function create($request){
+    public function create($request)
+    {
         return Brand::create($request);
     }
 }

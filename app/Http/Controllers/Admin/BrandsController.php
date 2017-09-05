@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Validator;
-use App\Models\Brand;
+use Illuminate\Support\Facades\Cache;
 use App\Models\City;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -31,7 +31,10 @@ class BrandsController extends Controller
 
     public function brands()
     {
-        $brands = $this->brand->getActive();
+        $brands = Cache::tags(['brands', 'list'])
+            ->remember('brands', env('CACHE_TIME', 0), function () {
+                return $this->brand->getActive();
+            });
 
         return view('admin.tabs.brands_active_tab', [
             'title' => 'Компании',
@@ -41,7 +44,10 @@ class BrandsController extends Controller
 
     public function trashed()
     {
-        $brands = $this->brand->getTrashed();
+        $brands = Cache::tags(['brands', 'trashed'])
+            ->remember('brands', env('CACHE_TIME', 0), function () {
+                return $this->brand->getTrashed();
+            });
 
         return view('admin.tabs.brands_deleted_tab', [
             'title' => 'Компании',
@@ -56,7 +62,6 @@ class BrandsController extends Controller
     public function brandTrash($id)
     {
         return ajax_respond($this->brand->inTrash($id));
-
     }
 
     /**
@@ -65,7 +70,6 @@ class BrandsController extends Controller
     public function brandRestore($id)
     {
         return ajax_respond($this->brand->restore($id));
-
     }
 
     /**
@@ -74,7 +78,6 @@ class BrandsController extends Controller
     public function brandDelete($id)
     {
         return ajax_respond($this->brand->delete($id));
-
     }
 
     /**
@@ -86,8 +89,15 @@ class BrandsController extends Controller
             $fileError = $request->session()->pull('fileError', 'default');
         }
 
-        $categories = Category::all();
-        $cities = City::all();
+        $categories = Cache::tags(['categories', 'list'])
+            ->remember('categories', env('CACHE_TIME', 0), function () {
+                return  Category::all();
+            });
+
+        $cities = Cache::tags(['cities', 'list'])
+            ->remember('cities', env('CACHE_TIME', 0), function () {
+                return  City::all();
+            });
 
         return view('admin.section.brand_create', [
             'title' => 'Создание компании',
@@ -180,6 +190,9 @@ class BrandsController extends Controller
                 ->with('brand_added',  true);
         }
         else {
+            Cache::tags(['brands', 'list'])
+                ->flush();
+
             return redirect()
                 ->route('admin.brands.active');
         }
@@ -192,8 +205,15 @@ class BrandsController extends Controller
     {
         $brand = $this->brand->getOne($id);
 
-        $categories = Category::all();
-        $cities = City::all();
+        $categories = Cache::tags(['categories', 'list'])
+            ->remember('categories', env('CACHE_TIME', 0), function () {
+                return  Category::all();
+            });
+
+        $cities = Cache::tags(['cities', 'list'])
+            ->remember('cities', env('CACHE_TIME', 0), function () {
+                return  City::all();
+            });
 
         if($request->session()->has('fileError')) {
             $fileError = $request->session()->pull('fileError', 'default');
@@ -296,6 +316,9 @@ class BrandsController extends Controller
                 ->where('city_id', $city)
                 ->delete();
         }
+
+        Cache::tags(['brands', 'list'])
+            ->flush();
 
         return redirect()
             ->route('admin.brands.active');
