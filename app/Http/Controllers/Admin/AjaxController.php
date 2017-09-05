@@ -6,6 +6,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Tag;
+use Illuminate\Support\Facades\Cache;
 
 class AjaxController extends Controller
 {
@@ -28,6 +29,9 @@ class AjaxController extends Controller
                 'name' => $request->name,
             ]);
 
+            Cache::tags(['categories', 'list'])
+                ->flush();
+
             $result = ($categoryModel->id) ? $categoryModel->id : 'Не удалось сохранить категорию!';
             return $result;
         }
@@ -45,6 +49,9 @@ class AjaxController extends Controller
             $tagModel = Tag::create([
                 'name' => $request->name,
             ]);
+
+            Cache::tags(['tags', 'list'])
+                ->flush();
 
             $result = ($tagModel->id) ? $tagModel->id : 'Не удалось сохранить тег!';
             return $result;

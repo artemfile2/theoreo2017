@@ -15,6 +15,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
 use App\Repositories\ActionRepositoryInterface;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * Class ActionsController
@@ -33,7 +34,10 @@ class ActionsController extends Controller
      * Вывод всех Акций на страницу*/
     public function actions()
     {
-        $actions = $this->actions->getAll();
+        $actions = Cache::tags(['actions', 'list'])
+            ->remember('actions', env('CACHE_TIME', 0), function () {
+                return $this->actions->getAll();
+            });
 
         return view('admin.section.actions', [
             'title' => 'Акции',
@@ -49,6 +53,9 @@ class ActionsController extends Controller
     {
         $this->actions->inTrash($id);
 
+        Cache::tags(['actions', 'list'])
+            ->flush();
+
         return redirect()
             ->route('admin.actions.get_all');
     }
@@ -60,6 +67,9 @@ class ActionsController extends Controller
     {
         $this->actions->restore($id);
 
+        Cache::tags(['actions', 'list'])
+            ->flush();
+
         return redirect()
             ->route('admin.actions.get_all');
     }
@@ -70,6 +80,9 @@ class ActionsController extends Controller
     public function actionDelete($id)
     {
         $this->actions->delete($id);
+
+        Cache::tags(['actions', 'list'])
+            ->flush();
 
         return redirect()
             ->route('admin.actions.get_all');
@@ -84,12 +97,35 @@ class ActionsController extends Controller
             $fileError = $request->session()->pull('fileError', 'default');
         }
 
-        $brands = Brand::all();
-        $categories = Category::all();
-        $tags = Tag::all();
-        $cities = City::all();
-        $types = Type::all();
-        $statuses = Status::all();
+        $brands = Cache::tags(['brands', 'list'])
+            ->remember('brands', env('CACHE_TIME', 0), function () {
+                return  Brand::all();
+            });
+
+        $categories = Cache::tags(['categories', 'list'])
+            ->remember('categories', env('CACHE_TIME', 0), function () {
+                return  Category::all();
+            });
+
+        $cities = Cache::tags(['cities', 'list'])
+            ->remember('cities', env('CACHE_TIME', 0), function () {
+                return  City::all();
+            });
+
+        $tags = Cache::tags(['tags', 'list'])
+            ->remember('tags', env('CACHE_TIME', 0), function () {
+                return  Tag::all();
+            });
+
+        $types = Cache::tags(['types', 'list'])
+            ->remember('types', env('CACHE_TIME', 0), function () {
+                return  Type::all();
+            });
+
+        $statuses = Cache::tags(['statuses', 'list'])
+            ->remember('statuses', env('CACHE_TIME', 0), function () {
+                return  Status::all();
+            });
 
         return view('admin.section.action_create', [
             'title' => 'Создание акции',
@@ -159,6 +195,9 @@ class ActionsController extends Controller
             }
         }
 
+        Cache::tags(['actions', 'list'])
+            ->flush();
+
         return redirect()
             ->route('admin.actions.get_all');
     }
@@ -169,12 +208,36 @@ class ActionsController extends Controller
     public function actionEdit($id, Request $request, $fileError = null)
     {
         $action = $this->actions->getOne($id);
-        $brands = Brand::all();
-        $categories =Category::all();
-        $tags = Tag::all();
-        $cities = City::all();
-        $types = Type::all();
-        $statuses = Status::all();
+
+        $brands = Cache::tags(['brands', 'list'])
+            ->remember('brands', env('CACHE_TIME', 0), function () {
+                return  Brand::all();
+            });
+
+        $categories = Cache::tags(['categories', 'list'])
+            ->remember('categories', env('CACHE_TIME', 0), function () {
+                return  Category::all();
+            });
+
+        $cities = Cache::tags(['cities', 'list'])
+            ->remember('cities', env('CACHE_TIME', 0), function () {
+                return  City::all();
+            });
+
+        $tags = Cache::tags(['tags', 'list'])
+            ->remember('tags', env('CACHE_TIME', 0), function () {
+                return  Tag::all();
+            });
+
+        $types = Cache::tags(['types', 'list'])
+            ->remember('types', env('CACHE_TIME', 0), function () {
+                return  Type::all();
+            });
+
+        $statuses = Cache::tags(['statuses', 'list'])
+            ->remember('statuses', env('CACHE_TIME', 0), function () {
+                return  Status::all();
+            });
 
         if($request->session()->has('fileError')) {
             $fileError = $request->session()->pull('fileError', 'default');
@@ -269,6 +332,9 @@ class ActionsController extends Controller
                 ->where('tag_id', $tag)
                 ->delete();
         }
+
+        Cache::tags(['actions', 'list'])
+            ->flush();
 
         return redirect()
             ->route('admin.actions.get_all');

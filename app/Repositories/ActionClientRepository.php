@@ -13,6 +13,7 @@ class ActionClientRepository implements ActionRepositoryInterface
 
     public function getAll(){
         return Action::intime()
+            ->with(['upload', 'brand', 'tag'])
             ->allowed()
             ->orderBy('active_from', 'DESC')
             ->paginate(config('app.itemsPerPage'));
@@ -20,6 +21,7 @@ class ActionClientRepository implements ActionRepositoryInterface
 
     public function getAllSorted($sort){
         return Action::intime()
+            ->with(['upload', 'brand', 'tag'])
             ->allowed()
             ->sortBy($sort)
             ->orderBy($sort, 'DESC')
@@ -30,6 +32,7 @@ class ActionClientRepository implements ActionRepositoryInterface
     public function inCategory($id, $sort)
     {
         return Action::intime()
+            ->with(['upload', 'brand', 'tag'])
             ->allowed()
             ->where('category_id', '=', $id)
             ->orderBy($sort, 'DESC')
@@ -39,6 +42,7 @@ class ActionClientRepository implements ActionRepositoryInterface
     public function WithTag($tag, $sort)
     {
         return  Action::intime()
+            ->with(['upload', 'brand', 'tag'])
             ->allowed()
             ->whereHas('tag', function($query) use ($tag){
                 $query->where('name', 'like', $tag);
@@ -51,6 +55,7 @@ class ActionClientRepository implements ActionRepositoryInterface
     public function withBrand($id, $sort)
     {
         return Action::pastAndActive()
+            ->with(['upload', 'brand', 'tag'])
             ->allowed()
             ->where('brand_id', '=', $id)
             ->orderBy($sort, 'DESC')
@@ -60,6 +65,7 @@ class ActionClientRepository implements ActionRepositoryInterface
     public function archive()
     {
         return Action::notInTime()
+            ->with(['upload', 'brand', 'tag'])
             ->allowed()
             ->orderBy('active_from', 'DESC')
             ->paginate(config('app.itemsPerPage'));

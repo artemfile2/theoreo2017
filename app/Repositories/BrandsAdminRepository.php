@@ -13,13 +13,15 @@ class BrandsAdminRepository implements ActionRepositoryInterface
 
     public function getAll()
     {
-        $brands = Brand::all()
-            ->sortByDesc('created_at');
-
-        $brandsDeleted = Brand::onlyTrashed()
+        $brands = Brand::with(['upload'])
+            ->orderByDesc('created_at')
             ->get();
 
-        return ['brands'=>$brands, 'brandsDeleted'=>$brandsDeleted];
+        $brandsDeleted = Brand::with(['upload'])
+            ->onlyTrashed()
+            ->get();
+
+        return ['brands' => $brands, 'brandsDeleted' => $brandsDeleted];
     }
 
     public function inTrash($id){

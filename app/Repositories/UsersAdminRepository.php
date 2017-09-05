@@ -20,13 +20,15 @@ class UsersAdminRepository implements ActionRepositoryInterface
      * $usersDeleted - все удаленные пользователи*/
     public function getAll()
     {
-        $users = User::all()
-            ->sortByDesc('created_at');
-
-        $usersDeleted = User::onlyTrashed()
+        $users = User::with(['role', 'upload'])
+            ->orderByDesc('created_at')
             ->get();
 
-        return ['users'=>$users, 'usersDeleted'=>$usersDeleted];
+        $usersDeleted = User::with(['role', 'upload'])
+            ->onlyTrashed()
+            ->get();
+
+        return ['users' => $users, 'usersDeleted' => $usersDeleted];
     }
 
     /*

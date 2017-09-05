@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Classes\Uploader;
 use Illuminate\Validation\Rule;
 use App\Repositories\ActionRepositoryInterface;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * Class UsersController
@@ -24,7 +25,10 @@ class UsersController extends Controller
 
     public function users()
     {
-        $users = $this->user->getAll();
+        $users = Cache::tags(['users', 'list'])
+            ->remember('users', env('CACHE_TIME', 0), function () {
+                return $this->user->getAll();
+            });
 
         return view('admin.section.users', [
             'title' => 'Пользователи',
@@ -42,7 +46,10 @@ class UsersController extends Controller
             $fileError = $request->session()->pull('fileError', 'default');
         }
 
-        $roles = Role::all();
+        $roles = Cache::tags(['roles', 'list'])
+            ->remember('roles', env('CACHE_TIME', 0), function () {
+                return  Role::all();
+            });
 
         return view('admin.section.user_create', [
             'title' => 'Создание пользователя',
@@ -90,6 +97,9 @@ class UsersController extends Controller
 
         $this->user->create($requestAll);
 
+        Cache::tags(['users', 'list'])
+            ->flush();
+
         return redirect()
             ->route('admin.user.get_all');
     }
@@ -100,6 +110,9 @@ class UsersController extends Controller
     public function userRestore($id)
     {
         $this->user->restore($id);
+
+        Cache::tags(['users', 'list'])
+            ->flush();
 
         return redirect()
             ->route('admin.user.get_all');
@@ -112,6 +125,9 @@ class UsersController extends Controller
     {
         $this->user->inTrash($id);
 
+        Cache::tags(['users', 'list'])
+            ->flush();
+
         return redirect()
             ->route('admin.user.get_all');
     }
@@ -122,7 +138,11 @@ class UsersController extends Controller
     public function userEdit($id, Request $request, $fileError = null)
     {
         $user = $this->user->getOne($id);
-        $roles = Role::all();
+
+        $roles = Cache::tags(['roles', 'list'])
+            ->remember('roles', env('CACHE_TIME', 0), function () {
+                return  Role::all();
+            });
 
         if($request->session()->has('fileError')) {
             $fileError = $request->session()->pull('fileError', 'default');
@@ -191,6 +211,9 @@ class UsersController extends Controller
 
         $user->update($requestAll);
 
+        Cache::tags(['users', 'list'])
+            ->flush();
+
         return redirect()
             ->route('admin.user.get_all');
     }
@@ -201,6 +224,9 @@ class UsersController extends Controller
     public function userDelete($id)
     {
         $this->user->delete($id);
+
+        Cache::tags(['users', 'list'])
+            ->flush();
 
         return redirect()
             ->route('admin.user.get_all');

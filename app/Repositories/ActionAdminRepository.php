@@ -11,9 +11,11 @@ class ActionAdminRepository implements ActionRepositoryInterface
 
     public function getAll(){
 
-        $actions = Action::all();
+        $actions = Action::with(['brand', 'upload', 'status', 'city', 'category'])
+            ->get();
 
-        $actionsDeleted = Action::onlyTrashed()
+        $actionsDeleted = Action::with(['brand', 'upload', 'status', 'city', 'category'])
+            ->onlyTrashed()
             ->get();
 
         return ['actions'=>$actions, 'actionsDeleted'=>$actionsDeleted];

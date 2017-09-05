@@ -10,6 +10,7 @@ use App\Models\Tag;
 use App\Models\Brand;
 use App\Models\Query;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 
 class PageController extends Controller
 {
@@ -126,7 +127,11 @@ class PageController extends Controller
 
     public function showArchives()
     {
-        $actions = $this->action->archive();
+        $actions = Cache::tags(['actions', 'archive'])
+            ->remember('actions', env('CACHE_TIME', 0), function () {
+                return $this->action->archive();
+            });
+
         $links = $actions->links();
         $title = new \stdClass();
         $title->name = 'В архиве';
@@ -167,6 +172,9 @@ class PageController extends Controller
                 'last_date' => Carbon::now(),
             ]);
        }
+
+       Cache::tags(['queries', 'list'])
+            ->flush();
 
        return view('client.pages.main', [
            'actions' => $actions, 'query' => $query_str, 'links' => $links
