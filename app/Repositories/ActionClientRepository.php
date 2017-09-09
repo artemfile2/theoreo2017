@@ -7,6 +7,7 @@ class ActionClientRepository implements ActionRepositoryInterface
 {
     public function getOne($id){
         return  Action::pastAndActive()
+            ->with(['upload', 'brand', 'tag'])
             ->allowed()
             ->findOrFail($id);
     }
@@ -17,6 +18,13 @@ class ActionClientRepository implements ActionRepositoryInterface
             ->allowed()
             ->orderBy('active_from', 'DESC')
             ->paginate(config('app.itemsPerPage'));
+    }
+
+    public function getSame(){
+        return Action::intime()
+            ->with(['upload', 'brand', 'tag'])
+            ->allowed()
+            ->get();
     }
 
     public function getAllSorted($sort){

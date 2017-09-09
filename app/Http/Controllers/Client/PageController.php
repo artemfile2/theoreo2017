@@ -67,27 +67,14 @@ class PageController extends Controller
             'rating' => $action->rating + 1,
         ]);
 
-        //$same_action = false;
-
-        /* массив всех тегов в акции */
-        //$tagArr = Action::find($id)->tag->pluck('id');
-        $tags = Action::find($id)
-            ->tag;
-        foreach ($tags as $tag){
-            $tagArr[] = $tag->id;
-        }
+        /**
+         * Вывод похожих акций (подбираются по тегам)
+         */
+        //массив всех тегов в акции
+        $tagArr = Action::find($id)->tag->pluck('id')->toArray();
         $tagArr = implode($tagArr, ',');
 
-        /* массив всех акций где есть теги */
-        $act = Tag::whereIn('id', $tagArr)->get();
-        $col = new Collection;
-            foreach ($act as $key=>$value)
-            {
-                $pages = $col->push($value->action);
-            }
-        dump(collect($pages)->groupBy('pivot_action_id'));
-
-
+        //выбор похожих акций из БД и сортировка их по количеству вхождений тегов
         $query = DB::select(
                     DB::raw('SELECT * FROM (
                      SELECT `action_tag`.`action_id`, COUNT(*) AS `count`
@@ -97,17 +84,30 @@ class PageController extends Controller
                      GROUP BY `action_tag`.`action_id`
                     ) AS `cnt`
                    JOIN `actions` ON `actions`.`id` = `cnt`.`action_id`
-                   ORDER BY `cnt`.`count` DESC'));
-        dump(collect($query));
-        $same_action = collect($query);
+                   ORDER BY `cnt`.`count` DESC limit 20'));
+        $query = collect($query);
 
-        //return "ok";
+        //выбор из БД всех активных акций (актуальных по времени и разрешенных по статусу) и id этих акций
+        $actionsAll = $this->action->getSame();
+        $idsAll = $actionsAll->pluck('id');
+
+        /** Конечное формирование коллекции похожих акций:
+           - исключаем текущую акцию;
+           - проверяем, входит ли акция в список актуальных и разрешенных;
+        */
+        $same_actions = new Collection();
+        foreach($query as $one){
+            if($one->action_id != $id && $idsAll->contains($one->action_id)) {
+                $same_actions->push($actionsAll->where('id', $one->action_id)->first());
+            }
+        }
 
         //TODO 'Настроить работу Google Maps Geocoding API в шаблоне map.blade.php';
 
-        /*return view('client.pages.detail', [
-            'action' => $action, 'sameActions' => $same_action
-        ]);*/
+        return view('client.pages.detail', [
+            'action' => $action,
+            'sameActions' => $same_actions
+        ]);
     }
 
     public function showCategory($id)
