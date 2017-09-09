@@ -11,6 +11,10 @@ use App\Models\Brand;
 use App\Models\Query;
 use Carbon\Carbon;
 
+use DB;
+use App\Models\Action;
+use Illuminate\Support\Collection;
+
 class PageController extends Controller
 {
 
@@ -62,15 +66,47 @@ class PageController extends Controller
             'rating' => $action->rating + 1,
         ]);
 
-        $same_action = false;
+        //$same_action = false;
 
-        //TODO 'Сделать вывод похожих акций';
+        /* массив всех тегов в акции */
+        //$tagArr = Action::find($id)->tag->pluck('id');
+        $tags = Action::find($id)
+            ->tag;
+        foreach ($tags as $tag){
+            $tagArr[] = $tag->id;
+        }
+        $tagArr = implode($tagArr, ',');
+
+        /* массив всех акций где есть теги */
+        $act = Tag::whereIn('id', $tagArr)->get();
+        $col = new Collection;
+            foreach ($act as $key=>$value)
+            {
+                $pages = $col->push($value->action);
+            }
+        dump(collect($pages)->groupBy('pivot_action_id'));
+
+
+        $query = DB::select(
+                    DB::raw('SELECT * FROM (
+                     SELECT `action_tag`.`action_id`, COUNT(*) AS `count`
+                     FROM `action_tag`
+                     JOIN `tags` ON `tags`.`id` = `action_tag`.`tag_id` 
+                     AND `tags`.`id` IN ('.$tagArr.')
+                     GROUP BY `action_tag`.`action_id`
+                    ) AS `cnt`
+                   JOIN `actions` ON `actions`.`id` = `cnt`.`action_id`
+                   ORDER BY `cnt`.`count` DESC'));
+        dump(collect($query));
+        $same_action = collect($query);
+
+        //return "ok";
 
         //TODO 'Настроить работу Google Maps Geocoding API в шаблоне map.blade.php';
 
-        return view('client.pages.detail', [
-            'action' => $action, 'sameActions ' => $same_action
-        ]);
+        /*return view('client.pages.detail', [
+            'action' => $action, 'sameActions' => $same_action
+        ]);*/
     }
 
     public function showCategory($id)
