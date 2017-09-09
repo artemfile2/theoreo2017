@@ -21,7 +21,7 @@ class Action extends Model
 
     public function tag()
     {
-        return $this->belongsToMany('App\Models\Tag');
+        return $this->belongsToMany('App\Models\Tag')->withTimestamps();
     }
 
     public function category()

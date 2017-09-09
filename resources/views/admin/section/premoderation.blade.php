@@ -15,11 +15,14 @@
 
 @push('styles')
     <link href="{{ asset("/css/admin/datepicker3.css")}}" rel="stylesheet" type="text/css" />
+    {{--<link href="{{ asset("/js/admin/jquery_confirm/jquery_confirm.css")}}" rel="stylesheet" type="text/css" />--}}
 @endpush
 
 @push('script')
     <script src="{{ asset ("/js/admin/buttons.js") }}"></script>
+    {{--<script src="{{ asset ("/js/admin/jquery_confirm/jquery_confirm.js") }}"></script>--}}
     <script src="{{ asset ("/js/admin/theoreo.admin.actions.js") }}" type="text/javascript"></script>
     <script src="{{ asset ("/js/admin/datepicker/bootstrap-datepicker.js") }}"></script>
     <script src="{{ asset ("/js/admin/datepicker/locales/bootstrap-datepicker.ru.js") }}" charset="UTF-8"></script>
+
 @endpush
