@@ -12,9 +12,6 @@ use App\Models\Query;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 
-use DB;
-use App\Models\Action;
-use Illuminate\Support\Collection;
 
 class PageController extends Controller
 {
@@ -67,40 +64,10 @@ class PageController extends Controller
             'rating' => $action->rating + 1,
         ]);
 
-        /**
-         * Вывод похожих акций (подбираются по тегам)
-         */
-        //массив всех тегов в акции
-        $tagArr = Action::find($id)->tag->pluck('id')->toArray();
-        $tagArr = implode($tagArr, ',');
-
-        //выбор похожих акций из БД и сортировка их по количеству вхождений тегов
-        $query = DB::select(
-                    DB::raw('SELECT * FROM (
-                     SELECT `action_tag`.`action_id`, COUNT(*) AS `count`
-                     FROM `action_tag`
-                     JOIN `tags` ON `tags`.`id` = `action_tag`.`tag_id` 
-                     AND `tags`.`id` IN ('.$tagArr.')
-                     GROUP BY `action_tag`.`action_id`
-                    ) AS `cnt`
-                   JOIN `actions` ON `actions`.`id` = `cnt`.`action_id`
-                   ORDER BY `cnt`.`count` DESC limit 20'));
-        $query = collect($query);
-
-        //выбор из БД всех активных акций (актуальных по времени и разрешенных по статусу) и id этих акций
-        $actionsAll = $this->action->getSame();
-        $idsAll = $actionsAll->pluck('id');
-
-        /** Конечное формирование коллекции похожих акций:
-           - исключаем текущую акцию;
-           - проверяем, входит ли акция в список актуальных и разрешенных;
-        */
-        $same_actions = new Collection();
-        foreach($query as $one){
-            if($one->action_id != $id && $idsAll->contains($one->action_id)) {
-                $same_actions->push($actionsAll->where('id', $one->action_id)->first());
-            }
-        }
+        /*
+         * Похожие акции
+         * */
+        $same_actions = $this->action->sameAllActions($id);
 
         //TODO 'Настроить работу Google Maps Geocoding API в шаблоне map.blade.php';
 
@@ -215,6 +182,19 @@ class PageController extends Controller
        return view('client.pages.main', [
            'actions' => $actions, 'query' => $query_str, 'links' => $links
        ]);
+    }
+
+    public function showSameActions($id)
+    {
+        /*
+         * Похожие акции
+         * */
+        $same_actions = $this->action->sameAllActions($id);
+
+        return view('client.pages.main', [
+            'actions' => $same_actions,
+            'links' => '',
+        ]);
     }
 
 }

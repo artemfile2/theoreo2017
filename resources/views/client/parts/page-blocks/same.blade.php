@@ -1,7 +1,7 @@
 @if(isset($sameActions) && count($sameActions))
     <section class="more-info">
         <h4 class="more-info-heading">
-            <a href="{{--{{ route('client.showSameActions', ['action' => $action->id]) }}--}}">Похожие акции
+            <a href="{{ route('client.showSameActions', ['action' => $action->id]) }}">Похожие акции
             <span class="more-info-heading-num"></span></a>
         </h4>  
         <div class="carousel autoplay">
