@@ -22,71 +22,20 @@ class UsersAdminRepository implements ActionRepositoryInterface
 
     public function getAll()
     {
-        $users = User::with(['role', 'upload'])
-            ->orderByDesc('created_at')
-            ->get();
-
-        $usersDeleted = User::with(['role', 'upload'])
-            ->onlyTrashed()
-            ->get();
-
-        return ['users' => $users, 'usersDeleted' => $usersDeleted];
-    }
-
-    /* получает активных пользователей */
-    public function getActive()
-    {
         return User::with(['role', 'upload'])
             ->orderByDesc('created_at')
             ->get();
     }
 
-    /* получает удалённых пользователей */
-    public function getTrashed()
-    {
-        return User::with(['role', 'upload'])
-            ->onlyTrashed()
-            ->get();
-    }
-
-    /*
-     * Мягкое удаление пользователя */
-    public function inTrash($id)
-    {
-        Cache::tags(['users', 'list'])
-            ->flush();
-
-        Cache::tags(['users', 'trashed'])
-            ->flush();
-
-        return User::findOrFail($id)
-            ->delete();
-    }
-
-    /*
-     * Восстановление пользователя из удаленных*/
-    public function restore($id)
-    {
-        Cache::tags(['users', 'list'])
-            ->flush();
-
-        Cache::tags(['users', 'trashed'])
-            ->flush();
-
-        return User::withTrashed()
-            ->where('id', $id)
-            ->restore();
-    }
 
     /*
      * Безвозратное удаление пользователя*/
     public function delete($id)
     {
-        Cache::tags(['users', 'trashed'])
+        Cache::tags(['users'])
             ->flush();
 
-        return User::withTrashed()
-            ->where('id', $id)
+        return User::where('id', $id)
             ->forceDelete();
     }
 

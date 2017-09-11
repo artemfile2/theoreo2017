@@ -6,7 +6,7 @@
         <div class="row">
             @can ('users_management', \App\Models\User::class)
                 <div class="col-lg-4 col-md-6 col-sm-12">
-                    <a href="{{ route('admin.user.active') }}">
+                    <a href="{{ route('admin.users') }}">
                         <div class="info-box">
                         <span class="info-box-icon bg-light-blue">
                             <i class="fa fa-users"></i>

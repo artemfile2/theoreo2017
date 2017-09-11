@@ -4,8 +4,7 @@
     <a href="{{ route('admin.user.create') }}" type="button" class="btn btn-success margin-bottom"><i class="fa fa-plus"></i> Добавить пользователя</a>
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
-            <li class="{{ (URL::current() == route('admin.user.active')) ? "active" : '' }}"><a href="{{ route('admin.user.active') }}">Активные</a></li>
-            <li class="{{ (URL::current() == route('admin.user.trashed')) ? "active" : '' }}"><a href="{{ route('admin.user.trashed') }}">Удаленные</a></li>
+            <li class="{{ (URL::current() == route('admin.users')) ? "active" : '' }}"><a href="{{ route('admin.users') }}">Активные</a></li>
         </ul>
         <div class="tab-content">
             @yield('tab')

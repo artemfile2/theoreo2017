@@ -28,25 +28,12 @@ class UsersController extends Controller
     {
         $users = Cache::tags(['users', 'list'])
             ->remember('users', env('CACHE_TIME', 0), function () {
-                return $this->user->getActive();
+                return $this->user->getAll();
             });
 
         return view('admin.tabs.users_active_tab', [
             'title' => 'Пользователи',
             'users' => $users,
-        ]);
-    }
-
-    public function trashed()
-    {
-        $users = Cache::tags(['users', 'trashed'])
-            ->remember('users', env('CACHE_TIME', 0), function () {
-                return $this->user->getTrashed();
-            });
-
-        return view('admin.tabs.users_deleted_tab', [
-            'title' => 'Пользователи',
-            'usersDeleted' => $users,
         ]);
     }
 
@@ -114,24 +101,9 @@ class UsersController extends Controller
             ->flush();
 
         return redirect()
-            ->route('admin.user.active');
+            ->route('admin.users');
     }
 
-    /**
-     * Восстановление удаленного пользователя из раздела "Удаленные"
-     */
-    public function userRestore($id)
-    {
-        return ajax_respond($this->user->restore($id));
-    }
-
-    /**
-     * Мягкое удаление пользователя (перемещение в раздел "Удаленные")
-     */
-    public function userTrash($id)
-    {
-        return ajax_respond($this->user->inTrash($id));
-    }
 
     /**
      * Редактирование пользователя
@@ -216,7 +188,7 @@ class UsersController extends Controller
             ->flush();
 
         return redirect()
-            ->route('admin.user.active');
+            ->route('admin.users');
     }
 
     /**
@@ -224,16 +196,6 @@ class UsersController extends Controller
      */
     public function userDelete($id)
     {
-      //TODO реализовать метод подсчёта
-      // $brands = $this->user->countBrands();
-       $brands  = 1;
-       if($brands){
-           // вынести в ланг файл
-           return "На имя данного пользователя имеются зарегистрированые бренды.<br> 
-                    Удалите бренды, или пререгистрируйте их на ругого пользователя";
-       }
-       else {
           return ajax_respond($this->user->delete($id));
-       }
     }
 }

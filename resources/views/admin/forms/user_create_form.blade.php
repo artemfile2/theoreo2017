@@ -67,6 +67,6 @@
     </div>
     <div class="box-footer">
         <input type="submit" class="btn btn-success margin-r-5" value="Сохранить">
-        <a href="{{ route('admin.user.active') }}" class="btn btn-primary" >Назад</a>
+        <a href="{{ route('admin.users') }}" class="btn btn-primary" >Назад</a>
     </div>
 </form>
