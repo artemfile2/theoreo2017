@@ -66,8 +66,8 @@
                                 <a href="{{ route('admin.user.edit', ['id' => $user->id]) }}" class="btn" title="Редактировать">
                                     <i class="fa fa-edit"></i>
                                 </a>
-                                <a href="{{ route('admin.user.trash', ['id' => $user->id]) }}" class="btn trashUser" title="Переместить в корзину">
-                                    <i class="fa fa-trash"></i>
+                                <a href="{{ route('admin.user.delete', ['id' => $user->id]) }}" class="btn forceDeleteUser" title="Удалить безвозвратно!">
+                                    <i class="fa fa-close"></i>
                                 </a>
                             </td>
                         </tr>

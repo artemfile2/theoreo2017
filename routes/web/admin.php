@@ -21,13 +21,7 @@ Route::group(['prefix' => 'admin'], function () {
              * Главная (список активных)
              */
             Route::get('/', 'UsersController@users')
-                ->name('admin.user.active');
-
-            /**
-             * Главная (список удаленных)
-             */
-            Route::get('/trashed', 'UsersController@trashed')
-                ->name('admin.user.trashed');
+                ->name('admin.users');
 
             /**
              * Создание нового пользователя
@@ -46,18 +40,6 @@ Route::group(['prefix' => 'admin'], function () {
 
             Route::post('/edit/{id}', 'UsersController@userEditPost')
                 ->name('admin.user.editPost');
-
-            /**
-             * Восстановление удаленного пользователя из раздела "Удаленные"
-             */
-            Route::get('/restore/{id}', 'UsersController@userRestore')
-                ->name('admin.user.restore');
-
-            /**
-             * Мягкое удаление пользователя (перемещение в раздел "Удаленные")
-             */
-            Route::get('/trash/{id}', 'UsersController@userTrash')
-                ->name('admin.user.trash');
 
             /**
              * Безвозвратное удаление пользователя
