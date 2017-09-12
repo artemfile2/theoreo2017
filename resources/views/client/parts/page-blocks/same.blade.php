@@ -7,14 +7,14 @@
         <div class="carousel autoplay">
             @foreach ($sameActions as $action)
                 <div class="item-block">
-                    <a href="{{ route('actionShow', ['id' => $action->id]) }}" title="{{$action->title}}">
+                    <a href="{{ route('showAction', ['id' => $action->id]) }}" title="{{$action->title}}">
                         @if($action->upload)
                             <img src="{{ asset('/image/widen/300/' . $action->upload->path . '.' . $action->upload->ext) }}" alt="{{$action->title}}" class="slider-images">
                         @else
                             <img src="{{ asset('/image/widen/300/default.jpg') }}" alt="{{$action->title}}" class="slider-images">
                         @endif
                     </a>
-                    <a href="{{ route('actionShow', ['id' => $action->id]) }}" title="{{$action->title}}" class="more-info-heading-like">
+                    <a href="{{ route('showAction', ['id' => $action->id]) }}" title="{{$action->title}}" class="more-info-heading-like">
                         <span>{{$action->title}}</span>
                     </a>
                 </div>

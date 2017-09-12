@@ -12,6 +12,7 @@ use App\Models\Query;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 
+
 class PageController extends Controller
 {
 
@@ -63,14 +64,16 @@ class PageController extends Controller
             'rating' => $action->rating + 1,
         ]);
 
-        $same_action = false;
-
-        //TODO 'Сделать вывод похожих акций';
+        /*
+         * Похожие акции
+         * */
+        $same_actions = $this->action->sameAllActions($id);
 
         //TODO 'Настроить работу Google Maps Geocoding API в шаблоне map.blade.php';
 
         return view('client.pages.detail', [
-            'action' => $action, 'sameActions ' => $same_action
+            'action' => $action,
+            'sameActions' => $same_actions
         ]);
     }
 
@@ -179,6 +182,19 @@ class PageController extends Controller
        return view('client.pages.main', [
            'actions' => $actions, 'query' => $query_str, 'links' => $links
        ]);
+    }
+
+    public function showSameActions($id)
+    {
+        /*
+         * Похожие акции
+         * */
+        $same_actions = $this->action->sameAllActions($id);
+
+        return view('client.pages.main', [
+            'actions' => $same_actions,
+            'links' => '',
+        ]);
     }
 
 }
