@@ -4,6 +4,4 @@ namespace App\Repositories;
 interface ActionRepositoryInterface
 {
     public function getOne($id);
-
-    public function getAll();
 }

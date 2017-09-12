@@ -11,19 +11,13 @@ class ActionClientRepository implements ActionRepositoryInterface
             ->findOrFail($id);
     }
 
-    public function getAll(){
-        return Action::intime()
-            ->with(['upload', 'brand', 'tag'])
-            ->allowed()
-            ->orderBy('active_from', 'DESC')
-            ->paginate(config('app.itemsPerPage'));
-    }
 
     public function getAllSorted($sort){
         return Action::intime()
             ->with(['upload', 'brand', 'tag'])
             ->allowed()
             ->sortBy($sort)
+            ->has('brand.user')
             ->orderBy($sort, 'DESC')
             ->paginate(config('app.itemsPerPage'));
     }
@@ -34,6 +28,7 @@ class ActionClientRepository implements ActionRepositoryInterface
         return Action::intime()
             ->with(['upload', 'brand', 'tag'])
             ->allowed()
+            ->has('brand.user')
             ->where('category_id', '=', $id)
             ->orderBy($sort, 'DESC')
             ->paginate(config('app.itemsPerPage'));
@@ -44,6 +39,7 @@ class ActionClientRepository implements ActionRepositoryInterface
         return  Action::intime()
             ->with(['upload', 'brand', 'tag'])
             ->allowed()
+            ->has('brand.user')
             ->whereHas('tag', function($query) use ($tag){
                 $query->where('name', 'like', $tag);
             })
@@ -67,6 +63,7 @@ class ActionClientRepository implements ActionRepositoryInterface
         return Action::notInTime()
             ->with(['upload', 'brand', 'tag'])
             ->allowed()
+            ->has('brand.user')
             ->orderBy('active_from', 'DESC')
             ->paginate(config('app.itemsPerPage'));
     }
@@ -75,6 +72,7 @@ class ActionClientRepository implements ActionRepositoryInterface
     {
         return Action::pastAndActive()
             ->allowed()
+            ->has('brand.user')
             ->whereHas('tag', function($query) use ($query_str){
                 $query->where('name', 'like', $query_str);
             })

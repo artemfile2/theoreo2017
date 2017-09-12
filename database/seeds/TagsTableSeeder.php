@@ -42,5 +42,17 @@ class TagsTableSeeder extends Seeder
         DB::table('tags')->insert([
             'name' => 'Пицца',
         ]);
+
+        DB::table('tags')->insert([
+            'name' => 'Renault',
+        ]);
+
+        DB::table('tags')->insert([
+            'name' => 'Автоcалон',
+        ]);
+
+        DB::table('tags')->insert([
+            'name' => 'Одежда',
+        ]);
     }
 }

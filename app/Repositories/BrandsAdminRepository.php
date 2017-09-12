@@ -12,29 +12,18 @@ class BrandsAdminRepository implements ActionRepositoryInterface
         return Brand::findOrFail($id);
     }
 
-    public function getAll()
-    {
-        $brands = Brand::with(['upload', 'user'])
-            ->orderByDesc('created_at')
-            ->get();
-
-        $brandsDeleted = Brand::with(['upload', 'user'])
-            ->onlyTrashed()
-            ->get();
-
-        return ['brands' => $brands, 'brandsDeleted' => $brandsDeleted];
-    }
-
     public function getActive()
     {
         return Brand::with(['upload', 'user'])
             ->orderByDesc('created_at')
+            ->has('user')
             ->get();
     }
 
     public function getTrashed()
     {
         return Brand::with(['upload', 'user'])
+            ->has('user')
             ->onlyTrashed()
             ->get();
     }
