@@ -37,5 +37,14 @@ class UsersTableSeeder extends Seeder
             'role_id' => 3,
             'gender' => 'female',
         ]);
+
+        DB::table('users')->insert([
+            'login' => 'renault',
+            'password' => bcrypt('renault'),
+            'name' => 'Иван',
+            'surname' => 'Сидоров',
+            'role_id' => 3,
+            'gender' => 'male',
+        ]);
     }
 }

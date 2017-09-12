@@ -11,21 +11,10 @@ class ActionAdminRepository implements ActionRepositoryInterface
         return Action::findOrFail($id);
     }
 
-    public function getAll()
-    {
-        $actions = Action::with(['brand', 'upload', 'status', 'city', 'category'])
-            ->get();
-
-        $actionsDeleted = Action::with(['brand', 'upload', 'status', 'city', 'category'])
-            ->onlyTrashed()
-            ->get();
-
-        return ['actions'=>$actions, 'actionsDeleted'=>$actionsDeleted];
-    }
-
     public function getTrashed()
     {
         return Action::with(['brand', 'upload', 'status', 'city', 'category'])
+            ->has('brand.user')
             ->onlyTrashed()
             ->get();
     }
@@ -33,6 +22,7 @@ class ActionAdminRepository implements ActionRepositoryInterface
     public function getActive()
     {
         return Action::with(['brand', 'upload', 'status', 'city', 'category'])
+            ->has('brand.user')
             ->get();
     }
 

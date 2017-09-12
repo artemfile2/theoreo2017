@@ -33,7 +33,8 @@ class CreateBrandsTable extends Migration
         Schema::table('brands', function (Blueprint $table) {
             $table->foreign('user_id')
                 ->references('id')
-                ->on('users');
+                ->on('users')
+                ->onDelete('cascade');
         });
 
         Schema::enableForeignKeyConstraints();
