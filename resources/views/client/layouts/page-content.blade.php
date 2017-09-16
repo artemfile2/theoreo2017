@@ -1,4 +1,5 @@
 @extends('client.layouts.base')
+
 @section('content')
     <main class="main clearfix" role="main">
         <div class="wrapper">
@@ -16,6 +17,7 @@
         </div>
     </main>
 @endsection
+
 @section('footer')
     <footer>
         @include('client.parts.footer')

@@ -1,5 +1,10 @@
 @extends('client.layouts.primary')
 
+@section('head_styles')
+    {{--<link href="{{ asset('js/slick/slick.css') }}" rel="stylesheet" type="text/css">--}}
+    <link href="{{ asset('css/social.css') }}" rel="stylesheet">
+@endsection
+
 @section('top-row')
     @include('client.parts.page-blocks.sorting')
 @endsection
@@ -26,4 +31,9 @@
 
     @parent
 
+@endsection
+
+@section('bottom_scripts')
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="{{ asset('js/social-likes.min.js') }}"></script>
 @endsection
