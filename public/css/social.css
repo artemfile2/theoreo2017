@@ -1,0 +1,25 @@
+.social-likes{
+    display:inline-block;
+    padding:0;
+    vertical-align:middle!important;
+    word-spacing:0!important;
+    text-indent:0!important;
+    list-style:none!important;
+    opacity:0;
+    min-height:36px;
+    margin:-6px;
+}
+
+.social-likes_visible{
+    opacity:1;
+    transition:opacity .1s ease-in
+}
+
+.social-likes>*{
+    display:inline-block;
+    visibility:hidden
+}
+
+.social-likes_visible>*{
+    visibility:inherit
+}
